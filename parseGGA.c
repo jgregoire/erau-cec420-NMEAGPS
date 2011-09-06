@@ -28,20 +28,20 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	//				  //
 	////////////////////
 	
-	TOKENIZE; // "hhmmss.ss"
+	tokenize(token, sentence, ","); // "hhmmss.ss"
 	
 	// turn time into a useful value
 	// get "hh" from "hhmmss.ss"
 	strncpy(temp, token, 2);
-	dataStore->date.tm_hr = (int) strtol(temp, NULL) - 1;
+	dataStore->date.tm_hour = (int) strtol(temp, NULL, 10) - 1;
 	
 	// get mm
 	memcpy(temp, &token[2], 2);
-	dataStore->date.tm_min = (int) strtol(temp, NULL) - 1;
+	dataStore->date.tm_min = (int) strtol(temp, NULL, 10) - 1;
 	
 	// get ss (ignoring .ss)
-	memcpy(temp, $token[4], 2);
-	dataStore->date.tm_sec = (int) strtol(temp, NULL) - 1;
+	memcpy(temp, &token[4], 2);
+	dataStore->date.tm_sec = (int) strtol(temp, NULL, 10) - 1;
 	
 	
 	////////////////////////
@@ -51,7 +51,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	////////////////////////
 	
 	// extract lat val
-	TOKENIZE;
+	tokenize(token, sentence, ",");
 	
 	if (NONEMPTY) {
 	
@@ -59,7 +59,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		lat = strtof(token, NULL);
 		
 		// extract N/S val
-		TOKENIZE;
+		tokenize(token, sentence, ",");
 		
 		// if South, make latitude negative
 		toupper(token);
@@ -78,7 +78,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	/////////////////////////
 	
 	// extract lon val
-	TOKENIZE;
+	tokenize(token, sentence, ",");
 	
 	if (NONEMPTY) {
 	
@@ -86,7 +86,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		lon = strtof(token, NULL);
 		
 		// extract E/W val
-		TOKENIZE;
+		tokenize(token, sentence, ",");
 		
 		// if West, make lon negative
 		toupper(token);
@@ -105,7 +105,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	///////////////////////
 	
 	// extract quality val
-	TOKENIZE;
+	tokenize(token, sentence, ",");
 	
 	// we don't care about fix quality. Carry on...
 	
@@ -116,7 +116,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	//////////////////////////////
 	
 	// extract number
-	TOKENIZE;
+	tokenize(token, sentence, ",");
 	
 	if (NONEMPTY) {
 	
@@ -133,7 +133,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	////////////////////////
 	
 	// extract dilution
-	TOKENIZE;
+	tokenize(token, sentence, ",");
 	
 	// we don't care about this. Carry on...
 	
@@ -144,7 +144,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	////////////////////////
 	
 	// extract altitude
-	TOKENIZE;
+	tokenize(token, sentence, ",");
 	
 	if (NONEMPTY) {
 	
@@ -155,7 +155,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	}
 	
 	// extract units
-	TOKENIZE;
+	tokenize(token, sentence, ",");
 	
 	// assuming always meters for now
 	

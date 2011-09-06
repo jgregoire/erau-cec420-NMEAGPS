@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "main.h"
 
 // make a macro for tokenizing, since we always do it the same way
-#define TOKENIZE "token = tokenize(sentence, ",")"
-#define NONEMPTY "strcmp(token, "") != 0"
+#define NONEMPTY strcmp(token, "") != 0
+
+void tokenize(char *, char *, char *);
 
 int parseGGA(struct NMEAData*, char*);
 

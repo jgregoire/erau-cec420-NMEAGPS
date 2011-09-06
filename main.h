@@ -4,18 +4,20 @@
  * Changes:
  *   3 Sept, 2011: Inititial creation
  */
- 
-#include "ctime.h"
 
 #ifndef MAIN_H
 #define MAIN_H
 
-/*
+#define EMPTY_NMEADATA {{0, 0, 0}, 0, 0, 0, 0.0, 0.0, "", "", 0.0, 0, {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, 0};
+
+
+#include <time.h>
+
 struct Date { // Contains a month, day, year date
     short month;
     short day;
     short year;
-};*/
+};
 
 struct Satellite { // Contains data pertaining to a single satellite
     short prn;
@@ -44,12 +46,12 @@ struct NMEAData { // Keeps track of pertinent data gathered from NMEA sentences
     short isDelta; // 0 if the structure has not been changed, 1 If the structure has changed and needs to be written to the output file.
 };
 
-const struct NMEAData EMPTY_NMEADATA = {{0, 0, 0}, 0, 0, 0, 0.0, 0.0, "", "", 0.0, 0, {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, 0};
-
 int main(int argc, char **argv);
 void parseCommandLine(int argc, char **argv, char **inFile, char **outFile);
 struct NMEAMessage * messagify(char *message);
 int makeNMEADataString(char* toFill, struct NMEAData *data);
+int verifySentence(char *sentence);
+int validateChecksum(char *sentence);
 
 #endif
 

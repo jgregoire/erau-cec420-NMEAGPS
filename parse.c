@@ -4,39 +4,33 @@
 
 #include "parse.h"
 
-int parse(struct NMEAData* dataStore, char* sentence) {
-	int rval = 0;
-	char* type;
-
+int parse(struct NMEAData* dataStore, struct NMEAMessage * sentence) {
 	// chop off the first section of the comma-delimited sentence
 	// and store it in a new string
-	type = strtok(sentence, ",");
 	
-	if (strcmp(type, "GPGGA") != 0) {
+	if (strcmp(sentence->type, "GPGGA") == 0) {
 	
-		parseGGA(dataStore, sentence);
+		return parseGGA(dataStore, sentence->data);
 		
-	} else if (strcmp(type, "GPGLL") != 0) {
+	} else if (strcmp(sentence->type, "GPGLL") == 0) {
 	
-		parseGLL(dataStore, sentence);
+		return parseGLL(dataStore, sentence->data);
 		
-	} else if (strmp(type, "GPGSV") != 0) {
+	} else if (strcmp(sentence->type, "GPGSV") == 0) {
 	
-		parseGSV(dataStore, sentence); 
+		return parseGSV(dataStore, sentence->data); 
 		
-	} else if (strcmp(type, "GPRMC") != 0) {
+	} else if (strcmp(sentence->type, "GPRMC") == 0) {
 	
-		parseRMC(dataStore, sentence);
+		return parseRMC(dataStore, sentence->data);
 		
-	} else if (strcmp(type, "GPZDA") != 0) {
+	} else if (strcmp(sentence->type, "GPZDA") == 0) {
 	
-		parseZDA(dataStore, sentence);
+		return parseZDA(dataStore, sentence->data);
 		
 	} else {
 	
 		// something is seriously wrong.
-		rval = 0;
+		return 1;
 	}
-
-	return rval;
 } // end parse()

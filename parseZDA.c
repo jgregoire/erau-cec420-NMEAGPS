@@ -15,105 +15,105 @@
 // UTC and TAI conversions
 
 int parseZDA(struct NMEAData *dataStore, char* sentence) {
-	char* token;
-	int day = 0;
-	int month = 0;
-	int year = 0;
-	int timezone = 0;
+    char* token, *temp;
+    int day = 0;
+    int month = 0;
+    int year = 0;
+    int timezone = 0;
 	
-	////////////////////
-	//				  //
-	//  EXTRACT TIME  //
-	//				  //
-	////////////////////
+    ////////////////////
+    //		      //
+    //  EXTRACT TIME  //
+    //		      //
+    ////////////////////
 		
-	TOKENIZE; // "hhmmss.ss"
+    tokenize(token, tokenize(sentence, ",")); // "hhmmss.ss"
 	
-	// turn time into a useful value
-	// get "hh" from "hhmmss.ss"
-	strncpy(temp, token, 2);
-	dataStore->date.tm_hr = (int) strtol(temp, NULL) - 1;
+    // turn time into a useful value
+    // get "hh" from "hhmmss.ss"
+    strncpy(temp, token, 2);
+    dataStore->date.tm_hour = (int) strtol(temp, NULL, 10) - 1;
 	
-	// get mm
-	memcpy(temp, &token[2], 2);
-	dataStore->date.tm_min = (int) strtol(temp, NULL) - 1;
+    // get mm
+    memcpy(temp, &token[2], 2);
+    dataStore->date.tm_min = (int) strtol(temp, NULL, 10) - 1;
 	
-	// get ss (ignoring .ss)
-	memcpy(temp, $token[4], 2);
-	dataStore->date.tm_sec = (int) strtol(temp, NULL) - 1;
+    // get ss (ignoring .ss)
+    memcpy(temp, &token[4], 2);
+    dataStore->date.tm_sec = (int) strtol(temp, NULL, 10) - 1;
 	
 		
-	////////////////////
-	//				  //
-	//  EXTRACT DATE  //
-	//				  //
-	////////////////////
+    ////////////////////
+    //		      //
+    //  EXTRACT DATE  //
+    //		      //
+    ////////////////////
 	
-	// extract day
-	TOKENIZE;
+    // extract day
+    tokenize(token, tokenize(sentence, ","));
 	
-	if (NONEMPTY) {
+    if (NONEMPTY) {
 	
-		day = (short) strtol(token, NULL, 10);
-		dataStore->date.tm_mday = day - 1;
+	day = (short) strtol(token, NULL, 10);
+	dataStore->date.tm_mday = day - 1;
 		
-	}
+    }
 	
-	// extract month
-	TOKENIZE;
+    // extract month
+    tokenize(token, tokenize(sentence, ","));
 	
-	if (NONEMPTY) {
+    if (NONEMPTY) {
 	
-		month = (short) strtol(token, NULL, 10);
-		dataStore->date.tm_mon = month - 1;
+	month = (short) strtol(token, NULL, 10);
+	dataStore->date.tm_mon = month - 1;
 	
-	}
+    }
 	
-	// extract year
-	TOKENIZE;
+    // extract year
+    tokenize(token, tokenize(sentence, ","));
 	
-	if (NONEMPTY) {
+    if (NONEMPTY) {
 	
-		year = (short) strtol(token, NULL, 10);
-		dataStore->date.tm_year = year - 1900;
+	year = (short) strtol(token, NULL, 10);
+	dataStore->date.tm_year = year - 1900;
 	
-	}
+    }
 	
-	////////////////////////
-	//					  //
-	//  EXTRACT TIMEZONE  //
-	//					  //
-	////////////////////////
+    ////////////////////////
+    //					  //
+    //  EXTRACT TIMEZONE  //
+    //					  //
+    ////////////////////////
 	
-	// extract timezone
-	TOKENIZE;
+    // extract timezone
+    tokenize(token, tokenize(sentence, ","));
 	
-	if (NONEMPTY) {
+    if (NONEMPTY) {
 	
-		timezone = (short) strtol(token, NULL, 10);
+	timezone = (short) strtol(token, NULL, 10);
 		
-		// uncomment next line to convert UTC to local time:
-		//dataStore->date.tm_hour += timezone;
+	// uncomment next line to convert UTC to local time:
+	//dataStore->date.tm_hour += timezone;
 	
-	}
+    }
 	
-	//////////////////////////////
-	//							//
-	//  EXTRACT MINUTES OFFSET  //
-	//							//
-	//////////////////////////////
+    //////////////////////////////
+    //							//
+    //  EXTRACT MINUTES OFFSET  //
+    //							//
+    //////////////////////////////
 	
-	TOKENIZE;
+    tokenize(token, tokenize(sentence, ","));
 	
-	// do shit
+    // do shit
 	
-	////////////////////////////
-	//						  //
-	//  GENERATE UTC and TAI  //
-	//						  //
-	////////////////////////////
+    ////////////////////////////
+    //						  //
+    //  GENERATE UTC and TAI  //
+    //						  //
+    ////////////////////////////
 	
-	// do shit
+    // do shit
 }
 
 
