@@ -5,6 +5,15 @@
 #include "main.h"
 #include "parse.h"
 
+/////////////
+//		   //
+//  TO DO  //
+//		   //
+/////////////
+
+// minutes offset
+// UTC and TAI conversions
+
 int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	char* token;
 	int day = 0;
@@ -12,7 +21,6 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	int year = 0;
 	int timezone = 0;
 	
-
 	////////////////////
 	//				  //
 	//  EXTRACT TIME  //
@@ -104,6 +112,8 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	//  GENERATE UTC and TAI  //
 	//						  //
 	////////////////////////////
+	
+	// do shit
 }
 
 
