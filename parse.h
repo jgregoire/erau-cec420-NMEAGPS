@@ -5,7 +5,7 @@
 
 // make a macro for tokenizing, since we always do it the same way
 #define TOKENIZE "token = tokenize(sentence, ",")"
-#define NONEMPTY strcmp(token, "") != 0
+#define NONEMPTY "strcmp(token, "") != 0"
 
 int parseGGA(struct NMEAData*, char*);
 

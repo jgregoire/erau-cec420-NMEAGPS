@@ -65,7 +65,20 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
 	//				  //
 	////////////////////
 	
-	// blah
+	TOKENIZE; // "hhmmss.ss"
+	
+	// turn time into a useful value
+	// get "hh" from "hhmmss.ss"
+	strncpy(temp, token, 2);
+	dataStore->date.tm_hr = (int) strtol(temp, NULL) - 1;
+	
+	// get mm
+	memcpy(temp, &token[2], 2);
+	dataStore->date.tm_min = (int) strtol(temp, NULL) - 1;
+	
+	// get ss (ignoring .ss)
+	memcpy(temp, $token[4], 2);
+	dataStore->date.tm_sec = (int) strtol(temp, NULL) - 1;
 	
 	//////////////////////
 	//				    //
@@ -75,8 +88,6 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
 	
 	TOKENIZE;
 	
-	if (NONEMPTY) {
-		//  stuff
-	}
+	// I don't think we care about status?
 	
 }

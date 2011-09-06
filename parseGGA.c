@@ -6,18 +6,17 @@
 #include "parse.h"
 
 
-
 /////////////
 //		   //
 //  TO DO  //
 //		   //
 /////////////
 
-// deal with time formatting
 // handle different units of altitude
 
 int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	char* token;
+	char temp[3];
 	float lat = 0.0f;
 	float lon = 0.0f;
 	short numSatellites = 0;
@@ -29,9 +28,21 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	//				  //
 	////////////////////
 	
-	TOKENIZE;
+	TOKENIZE; // "hhmmss.ss"
 	
 	// turn time into a useful value
+	// get "hh" from "hhmmss.ss"
+	strncpy(temp, token, 2);
+	dataStore->date.tm_hr = (int) strtol(temp, NULL) - 1;
+	
+	// get mm
+	memcpy(temp, &token[2], 2);
+	dataStore->date.tm_min = (int) strtol(temp, NULL) - 1;
+	
+	// get ss (ignoring .ss)
+	memcpy(temp, $token[4], 2);
+	dataStore->date.tm_sec = (int) strtol(temp, NULL) - 1;
+	
 	
 	////////////////////////
 	//					  //
@@ -43,6 +54,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	TOKENIZE;
 	
 	if (NONEMPTY) {
+	
 		// convert latitude to float
 		lat = strtof(token, NULL);
 		
@@ -69,6 +81,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	TOKENIZE;
 	
 	if (NONEMPTY) {
+	
 		// convert lon to float
 		lon = strtof(token, NULL);
 		
@@ -106,9 +119,11 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	TOKENIZE;
 	
 	if (NONEMPTY) {
+	
 		// convert to int
 		numSatellites = (short) strtol(token, NULL, 10);
 		dataStore->numSatellites = numSatellites;
+		
 	}
 	
 	////////////////////////
@@ -132,9 +147,11 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	TOKENIZE;
 	
 	if (NONEMPTY) {
+	
 		// convert to float
 		alt = strtof(token, NULL);
 		dataStore->altitude = alt;
+		
 	}
 	
 	// extract units
