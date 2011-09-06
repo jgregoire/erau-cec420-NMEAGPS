@@ -6,7 +6,6 @@
 
 int parseRMC(struct NMEAData *dataStore, char* sentence) {
     char* token;
-    short utcTime = 0;
     short lat = 0;
     short lon = 0;
 
