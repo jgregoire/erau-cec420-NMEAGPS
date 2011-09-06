@@ -27,7 +27,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     //		      //
     ////////////////////
 		
-    tokenize(token, tokenize(sentence, ",")); // "hhmmss.ss"
+    tokenize(token, sentence, ","); // "hhmmss.ss"
 	
     // turn time into a useful value
     // get "hh" from "hhmmss.ss"
@@ -50,9 +50,9 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     ////////////////////
 	
     // extract day
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) {
+    if (strcmp(token, "") != 0) {
 	
 	day = (short) strtol(token, NULL, 10);
 	dataStore->date.tm_mday = day - 1;
@@ -60,9 +60,9 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     }
 	
     // extract month
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) {
+    if (strcmp(token, "") != 0) {
 	
 	month = (short) strtol(token, NULL, 10);
 	dataStore->date.tm_mon = month - 1;
@@ -70,9 +70,9 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     }
 	
     // extract year
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) {
+    if (strcmp(token, "") != 0) {
 	
 	year = (short) strtol(token, NULL, 10);
 	dataStore->date.tm_year = year - 1900;
@@ -86,9 +86,9 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract timezone
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) {
+    if (strcmp(token, "") != 0) {
 	
 	timezone = (short) strtol(token, NULL, 10);
 		
@@ -103,7 +103,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     //							//
     //////////////////////////////
 	
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
     // do shit
 	
@@ -114,6 +114,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////////
 	
     // do shit
+    return 0;
 }
 
 

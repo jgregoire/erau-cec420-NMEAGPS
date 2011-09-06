@@ -53,7 +53,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	// extract lat val
 	tokenize(token, sentence, ",");
 	
-	if (NONEMPTY) {
+	if (strcmp(token, "") != 0) {
 	
 		// convert latitude to float
 		lat = strtof(token, NULL);
@@ -62,7 +62,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		tokenize(token, sentence, ",");
 		
 		// if South, make latitude negative
-		toupper(token);
+		toupper(token[0]);
 		if (strcmp(token, "S") == 0) {
 			
 			lat *= -1;
@@ -80,7 +80,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	// extract lon val
 	tokenize(token, sentence, ",");
 	
-	if (NONEMPTY) {
+	if (strcmp(token, "") != 0) {
 	
 		// convert lon to float
 		lon = strtof(token, NULL);
@@ -89,7 +89,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		tokenize(token, sentence, ",");
 		
 		// if West, make lon negative
-		toupper(token);
+		toupper(token[0]);
 		if (strcmp(token, "W") == 0) {
 		
 			lon *= -1;
@@ -118,7 +118,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	// extract number
 	tokenize(token, sentence, ",");
 	
-	if (NONEMPTY) {
+	if (strcmp(token, "") != 0) {
 	
 		// convert to int
 		numSatellites = (short) strtol(token, NULL, 10);
@@ -146,7 +146,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	// extract altitude
 	tokenize(token, sentence, ",");
 	
-	if (NONEMPTY) {
+	if (strcmp(token, "") != 0) {
 	
 		// convert to float
 		alt = strtof(token, NULL);

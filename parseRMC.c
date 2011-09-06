@@ -19,9 +19,9 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     // get UTC time 
     tokenize(token, sentence, ",");
     
-    if (NONEMPTY)
+    if (strcmp(token, "") != 0)
     {
-        dataStore->utcTime;
+        dataStore->utcTime = strtol(token, NULL, 0);
     }
 	
 	
@@ -45,7 +45,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     // extract latitude
     tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) {
+    if (strcmp(token, "") != 0) {
 	// convert latitude to float
 	lat = strtof(token, NULL);
 		
@@ -53,7 +53,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	tokenize(token, sentence, ",");
 		
 	// if South, make latitude negative
-	if (toupper(token) == 'S') 
+	if (toupper(token[0]) == 'S') 
 	{
 	    lat *= -1;
        	}
@@ -70,7 +70,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     // extract lon val
     tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) {
+    if (strcmp(token, "") != 0) {
 	// convert lon to float
 	lon = strtof(token, NULL);
 		
@@ -78,7 +78,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	tokenize(token, sentence, ",");
 		
 	// if West, make lon negative
-	if (toupper(token) == 'W') 
+	if (toupper(token[0]) == 'W') 
 	{
 	    lon *= -1;
 	}

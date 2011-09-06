@@ -24,7 +24,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //				                                //
     //////////////////////////////////////////////////
 	
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
     // We don't need this value so moving on...
 	
@@ -36,7 +36,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //////////////////////////////////////
 	
     // extract what sentence (1 or 2)
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
  
     // We don't care so moving on...
     
@@ -47,7 +47,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////////////////////////
 	
     // extract # of satellites
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
     // We already have this info so moving on...
 	
@@ -61,9 +61,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //////////////////////////
 	
     // turn PRN (for 1st satellite) into a useful value
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY)
+    if (strcmp(token, "") != 0)
     {
         // convert to int
 	prn = (short)strtol(token, NULL, 10);
@@ -77,9 +77,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     /////////////////////////
 	
     // extract elevation
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) 
+    if (strcmp(token, "") != 0) 
     {
 	// convert to int
 	elevation = (short)strtol(token, NULL, 10);
@@ -93,9 +93,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract azimuth
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY)
+    if (strcmp(token, "") != 0)
     {
         //convert to int
         azimuth = (short)strtol(token, NULL, 10);
@@ -109,9 +109,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract SNR
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) 
+    if (strcmp(token, "") != 0) 
     {
 	// convert to int
 	snr = (short)strtol(token, NULL, 10);
@@ -125,9 +125,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //////////////////////////
 	
     // turn PRN (for 2nd satellite) into a useful value
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY)
+    if (strcmp(token, "") != 0)
     {
         // convert to int
         prn = (short)strtol(token, NULL, 10);
@@ -141,9 +141,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     /////////////////////////
 	
     // extract elevation
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) 
+    if (strcmp(token, "") != 0) 
     {
 	// convert to int
 	elevation = (short)strtol(token, NULL, 10);
@@ -157,9 +157,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract azimuth
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY)
+    if (strcmp(token, "") != 0)
     {
         //convert to int
         azimuth = (short)strtol(token, NULL, 10);
@@ -173,9 +173,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract SNR
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) 
+    if (strcmp(token, "") != 0) 
     {
 	// convert to int
 	snr = (short)strtol(token, NULL, 10);
@@ -188,9 +188,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //					    //
     //////////////////////////	
     // turn PRN (for 3rd satellite) into a useful value
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY)
+    if (strcmp(token, "") != 0)
     {
         // convert to int
         prn = (short)strtol(token, NULL, 10);
@@ -204,9 +204,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     /////////////////////////
 	
     // extract elevation
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) 
+    if (strcmp(token, "") != 0) 
     {
 	// convert to int
 	elevation = (short)strtol(token, NULL, 10);
@@ -220,9 +220,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract azimuth
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY)
+    if (strcmp(token, "") != 0)
     {
         //convert to int
         azimuth = (short)strtol(token, NULL, 10);
@@ -236,9 +236,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract SNR
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) 
+    if (strcmp(token, "") != 0) 
     {
 	// convert to int
 	snr = (short)strtol(token, NULL, 10);
@@ -252,9 +252,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //////////////////////////
 	
     // turn PRN (for 4th satellite) into a useful value
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY)
+    if (strcmp(token, "") != 0)
     {
         // convert to int
         prn = (short)strtol(token, NULL, 10);
@@ -268,9 +268,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     /////////////////////////
 	
     // extract elevation
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) 
+    if (strcmp(token, "") != 0) 
     {
 	// convert to int
 	elevation = (short)strtol(token, NULL, 10);
@@ -284,9 +284,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract azimuth
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY)
+    if (strcmp(token, "") != 0)
     {
         //convert to int
         azimuth = (short)strtol(token, NULL, 10);
@@ -300,9 +300,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract SNR
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) 
+    if (strcmp(token, "") != 0) 
     {
 	// convert to int
 	snr = (short)strtol(token, NULL, 10);

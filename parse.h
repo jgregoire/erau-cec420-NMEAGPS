@@ -5,7 +5,6 @@
 #include "main.h"
 
 // make a macro for tokenizing, since we always do it the same way
-#define NONEMPTY strcmp(token, "") != 0
 
 void tokenize(char *, char *, char *);
 

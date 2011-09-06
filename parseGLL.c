@@ -13,7 +13,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     // extract lat val
     tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) {
+    if (strcmp(token, "") != 0) {
 	// convert latitude to float
 	lat = strtof(token, NULL);
 		
@@ -21,7 +21,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
 	tokenize(token, sentence, ",");
 		
 	// if South, make latitude negative
-	toupper(token);
+	toupper(token[0]);
 	if (strcmp(token, "S") == 0) {
 			
 	    lat *= -1;
@@ -40,15 +40,15 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     // extract lon val
     tokenize(token, sentence, ",");
 	
-    if (NONEMPTY) {
+    if (strcmp(token, "") != 0) {
 	// convert lon to float
 	lon = strtof(token, NULL);
 		
 	// extract E/W val
-	tokenize(token, tokenize(sentence, ","));
+	tokenize(token, sentence, ",");
 		
 	// if West, make lon negative
-	toupper(token);
+	toupper(token[0]);
 	if (strcmp(token, "W") == 0) {
 		
 	    lon *= -1;
@@ -65,7 +65,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     //				  //
     ////////////////////
 	
-    tokenize(token, tokenize(sentence, ",")); // "hhmmss.ss"
+    tokenize(token, sentence, ","); // "hhmmss.ss"
 	
     // turn time into a useful value
     // get "hh" from "hhmmss.ss"
@@ -86,7 +86,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     //					//
     //////////////////////
 	
-    tokenize(token, tokenize(sentence, ","));
+    tokenize(token, sentence, ",");
 	
     // I don't think we care about status?
     return 0;
