@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 
     while (getline(&lineIn, &messageLen, fin) != EOF)
     {
-	if((verifySentence(lineIn) && validateChecksum(lineIn)) == 0)
+	if((verifySentence(lineIn) == 0) && (validateChecksum(lineIn) == 0))
 	{
 	    // If we're in here, the lines were good
 	    message = messagify(lineIn);

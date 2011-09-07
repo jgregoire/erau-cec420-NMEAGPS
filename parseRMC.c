@@ -62,8 +62,9 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	// extract N/S val
 	tokenize(token, sentence, ",", &cursor);
 		
+	toupper(token[0]);
 	// if South, make latitude negative
-	if (toupper(token[0]) == 'S') 
+	if (strcmp(token,"S") == 0) 
 	{
 	    lat *= -1;
        	}
@@ -88,7 +89,8 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	tokenize(token, sentence, ",", &cursor);
 		
 	// if West, make lon negative
-	if (toupper(token[0]) == 'W') 
+	toupper(token[0]);
+	if (strcmp(token, "W") == 0)
 	{
 	    lon *= -1;
 	}
