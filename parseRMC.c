@@ -38,7 +38,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	// set UTC and TAI
 	dataStore->epochTime = mktime(&dataStore->date);	
 	
-	dataStore->date.tm_sec + 34;
+	dataStore->date.tm_sec += 34;
 	dataStore->taiTime = mktime(&dataStore->date);
 	
 	
