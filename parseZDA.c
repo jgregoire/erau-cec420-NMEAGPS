@@ -15,7 +15,7 @@
 // UTC and TAI conversions
 
 int parseZDA(struct NMEAData *dataStore, char* sentence) {
-    char* token, *temp;
+    char token[256], temp[256], *cursor = 0;
     int day = 0;
     int month = 0;
     int year = 0;
@@ -27,7 +27,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     //		      //
     ////////////////////
 		
-    tokenize(token, sentence, ","); // "hhmmss.ss"
+    tokenize(token, sentence, ",", &cursor); // "hhmmss.ss"
 	
     // turn time into a useful value
     // get "hh" from "hhmmss.ss"
@@ -50,7 +50,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     ////////////////////
 	
     // extract day
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     if (strcmp(token, "") != 0) {
 	
@@ -60,7 +60,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     }
 	
     // extract month
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     if (strcmp(token, "") != 0) {
 	
@@ -70,7 +70,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     }
 	
     // extract year
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     if (strcmp(token, "") != 0) {
 	
@@ -86,7 +86,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract timezone
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     if (strcmp(token, "") != 0) {
 	
@@ -103,7 +103,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     //							//
     //////////////////////////////
 	
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     // do shit
 	

@@ -5,7 +5,7 @@
 // Carole Fountain //
 
 int parseRMC(struct NMEAData *dataStore, char* sentence) {
-    char* token;
+    char token[256], *cursor = 0;
     short lat = 0;
     short lon = 0;
 
@@ -16,7 +16,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     //////////////////////////////
 	
     // get UTC time 
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
     
     if (strcmp(token, "") != 0)
     {
@@ -31,7 +31,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     //////////////////////
 	
     // extract status
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
  
     // Don't care move on...
     
@@ -42,14 +42,14 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract latitude
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     if (strcmp(token, "") != 0) {
 	// convert latitude to float
 	lat = strtof(token, NULL);
 		
 	// extract N/S val
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 		
 	// if South, make latitude negative
 	if (toupper(token[0]) == 'S') 
@@ -67,14 +67,14 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract lon val
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     if (strcmp(token, "") != 0) {
 	// convert lon to float
 	lon = strtof(token, NULL);
 		
 	// extract E/W val
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 		
 	// if West, make lon negative
 	if (toupper(token[0]) == 'W') 
@@ -92,7 +92,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////////////    
 	
     // extract speed
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     //  don't care move on...
  
@@ -104,7 +104,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     ///////////////////////////////////
 	
     // extract angle
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     // don't care move on...
 	
@@ -115,7 +115,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     ///////////////////////////////////
 	
     // extract date
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     // don't care move on...
 	
@@ -126,7 +126,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     ///////////////////////////////////
 	
     // extract magnetic variation
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     // don't care ending...
 	

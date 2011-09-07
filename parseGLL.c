@@ -2,7 +2,7 @@
 #include "parse.h"
 
 int parseGLL(struct NMEAData *dataStore, char* sentence) {
-    char token[256], * temp = 0;
+    char token[256], temp[256], *cursor = 0;
     float lat, lon;
     ////////////////////////
     //					  //
@@ -11,14 +11,14 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     ////////////////////////
 	
     // extract lat val
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     if (strcmp(token, "") != 0) {
 	// convert latitude to float
 	lat = strtof(token, NULL);
 		
 	// extract N/S val
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 		
 	// if South, make latitude negative
 	toupper(token[0]);
@@ -38,14 +38,14 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     /////////////////////////
 	
     // extract lon val
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     if (strcmp(token, "") != 0) {
 	// convert lon to float
 	lon = strtof(token, NULL);
 		
 	// extract E/W val
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 		
 	// if West, make lon negative
 	toupper(token[0]);
@@ -65,7 +65,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     //				  //
     ////////////////////
 	
-    tokenize(token, sentence, ","); // "hhmmss.ss"
+    tokenize(token, sentence, ",", &cursor); // "hhmmss.ss"
 	
     // turn time into a useful value
     // get "hh" from "hhmmss.ss"
@@ -86,7 +86,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     //					//
     //////////////////////
 	
-    tokenize(token, sentence, ",");
+    tokenize(token, sentence, ",", &cursor);
 	
     // I don't think we care about status?
     return 0;

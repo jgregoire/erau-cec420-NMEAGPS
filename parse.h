@@ -6,7 +6,7 @@
 
 // make a macro for tokenizing, since we always do it the same way
 
-void tokenize(char *, char *, char *);
+void tokenize(char *, char *, char *, char **);
 
 int parseGGA(struct NMEAData*, char*);
 

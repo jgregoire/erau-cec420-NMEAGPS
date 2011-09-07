@@ -15,7 +15,8 @@
 // handle different units of altitude
 
 int parseGGA(struct NMEAData *dataStore, char* sentence) {
-	char* token;
+	char token[256];
+	char* cursor = 0;
 	char temp[3];
 	float lat = 0.0f;
 	float lon = 0.0f;
@@ -28,7 +29,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	//				  //
 	////////////////////
 	
-	tokenize(token, sentence, ","); // "hhmmss.ss"
+	tokenize(token, sentence, ",", &cursor); // "hhmmss.ss"
 	
 	// turn time into a useful value
 	// get "hh" from "hhmmss.ss"
@@ -51,7 +52,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	////////////////////////
 	
 	// extract lat val
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 	
 	if (strcmp(token, "") != 0) {
 	
@@ -59,7 +60,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		lat = strtof(token, NULL);
 		
 		// extract N/S val
-		tokenize(token, sentence, ",");
+		tokenize(token, sentence, ",", &cursor);
 		
 		// if South, make latitude negative
 		toupper(token[0]);
@@ -78,7 +79,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	/////////////////////////
 	
 	// extract lon val
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 	
 	if (strcmp(token, "") != 0) {
 	
@@ -86,7 +87,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		lon = strtof(token, NULL);
 		
 		// extract E/W val
-		tokenize(token, sentence, ",");
+		tokenize(token, sentence, ",", &cursor);
 		
 		// if West, make lon negative
 		toupper(token[0]);
@@ -105,7 +106,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	///////////////////////
 	
 	// extract quality val
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 	
 	// we don't care about fix quality. Carry on...
 	
@@ -116,7 +117,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	//////////////////////////////
 	
 	// extract number
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 	
 	if (strcmp(token, "") != 0) {
 	
@@ -133,7 +134,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	////////////////////////
 	
 	// extract dilution
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 	
 	// we don't care about this. Carry on...
 	
@@ -144,7 +145,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	////////////////////////
 	
 	// extract altitude
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 	
 	if (strcmp(token, "") != 0) {
 	
@@ -155,7 +156,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	}
 	
 	// extract units
-	tokenize(token, sentence, ",");
+	tokenize(token, sentence, ",", &cursor);
 	
 	// assuming always meters for now
 	
