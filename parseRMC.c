@@ -128,25 +128,31 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	    // extract day
     tokenize(token, sentence, ",", &cursor); //ddmmyy
 	
+	// assign day
     if (strcmp(token, "") != 0) {
-	
-	day = (short) strtol(token, NULL, 10);
-	dataStore->date.tm_mday = day - 1;
+		
+		strncpy(temp, token, 2);
+		day = (short) strtol(temp, NULL, 10);
+		dataStore->date.tm_mday = day - 1;
 		
     }
 	
+	// assign month
     if (strcmp(token, "") != 0) {
 	
-	month = (short) strtol(token, NULL, 10);
-	dataStore->date.tm_mon = month - 1;
-	
+		memcpy(temp, &token[2], 2);
+		month = (short) strtol(temp, NULL, 10);
+		dataStore->date.tm_mon = month - 1;
+		
     }
 	
+	// assign year
     if (strcmp(token, "") != 0) {
-	
-	year = (short) strtol(token, NULL, 10);
-	dataStore->date.tm_year = year - 1900;
-	
+		
+		memcpy(temp, &token[4], 2);
+		year = (short) strtol(temp, NULL, 10);
+		dataStore->date.tm_year = year - 1900;
+		
     }
 	
     ///////////////////////////////////
@@ -158,8 +164,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     // extract magnetic variation
     tokenize(token, sentence, ",", &cursor);
 	
-    // don't care ending...
-	
+    // don't care ending...	
 	
     return 0;
 }
