@@ -22,9 +22,9 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     int timezone = 0;
 	
     ////////////////////
-    //		      //
+    //                //
     //  EXTRACT TIME  //
-    //		      //
+    //                //
     ////////////////////
 		
     tokenize(token, sentence, ",", &cursor); // "hhmmss.ss"
@@ -44,9 +44,9 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	
 		
     ////////////////////
-    //		      //
+    //                //
     //  EXTRACT DATE  //
-    //		      //
+    //                //
     ////////////////////
 	
     // extract day
@@ -96,24 +96,6 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	//dataStore->date.tm_hour += timezone;
 	
     }
-	
-    //////////////////////////////
-    //							//
-    //  EXTRACT MINUTES OFFSET  //
-    //							//
-    //////////////////////////////
-	
-    tokenize(token, sentence, ",", &cursor);
-	
-    // do shit
-	
-    ////////////////////////////
-    //						  //
-    //  GENERATE UTC and TAI  //
-    //						  //
-    ////////////////////////////
-	
-    // do shit
     return 0;
 }
 

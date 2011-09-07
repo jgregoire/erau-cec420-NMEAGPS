@@ -6,6 +6,7 @@
 
 int parseRMC(struct NMEAData *dataStore, char* sentence) {
     char token[256], *cursor = 0;
+	char temp[3];
     short lat = 0;
     short lon = 0;
 
@@ -15,13 +16,20 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     //				            //
     //////////////////////////////
 	
-    // get UTC time 
-    tokenize(token, sentence, ",", &cursor);
-    
-    if (strcmp(token, "") != 0)
-    {
-        dataStore->utcTime = strtol(token, NULL, 0);
-    }
+	tokenize(token, sentence, ",", &cursor); // "hhmmss.ss"
+	
+	// turn time into a useful value
+	// get "hh" from "hhmmss.ss"
+	strncpy(temp, token, 2);
+	dataStore->date.tm_hour = (int) strtol(temp, NULL, 10) - 1;
+	
+	// get mm
+	memcpy(temp, &token[2], 2);
+	dataStore->date.tm_min = (int) strtol(temp, NULL, 10) - 1;
+	
+	// get ss (ignoring .ss)
+	memcpy(temp, &token[4], 2);
+	dataStore->date.tm_sec = (int) strtol(temp, NULL, 10) - 1;
 	
 	
     //////////////////////
