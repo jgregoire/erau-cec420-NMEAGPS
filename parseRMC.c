@@ -126,7 +126,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     ///////////////////////////////////
 
 	    // extract day
-    tokenize(token, sentence, ",", &cursor);
+    tokenize(token, sentence, ",", &cursor); //ddmmyy
 	
     if (strcmp(token, "") != 0) {
 	
@@ -135,18 +135,12 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 		
     }
 	
-    // extract month
-    tokenize(token, sentence, ",", &cursor);
-	
     if (strcmp(token, "") != 0) {
 	
 	month = (short) strtol(token, NULL, 10);
 	dataStore->date.tm_mon = month - 1;
 	
     }
-	
-    // extract year
-    tokenize(token, sentence, ",", &cursor);
 	
     if (strcmp(token, "") != 0) {
 	
