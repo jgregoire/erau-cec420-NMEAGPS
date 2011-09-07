@@ -9,6 +9,9 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	char temp[3];
     short lat = 0;
     short lon = 0;
+	int day = 0;
+	int month = 0;
+	int year = 0;
 
     //////////////////////////////
     //				            //
@@ -121,11 +124,36 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     //  Extract date                 //
     //					             //
     ///////////////////////////////////
-	
-    // extract date
+
+	    // extract day
     tokenize(token, sentence, ",", &cursor);
 	
-    // don't care move on...
+    if (strcmp(token, "") != 0) {
+	
+	day = (short) strtol(token, NULL, 10);
+	dataStore->date.tm_mday = day - 1;
+		
+    }
+	
+    // extract month
+    tokenize(token, sentence, ",", &cursor);
+	
+    if (strcmp(token, "") != 0) {
+	
+	month = (short) strtol(token, NULL, 10);
+	dataStore->date.tm_mon = month - 1;
+	
+    }
+	
+    // extract year
+    tokenize(token, sentence, ",", &cursor);
+	
+    if (strcmp(token, "") != 0) {
+	
+	year = (short) strtol(token, NULL, 10);
+	dataStore->date.tm_year = year - 1900;
+	
+    }
 	
     ///////////////////////////////////
     //					             //
