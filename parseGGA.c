@@ -44,6 +44,8 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	memcpy(temp, &token[4], 2);
 	dataStore->date.tm_sec = (int) strtol(temp, NULL, 10) - 1;
 	
+	// calculate UTC and TAI
+	
 	
 	////////////////////////
 	//					  //

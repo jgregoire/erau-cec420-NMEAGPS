@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "parse.h"
 
 // Carole Fountain //
@@ -24,19 +25,21 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	// turn time into a useful value
 	// get "hh" from "hhmmss.ss"
 	strncpy(temp, token, 2);
-	dataStore->date.tm_hour = (int) strtol(temp, NULL, 10) - 1;
+	dataStore->date.tm_hour = (int) strtol(temp, NULL, 10);
 	
 	// get mm
 	memcpy(temp, &token[2], 2);
-	dataStore->date.tm_min = (int) strtol(temp, NULL, 10) - 1;
+	dataStore->date.tm_min = (int) strtol(temp, NULL, 10);
 	
 	// get ss (ignoring .ss)
 	memcpy(temp, &token[4], 2);
-	dataStore->date.tm_sec = (int) strtol(temp, NULL, 10) - 1;
+	dataStore->date.tm_sec = (int) strtol(temp, NULL, 10);
 	
 	// set UTC and TAI
+	dataStore->epochTime = mktime(&dataStore->date);	
 	
-	
+	dataStore->date.tm_sec + 34;
+	dataStore->taiTime = mktime(&dataStore->date);
 	
 	
     //////////////////////
