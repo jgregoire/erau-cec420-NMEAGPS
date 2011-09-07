@@ -7,8 +7,8 @@
 int parseRMC(struct NMEAData *dataStore, char* sentence) {
     char token[256], *cursor = 0;
 	char temp[3];
-    short lat = 0;
-    short lon = 0;
+    float lat = 0;
+    float lon = 0;
 	int day = 0;
 	int month = 0;
 	int year = 0;

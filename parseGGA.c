@@ -143,7 +143,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	//  EXTRACT ALTITUDE  //
 	//					  //
 	////////////////////////
-	
+    
 	// extract altitude
 	tokenize(token, sentence, ",", &cursor);
 	
@@ -151,8 +151,21 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	
 		// convert to float
 		alt = strtof(token, NULL);
-		dataStore->altitude = alt;
-		
+
+        tokenize(token, sentence, ",", &cursor);
+        toupper(token[0]);
+
+        if(token[0] == 'F')
+        {
+            dataStore->altitude = alt;
+        }
+        else if (token[0] == 'M')
+        {
+            alt *= 0.3048;
+    		dataStore->altitude = alt;
+        }
+        else
+            return 1;
 	}
 	
 	// extract units
