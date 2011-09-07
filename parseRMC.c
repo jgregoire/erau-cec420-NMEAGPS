@@ -34,6 +34,10 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	memcpy(temp, &token[4], 2);
 	dataStore->date.tm_sec = (int) strtol(temp, NULL, 10) - 1;
 	
+	// set UTC and TAI
+	
+	
+	
 	
     //////////////////////
     //			        //
@@ -132,8 +136,8 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     if (strcmp(token, "") != 0) {
 		
 		strncpy(temp, token, 2);
-		day = (short) strtol(temp, NULL, 10);
-		dataStore->date.tm_mday = day - 1;
+		day = (int) strtol(temp, NULL, 10);
+		dataStore->date.tm_mday = day;
 		
     }
 	
@@ -141,8 +145,8 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     if (strcmp(token, "") != 0) {
 	
 		memcpy(temp, &token[2], 2);
-		month = (short) strtol(temp, NULL, 10);
-		dataStore->date.tm_mon = month - 1;
+		month = (int) strtol(temp, NULL, 10);
+		dataStore->date.tm_mon = month;
 		
     }
 	
@@ -150,8 +154,8 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     if (strcmp(token, "") != 0) {
 		
 		memcpy(temp, &token[4], 2);
-		year = (short) strtol(temp, NULL, 10);
-		dataStore->date.tm_year = year - 1900;
+		year = (int) strtol(temp, NULL, 10);
+		dataStore->date.tm_year = year + 100;
 		
     }
 	
