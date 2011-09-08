@@ -49,8 +49,7 @@ int main(int argc, char **argv)
 	    if (persistentData.isDelta == 1)
 	    {
 		makeNMEADataString(outMessage, &persistentData);
-	       	fputs(outMessage, fout);
-		printf("%s", outMessage);
+	   	fputs(outMessage, fout);
 		persistentData.isDelta = 0;
 	    }
 	}
@@ -181,10 +180,10 @@ int verifySentence(char *sentence)
 	return 1;
 
     //checks the frist number in the checksum is correct 
-    if(! ((sentence[strlen(sentence) - 4] <= 57) && (sentence[strlen(sentence) - 4] >= 48)) || ((sentence[strlen(sentence) - 4] <= 70) && (sentence[strlen(sentence) - 4] >= 65)))
+    if(! (((sentence[strlen(sentence) - 4] <= 57) && (sentence[strlen(sentence) - 4] >= 48)) || ((sentence[strlen(sentence) - 4] <= 70) && (sentence[strlen(sentence) - 4] >= 65))))
 	return 1;
-    
-    if(! ((sentence[strlen(sentence) - 3] <= 57) && (sentence[strlen(sentence) - 3] >= 48)) || ((sentence[strlen(sentence) - 3] <= 70) && (sentence[strlen(sentence) - 3] >= 65)))
+
+    if(! (((sentence[strlen(sentence) - 3] <= 57) && (sentence[strlen(sentence) - 3] >= 48)) || ((sentence[strlen(sentence) - 3] <= 70) && (sentence[strlen(sentence) - 3] >= 65))))
 	return 1;
     
     //checks to see if formate at the end of the NMEA sequence is correct
