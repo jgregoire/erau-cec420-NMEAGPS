@@ -37,7 +37,10 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
 	
     // extract what sentence (1 or 2)
     tokenize(token, sentence, ",", &cursor);
- 
+
+    long mult = strtol(token, NULL, 10);
+    mult = (mult - 1) * 4;
+
     // We don't care so moving on...
     
     ////////////////////////////////////////////
@@ -126,7 +129,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //					    //
     //////////////////////////
 
-    if (dataStore->numSatellites == 1)
+    if (dataStore->numSatellites == (1 + mult))
 	return 0;
 
     // turn PRN (for 2nd satellite) into a useful value
@@ -192,7 +195,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //  Extract PRN number  //
     //					    //
     //////////////////////////	
-    if (dataStore->numSatellites == 2)
+    if (dataStore->numSatellites == (2 + mult))
 	return 0;
     
 // turn PRN (for 3rd satellite) into a useful value
@@ -258,8 +261,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //  Extract PRN number  //
     //					    //
     //////////////////////////
-    if (dataStore->numSatellites == 3)
-	return 0;	
+    if (dataStore->numSatellites == (3 + mult))
+	return 0;
+	
     // turn PRN (for 4th satellite) into a useful value
     tokenize(token, sentence, ",", &cursor);
 	
