@@ -24,9 +24,9 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	float alt = 0.0f;
 	
 	////////////////////
-	//				  //
+	//                //
 	//  EXTRACT TIME  //
-	//				  //
+	//                //
 	////////////////////
 	
 	tokenize(token, sentence, ",", &cursor); // "hhmmss.ss"
@@ -174,17 +174,6 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
             return 1;
 	}
 	
-	// extract units
-	tokenize(token, sentence, ",", &cursor);
-	
-	// assuming always meters for now
-	
 	return 0;
 }
-
-
-
-
-
-
 
