@@ -1,5 +1,6 @@
 *.exe
 *.o
 *.com
+*.out
 
 Thumbs.db

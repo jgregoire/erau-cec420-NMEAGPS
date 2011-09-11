@@ -44,6 +44,8 @@ struct NMEAData { // Keeps track of pertinent data gathered from NMEA sentences
     short numSatellites;
     struct Satellite satellites[12]; // A maximum of 12 satellites can be considered in view in NMEA. I see no reason to store more than what the system can describe.
     short isDelta; // 0 if the structure has not been changed, 1 If the structure has changed and needs to be written to the output file.
+    
+    // I think isDelta should be changed to a check to make sure ALL data is present before posting results. - James
 };
 
 int main(int argc, char **argv);
