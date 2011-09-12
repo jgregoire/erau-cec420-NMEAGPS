@@ -20,8 +20,6 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	char temp[3];
 	float lat = 0.0f;
 	float lon = 0.0f;
-    char la[12];
-    char lo[12];
 	short numSatellites = 0;
 	float alt = 0.0f;
 	

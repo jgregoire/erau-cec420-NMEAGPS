@@ -37,6 +37,4 @@ void convertLatLong(char* dest, float loc) {
     dest[6] = '.';     // .
     dest[7] = temp[3]; // s
     dest[8] = temp[4]; // s
-    
-    // convert decimal values to minutes and seconds
 }
