@@ -18,6 +18,8 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     short azimuth = 0;
     short elevation = 0;
 
+    dataStore->allDataSet &= ~CONSTELLATIONX; // If we're here, we need to clear CONSTELLATIONX. It'll be fixed when we're done.
+
     //////////////////////////////////////////////////
     //                                                //
     //  Extract Number of sentences for full data   //
@@ -193,7 +195,10 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //////////////////////////
 
     if (dataStore->numSatellites == (1 + mult))
-    return 0;
+    {
+	dataStore->allDataSet |= CONSTELLATIONX;
+	return 0;
+    }
 
     // turn PRN (for 2nd satellite) into a useful value
     tokenize(token, sentence, ",", &cursor);
@@ -259,7 +264,10 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //                        //
     //////////////////////////    
     if (dataStore->numSatellites == (2 + mult))
-    return 0;
+    {
+	dataStore->allDataSet |= CONSTELLATIONX;
+	return 0;
+    }
     
 // turn PRN (for 3rd satellite) into a useful value
     tokenize(token, sentence, ",", &cursor);
@@ -325,7 +333,10 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     //                        //
     //////////////////////////
     if (dataStore->numSatellites == (3 + mult))
-    return 0;
+    {
+	dataStore->allDataSet |= CONSTELLATIONX;
+	return 0;
+    }
     
     // turn PRN (for 4th satellite) into a useful value
     tokenize(token, sentence, ",", &cursor);
@@ -384,9 +395,11 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     snr = (short)strtol(token, NULL, 10);
     dataStore->satellites[mult + 3].snr = snr;
     }
-    
-    dataStore->allDataSet |= CONSTELLATIONX;
-    
+
+    if (dataStore->numSatellites == (3 + mult))
+    {
+	dataStore->allDataSet |= CONSTELLATIONX;
+    }    
     return 0;
 }
 

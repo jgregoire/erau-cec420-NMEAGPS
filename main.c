@@ -44,6 +44,7 @@ int main(int argc, char **argv)
     
     // Add a check in here to only output the string when
     // allDataSet == 133 (1+2+4+8+16+32+64)
+    // ^^^^^^^^^^ == Math fail. 0xFF is definitely 127.
     while (getline(&lineIn, &messageLen, fin) != EOF)
     {
 	if((verifySentence(lineIn) == 0) && (validateChecksum(lineIn) == 0))
@@ -51,17 +52,16 @@ int main(int argc, char **argv)
 	    // If we're in here, the lines were good
 	    message = messagify(lineIn);
 
-	    if ((parse(&persistentData, message) == 0) && (persistentData.isDelta == 1)) // && (persistentData.allDataSet >= 127))
+	    if ((parse(&persistentData, message) == 0) && (persistentData.isDelta == 1) && (persistentData.allDataSet == 127))
 	    {
 		makeNMEADataString(outMessage, &persistentData);
 		fputs(outMessage, fout);
 		persistentData.isDelta = 0;
-		persistentData.allDataSet = 0;
 	    }
-	    else
+/*	    else
 	    {
 		printf("Validated message not parsed: %s", lineIn);
-	    }
+		}*/
 	}
 	else
 	{
