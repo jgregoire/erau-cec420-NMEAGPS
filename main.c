@@ -50,7 +50,8 @@ int main(int argc, char **argv)
 
 	    parse(&persistentData, message);
 
-	    if (persistentData.isDelta == 1)
+	    //if (persistentData.isDelta == 1)
+	    if (persistentData.allDataSet == 133)
 	    {
 		makeNMEADataString(outMessage, &persistentData);
 	   	fputs(outMessage, fout);
