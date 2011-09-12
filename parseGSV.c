@@ -41,8 +41,70 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     long mult = strtol(token, NULL, 10);
     mult = (mult - 1) * 4;
 
-    // We don't care so moving on...
-    
+    if (mult == 0) // first GSV message
+    {
+	dataStore->satellites[0].prn = 0;
+	dataStore->satellites[0].elevation = 0;
+	dataStore->satellites[0].azimuth = 0;
+	dataStore->satellites[0].snr = 0;	
+
+	dataStore->satellites[1].prn = 0;
+	dataStore->satellites[1].elevation = 0;
+	dataStore->satellites[1].azimuth = 0;
+	dataStore->satellites[1].snr = 0;	
+
+	dataStore->satellites[2].prn = 0;
+	dataStore->satellites[2].elevation = 0;
+	dataStore->satellites[2].azimuth = 0;
+	dataStore->satellites[2].snr = 0;	
+
+	dataStore->satellites[3].prn = 0;
+	dataStore->satellites[3].elevation = 0;
+	dataStore->satellites[3].azimuth = 0;
+	dataStore->satellites[3].snr = 0;	
+
+	dataStore->satellites[4].prn = 0;
+	dataStore->satellites[4].elevation = 0;
+	dataStore->satellites[4].azimuth = 0;
+	dataStore->satellites[4].snr = 0;	
+
+	dataStore->satellites[5].prn = 0;
+	dataStore->satellites[5].elevation = 0;
+	dataStore->satellites[5].azimuth = 0;
+	dataStore->satellites[5].snr = 0;	
+
+	dataStore->satellites[6].prn = 0;
+	dataStore->satellites[6].elevation = 0;
+	dataStore->satellites[6].azimuth = 0;
+	dataStore->satellites[6].snr = 0;	
+
+	dataStore->satellites[7].prn = 0;
+	dataStore->satellites[7].elevation = 0;
+	dataStore->satellites[7].azimuth = 0;
+	dataStore->satellites[7].snr = 0;	
+
+	dataStore->satellites[8].prn = 0;
+	dataStore->satellites[8].elevation = 0;
+	dataStore->satellites[8].azimuth = 0;
+	dataStore->satellites[8].snr = 0;	
+
+	dataStore->satellites[9].prn = 0;
+	dataStore->satellites[9].elevation = 0;
+	dataStore->satellites[9].azimuth = 0;
+	dataStore->satellites[9].snr = 0;	
+
+	dataStore->satellites[10].prn = 0;
+	dataStore->satellites[10].elevation = 0;
+	dataStore->satellites[10].azimuth = 0;
+	dataStore->satellites[10].snr = 0;	
+
+	dataStore->satellites[11].prn = 0;
+	dataStore->satellites[11].elevation = 0;
+	dataStore->satellites[11].azimuth = 0;
+	dataStore->satellites[11].snr = 0;	
+
+    }
+
     ////////////////////////////////////////////
     //					                      //
     //  Extract number of satellites in view  //

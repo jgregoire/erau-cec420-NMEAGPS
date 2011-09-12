@@ -123,9 +123,121 @@ struct NMEAMessage * messagify(char *message)
 int makeNMEADataString(char *toFill, struct NMEAData *data)
 {
     char t[1024];
-	
+    int offset = 0;
+
     // This monstrosity ought to be cleaned up - James.
-    sprintf(t, "%u,%u,%u,%u%u%u,%u,%u,%.4f,%.4f,%s,%s,%.4f,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u\r\n", data->date.tm_mon, data->date.tm_mday, data->date.tm_year + 1900, data->date.tm_hour, data->date.tm_min, data->date.tm_sec, (unsigned int)data->epochTime, (unsigned int)data->taiTime, data->lat, data->lon, data->dmsLat, data->dmsLon, data->altitude, data->numSatellites, data->satellites[0].prn, data->satellites[0].elevation, data->satellites[0].snr, data->satellites[0].azimuth, data->satellites[1].prn, data->satellites[1].elevation, data->satellites[1].snr, data->satellites[1].azimuth, data->satellites[2].prn, data->satellites[2].elevation, data->satellites[2].snr, data->satellites[2].azimuth, data->satellites[3].prn, data->satellites[3].elevation, data->satellites[3].snr, data->satellites[3].azimuth, data->satellites[4].prn, data->satellites[4].elevation, data->satellites[4].snr, data->satellites[4].azimuth, data->satellites[5].prn, data->satellites[5].elevation, data->satellites[5].snr, data->satellites[5].azimuth, data->satellites[6].prn, data->satellites[6].elevation, data->satellites[6].snr, data->satellites[6].azimuth, data->satellites[7].prn, data->satellites[7].elevation, data->satellites[7].snr, data->satellites[7].azimuth, data->satellites[8].prn, data->satellites[8].elevation, data->satellites[8].snr, data->satellites[8].azimuth, data->satellites[9].prn, data->satellites[9].elevation, data->satellites[9].snr, data->satellites[9].azimuth, data->satellites[10].prn, data->satellites[10].elevation, data->satellites[10].snr, data->satellites[10].azimuth, data->satellites[11].prn, data->satellites[11].elevation, data->satellites[11].snr, data->satellites[11].azimuth);
+    offset += sprintf(t, "%u,%u,%u,%02u%02u%02u,%u,%u,%.4f,%.4f,%s,%s,%.4f,%u", data->date.tm_mon, data->date.tm_mday, data->date.tm_year + 1900, data->date.tm_hour, data->date.tm_min, data->date.tm_sec, (unsigned int)data->epochTime, (unsigned int)data->taiTime, data->lat, data->lon, data->dmsLat, data->dmsLon, data->altitude, data->numSatellites);
+
+
+    // We can pull off this next part because the satellites all have PRNs between 01 and 32
+    if (data->satellites[0].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[0].prn, data->satellites[0].elevation, data->satellites[0].snr, data->satellites[0].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[1].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[1].prn, data->satellites[1].elevation, data->satellites[1].snr, data->satellites[1].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[2].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[2].prn, data->satellites[2].elevation, data->satellites[2].snr, data->satellites[2].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[3].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[3].prn, data->satellites[3].elevation, data->satellites[3].snr, data->satellites[3].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[4].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[4].prn, data->satellites[4].elevation, data->satellites[4].snr, data->satellites[4].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[5].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[5].prn, data->satellites[5].elevation, data->satellites[5].snr, data->satellites[5].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[6].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[6].prn, data->satellites[6].elevation, data->satellites[6].snr, data->satellites[6].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[7].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[7].prn, data->satellites[7].elevation, data->satellites[7].snr, data->satellites[7].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[8].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[8].prn, data->satellites[8].elevation, data->satellites[8].snr, data->satellites[8].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[9].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[9].prn, data->satellites[9].elevation, data->satellites[9].snr, data->satellites[9].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[10].prn != 0)
+    {
+	offset += sprintf(t + offset, ",%u,%u,%u,%u", data->satellites[10].prn, data->satellites[10].elevation, data->satellites[10].snr, data->satellites[10].azimuth);
+    }
+    else
+    {
+	offset += sprintf(t + offset, ",,,,");
+    }
+
+    if (data->satellites[11].prn != 0)
+    {
+	sprintf(t + offset, ",%u,%u,%u,%u\r\n", data->satellites[11].prn, data->satellites[11].elevation, data->satellites[11].snr, data->satellites[11].azimuth);
+    }
+    else
+    {
+        sprintf(t + offset, "\r\n");
+    }
+
     strcpy(toFill, t);
     return 0;
 }
