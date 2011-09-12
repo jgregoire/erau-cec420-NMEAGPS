@@ -38,7 +38,9 @@ int main(int argc, char **argv)
     char *outMessage = malloc(1024); // Way more memory than I'll ever need because I'm too lazy to figure out the maximum length of our output strings. No sizeof because the standard says sizeof(char) always == 1.
     
     // Elliot: strlen() might be of use. ^^^^
-
+    
+    // Add a check in here to only output the string when
+    // allDataSet == 37 (1+2+4+8+16)
     while (getline(&lineIn, &messageLen, fin) != EOF)
     {
 	if((verifySentence(lineIn) == 0) && (validateChecksum(lineIn) == 0))
