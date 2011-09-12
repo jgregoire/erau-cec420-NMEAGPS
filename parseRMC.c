@@ -7,7 +7,7 @@
 
 int parseRMC(struct NMEAData *dataStore, char* sentence) {
     char token[256], *cursor = 0;
-    char temp[3];
+    char temp[3] = "\0\0\0";
     float lat = 0;
     float lon = 0;
     int day = 0;
@@ -30,11 +30,11 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     // get mm
     memcpy(temp, &token[2], 2);
     dataStore->date.tm_min = (int) strtol(temp, NULL, 10);
-    
+
     // get ss (ignoring .ss)
     memcpy(temp, &token[4], 2);
     dataStore->date.tm_sec = (int) strtol(temp, NULL, 10);
-    
+
     dataStore->allDataSet |= TIMEX;
     
     //////////////////////
@@ -56,14 +56,14 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     
     // extract latitude
     tokenize(token, sentence, ",", &cursor);
-    
+
     if (strcmp(token, "") != 0) {
 	// convert latitude to float
 	lat = strtof(token, NULL);
         
 	// extract N/S val
 	tokenize(token, sentence, ",", &cursor);
-        
+
 	// if South, make latitude negative
 	if (toupper(token[0]) == 'S') 
 	{
@@ -73,6 +73,8 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	dataStore->lat = lat;
 	dataStore->allDataSet |= LATX;
     }
+    else
+	return 1;
     
     ////////////////////////
     //                      //
@@ -82,14 +84,14 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     
     // extract lon val
     tokenize(token, sentence, ",", &cursor);
-    
+
     if (strcmp(token, "") != 0) {
 	// convert lon to float
 	lon = strtof(token, NULL);
         
 	// extract E/W val
 	tokenize(token, sentence, ",", &cursor);
-        
+
 	// if West, make lon negative
 	if (toupper(token[0]) == 'W') 
 	{
@@ -99,6 +101,8 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	dataStore->lon = lon;
 	dataStore->allDataSet |= LONGX;
     }
+    else
+	return 1;
     
     ////////////////////////////////
     //                              //
@@ -131,7 +135,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 
     // extract day
     tokenize(token, sentence, ",", &cursor); //ddmmyy
-    
+
     // assign day
     if (strcmp(token, "") != 0) {
         
@@ -140,6 +144,8 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
         dataStore->date.tm_mday = day;
         
     }
+    else
+	return 1;
     
     // assign month
     if (strcmp(token, "") != 0) {
@@ -149,6 +155,8 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
         dataStore->date.tm_mon = month - 1; // tm_mon is 0 indexed
         
     }
+    else
+	return 1;
     
     // assign year
     if (strcmp(token, "") != 0) {
@@ -156,9 +164,10 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
         memcpy(temp, &token[4], 2);
         year = (int) strtol(temp, NULL, 10);
         dataStore->date.tm_year = year + 100;
-        
         dataStore->allDataSet |= DATEX;
     }
+    else
+	return 1;
 
     // set UTC and TAI
     dataStore->epochTime = mktime(&dataStore->date);

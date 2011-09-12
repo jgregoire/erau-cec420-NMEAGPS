@@ -41,7 +41,8 @@ int main(int argc, char **argv)
     char *outMessage = malloc(1024); // Way more memory than I'll ever need because I'm too lazy to figure out the maximum length of our output strings. No sizeof because the standard says sizeof(char) always == 1.
     
     // Elliot: strlen() might be of use. ^^^^
-    
+    // Doubtful. We'd have to do it in makeNMEADataString and resize the array on the fly. It's easier to just malloc a shit ton of memory.
+
     // Add a check in here to only output the string when
     // allDataSet == 133 (1+2+4+8+16+32+64)
     // ^^^^^^^^^^ == Math fail. 0xFF is definitely 127.
@@ -51,7 +52,7 @@ int main(int argc, char **argv)
 	{
 	    // If we're in here, the lines were good
 	    message = messagify(lineIn);
-
+//	    puts(lineIn);
 	    if ((parse(&persistentData, message) == 0) && (persistentData.isDelta == 1) && (persistentData.allDataSet == 127))
 	    {
 		makeNMEADataString(outMessage, &persistentData);
