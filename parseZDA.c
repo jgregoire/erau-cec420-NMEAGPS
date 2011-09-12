@@ -62,7 +62,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     if (strcmp(token, "") != 0) {
 	
 	    day = (short) strtol(token, NULL, 10);
-	    dataStore->date.tm_mday = day - 1;
+	    dataStore->date.tm_mday = day;
 			
     }
 	
@@ -72,7 +72,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     if (strcmp(token, "") != 0) {
 	
 	    month = (short) strtol(token, NULL, 10);
-	    dataStore->date.tm_mon = month - 1;
+	    dataStore->date.tm_mon = month;
 	
     }
 	
