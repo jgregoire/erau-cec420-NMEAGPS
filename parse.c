@@ -32,6 +32,7 @@ int parse(struct NMEAData* dataStore, struct NMEAMessage * sentence) {
 		
     } else {
 	
+	// this isn't necessarily reliably set
 	dataStore->isDelta = 0;
 	// We didn't get a message we care about.
 	return 0;
