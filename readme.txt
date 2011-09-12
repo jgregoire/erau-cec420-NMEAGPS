@@ -6,7 +6,7 @@ Bryce Dodds
 James Gregoire
 
 How to compile the program:
-Using an ANSI/C99-compatible compiler, compile all *.c files and output as parse(.exe)
+Using an ANSI/C99-compatible compiler, compile all *.c files, link with the math library (-lm), and output as parse(.exe)
 
 How to run the program:
 Enter one file for input and another for output into the command line.  In order to run from the command line enter
