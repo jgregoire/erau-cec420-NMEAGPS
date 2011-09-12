@@ -168,7 +168,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     if (mktime(&t_time) < dataStore->epochTime)
     {
 	puts("Aborting parse: Stale data");
-	return 1;
+	return 2;
     }
     else
     {

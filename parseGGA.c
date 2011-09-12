@@ -175,7 +175,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     if (mktime(&tt) < dataStore->epochTime)
     {
 	puts("Aborting parse: Stale data");
-	return 1;
+	return 2;
     }
     else
     {

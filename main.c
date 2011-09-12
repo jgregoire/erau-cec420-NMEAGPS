@@ -68,6 +68,7 @@ int main(int argc, char **argv)
 	    {
 //		printf("Validated sentence not parsed: %s", lineIn);
 //		printf("%u - %u - %u\n", parseStatus, persistentData.isDelta, persistentData.allDataSet);
+		persistentData.isDelta = 0;
 	    }
 	}
 	else
