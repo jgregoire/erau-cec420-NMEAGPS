@@ -61,8 +61,8 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	
     if (strcmp(token, "") != 0) {
 	
-	day = (short) strtol(token, NULL, 10);
-	dataStore->date.tm_mday = day - 1;
+	    day = (short) strtol(token, NULL, 10);
+	    dataStore->date.tm_mday = day - 1;
 			
     }
 	
@@ -71,8 +71,8 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	
     if (strcmp(token, "") != 0) {
 	
-	month = (short) strtol(token, NULL, 10);
-	dataStore->date.tm_mon = month - 1;
+	    month = (short) strtol(token, NULL, 10);
+	    dataStore->date.tm_mon = month - 1;
 	
     }
 	
@@ -81,10 +81,10 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	
     if (strcmp(token, "") != 0) {
 	
-	year = (short) strtol(token, NULL, 10);
-	dataStore->date.tm_year = year - 1900;
+	    year = (short) strtol(token, NULL, 10);
+	    dataStore->date.tm_year = year - 1900;
 	
-	dataStore->allDataSet |= DATEX;
+	    dataStore->allDataSet |= DATEX;
     }
 	
     ////////////////////////
@@ -101,7 +101,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	timezone = (short) strtol(token, NULL, 10);
 		
 	// uncomment next line to convert UTC to local time:
-	//dataStore->date.tm_hour += timezone;
+	dataStore->date.tm_hour += timezone;
 	
     }
     return 0;
