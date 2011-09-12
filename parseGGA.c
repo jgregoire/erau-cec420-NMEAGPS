@@ -17,11 +17,13 @@
 int parseGGA(struct NMEAData *dataStore, char* sentence) {
     char token[256];
     char* cursor = 0;
-    char temp[3];
+    char temp[3] = "\0\0\0";
     float lat = 0.0f;
     float lon = 0.0f;
     short numSatellites = 0;
     float alt = 0.0f;
+    struct tm tt;
+    tt.tm_isdst = -1;
     
     ////////////////////
     //                //
@@ -34,23 +36,20 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     // turn time into a useful value
     // get "hh" from "hhmmss.ss"
     strncpy(temp, token, 2);
-    dataStore->date.tm_hour = (int) strtol(temp, NULL, 10) - dataStore->localOffset;
+    tt.tm_hour = (int) strtol(temp, NULL, 10) - dataStore->localOffset;
     
     // get mm
     memcpy(temp, &token[2], 2);
-    dataStore->date.tm_min = (int) strtol(temp, NULL, 10);
+    tt.tm_min = (int) strtol(temp, NULL, 10);
     
     // get ss (ignoring .ss)
     memcpy(temp, &token[4], 2);
-    dataStore->date.tm_sec = (int) strtol(temp, NULL, 10);
+    tt.tm_sec = (int) strtol(temp, NULL, 10);
     
-    // calculate UTC and TAI
-    dataStore->epochTime = mktime(&dataStore->date);
-    dataStore->taiTime = dataStore->epochTime + 34;
-    
-    // record that time is set
-    dataStore->allDataSet |= TIMEX;
-    
+    tt.tm_mday = dataStore->date.tm_mday;
+    tt.tm_mon = dataStore->date.tm_mon;
+    tt.tm_year = dataStore->date.tm_year;
+
     ////////////////////////
     //                      //
     //  EXTRACT LATITUDE  //
@@ -60,9 +59,9 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     // extract lat val
     tokenize(token, sentence, ",", &cursor);
     
-    if (strcmp(token, "") != 0) {
-    
-        // convert latitude to float
+    if (strcmp(token, "") != 0) 
+    {
+	// convert latitude to float
         lat = strtof(token, NULL);
         
         // extract N/S val
@@ -70,19 +69,14 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
         
         // if South, make latitude negative
         toupper(token[0]);
-        if (strcmp(token, "S") == 0) {
-            
-            lat *= -1;
-            
-        }
-        
-        dataStore->lat = lat;
-        
-        convertLatLong(dataStore->dmsLat, lat);
-                
-        // record that lat is set
-        dataStore->allDataSet |= LATX;
+        if (strcmp(token, "S") == 0) 
+	{
+	    lat *= -1;
+	}
     }
+    else 
+	return 1;
+
     /////////////////////////
     //                       //
     //  EXTRACT LONGITUDE  //
@@ -92,9 +86,9 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     // extract lon val
     tokenize(token, sentence, ",", &cursor);
     
-    if (strcmp(token, "") != 0) {
-    
-        // convert lon to float
+    if (strcmp(token, "") != 0) 
+    {
+	// convert lon to float
         lon = strtof(token, NULL);
         
         // extract E/W val
@@ -102,19 +96,14 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
         
         // if West, make lon negative
         toupper(token[0]);
-        if (strcmp(token, "W") == 0) {
-        
-            lon *= -1;
-            
-        }
-        
-        dataStore->lon = lon;
-
-        convertLatLong(dataStore->dmsLon, lon);
-        
-        // record that lon is set
-        dataStore->allDataSet |= LONGX;
+        if (strcmp(token, "W") == 0) 
+	{
+	    lon *= -1;
+	}
     }
+    else 
+	return 1;
+
     ///////////////////////
     //                     //
     //  EXTRACT QUALITY  //
@@ -135,16 +124,13 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     // extract number
     tokenize(token, sentence, ",", &cursor);
     
-    if (strcmp(token, "") != 0) {
-    
-        // convert to int
-        numSatellites = (short) strtol(token, NULL, 10);
-        dataStore->numSatellites = numSatellites;
-        
-        // record that the numsats is set
-        dataStore->allDataSet |= SATSX;
-        
+    if (strcmp(token, "") != 0) 
+    {
+	// convert to int
+        numSatellites = (short) strtol(token, NULL, 10);        
     }
+    else 
+	return 1;
     
     ////////////////////////
     //                      //
@@ -166,30 +152,51 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     // extract altitude
     tokenize(token, sentence, ",", &cursor);
     
-    if (strcmp(token, "") != 0) {
-    
-        // convert to float
+    if (strcmp(token, "") != 0) 
+    {
+	// convert to float
         alt = strtof(token, NULL);
 
         tokenize(token, sentence, ",", &cursor);
         toupper(token[0]);
 
         if(token[0] == 'F')
-        {
-            dataStore->altitude = alt;
-            dataStore->allDataSet |= ALTX;
-        }
+        {;}
         else if (token[0] == 'M')
         {
             alt *= 0.3048;
-            dataStore->altitude = alt;
-            dataStore->allDataSet |= ALTX;
         }
-        else {
+        else 
             return 1;
-        }
     }
-    
+    else 
+	return 1;
+ 
+    if (mktime(&tt) < dataStore->epochTime)
+    {
+	puts("Aborting parse: Stale data");
+	return 1;
+    }
+    else
+    {
+	dataStore->lat = lat;
+	dataStore->lon = lon;
+	dataStore->altitude = alt;
+	dataStore->numSatellites = numSatellites;
+
+	dataStore->date.tm_hour = tt.tm_hour;
+	dataStore->date.tm_min = tt.tm_min;
+	dataStore->date.tm_sec = tt.tm_sec;
+
+	// set UTC and TAI
+	dataStore->epochTime = mktime(&dataStore->date);
+	dataStore->taiTime = dataStore->epochTime + 34;
+       
+	convertLatLong(dataStore->dmsLat, lat);
+	convertLatLong(dataStore->dmsLon, lon);                
+
+	dataStore->allDataSet |= (LATX | LONGX | SATSX | ALTX | TIMEX);
+    }
     return 0;
 }
 

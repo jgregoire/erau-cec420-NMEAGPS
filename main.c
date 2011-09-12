@@ -22,6 +22,7 @@
 
 int main(int argc, char **argv)
 {
+    int parseStatus;
     char *inFile = 0, *outFile = 0;
     parseCommandLine(argc, argv, &inFile, &outFile);
 
@@ -56,17 +57,18 @@ int main(int argc, char **argv)
 	{
 	    // If we're in here, the lines were good
 	    message = messagify(lineIn);
-//	    puts(lineIn);
-	    if ((parse(&persistentData, message) == 0) && (persistentData.isDelta == 1) && (persistentData.allDataSet == 127))
+	    parseStatus = parse(&persistentData, message);
+	    if ((parseStatus == 0) && (persistentData.isDelta == 1) && (persistentData.allDataSet == 127))
 	    {
 		makeNMEADataString(outMessage, &persistentData);
 		fputs(outMessage, fout);
 		persistentData.isDelta = 0;
 	    }
-/*	    else
+	    else
 	    {
-		printf("Validated message not parsed: %s", lineIn);
-		}*/
+//		printf("Validated sentence not parsed: %s", lineIn);
+//		printf("%u - %u - %u\n", parseStatus, persistentData.isDelta, persistentData.allDataSet);
+	    }
 	}
 	else
 	{

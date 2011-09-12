@@ -10,9 +10,8 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     char temp[3] = "\0\0\0";
     float lat = 0;
     float lon = 0;
-    int day = 0;
-    int month = 0;
-    int year = 0;
+    struct tm t_time;
+    t_time.tm_isdst = -1;
  
     //////////////////////////////
     //                          //
@@ -25,18 +24,16 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     // turn time into a useful value
     // get "hh" from "hhmmss.ss"
     strncpy(temp, token, 2);
-    dataStore->date.tm_hour = (int) strtol(temp, NULL, 10) - dataStore->localOffset;
+    t_time.tm_hour = (int) strtol(temp, NULL, 10) - dataStore->localOffset;
 
     // get mm
     memcpy(temp, &token[2], 2);
-    dataStore->date.tm_min = (int) strtol(temp, NULL, 10);
+    t_time.tm_min = (int) strtol(temp, NULL, 10);
 
     // get ss (ignoring .ss)
     memcpy(temp, &token[4], 2);
-    dataStore->date.tm_sec = (int) strtol(temp, NULL, 10);
+    t_time.tm_sec = (int) strtol(temp, NULL, 10);
 
-    dataStore->allDataSet |= TIMEX;
-    
     //////////////////////
     //                  //
     //  Extract Status  //
@@ -69,9 +66,6 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	{
 	    lat *= -1;
 	}
-        
-	dataStore->lat = lat;
-	dataStore->allDataSet |= LATX;
     }
     else
 	return 1;
@@ -97,9 +91,6 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	{
 	    lon *= -1;
 	}
-        
-	dataStore->lon = lon;
-	dataStore->allDataSet |= LONGX;
     }
     else
 	return 1;
@@ -114,8 +105,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     tokenize(token, sentence, ",", &cursor);
     
     //  don't care move on...
- 
-    
+
     ///////////////////////////////////
     //                                 //
     //  Extract angle in degrees     //
@@ -137,41 +127,31 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     tokenize(token, sentence, ",", &cursor); //ddmmyy
 
     // assign day
-    if (strcmp(token, "") != 0) {
-        
+    if (strcmp(token, "") != 0)
+    {    
         strncpy(temp, token, 2);
-        day = (int) strtol(temp, NULL, 10);
-        dataStore->date.tm_mday = day;
-        
+        t_time.tm_mday = (int) strtol(temp, NULL, 10);        
     }
     else
 	return 1;
     
     // assign month
-    if (strcmp(token, "") != 0) {
-    
-        memcpy(temp, &token[2], 2);
-        month = (int) strtol(temp, NULL, 10);
-        dataStore->date.tm_mon = month - 1; // tm_mon is 0 indexed
-        
+    if (strcmp(token, "") != 0)
+    {
+	memcpy(temp, &token[2], 2);
+        t_time.tm_mon = (int) strtol(temp, NULL, 10) - 1; // tm_mon is 0 indexed
     }
     else
 	return 1;
     
     // assign year
-    if (strcmp(token, "") != 0) {
-        
+    if (strcmp(token, "") != 0)
+    {
         memcpy(temp, &token[4], 2);
-        year = (int) strtol(temp, NULL, 10);
-        dataStore->date.tm_year = year + 100;
-        dataStore->allDataSet |= DATEX;
+        t_time.tm_year = (int) strtol(temp, NULL, 10) + 100;
     }
     else
 	return 1;
-
-    // set UTC and TAI
-    dataStore->epochTime = mktime(&dataStore->date);
-    dataStore->taiTime = dataStore->epochTime + 34;
 
     ///////////////////////////////////
     //                                 //
@@ -184,5 +164,33 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     
     // don't care ending...    
     
+
+    if (mktime(&t_time) < dataStore->epochTime)
+    {
+	puts("Aborting parse: Stale data");
+	return 1;
+    }
+    else
+    {
+	dataStore->lat = lat;
+	dataStore->lon = lon;
+
+	dataStore->date.tm_hour = t_time.tm_hour;
+	dataStore->date.tm_min = t_time.tm_min;
+	dataStore->date.tm_sec = t_time.tm_sec;
+
+	dataStore->date.tm_mday = t_time.tm_mday;
+	dataStore->date.tm_mon = t_time.tm_mon;
+	dataStore->date.tm_year = t_time.tm_year;
+
+	// set UTC and TAI
+	dataStore->epochTime = mktime(&dataStore->date);
+	dataStore->taiTime = dataStore->epochTime + 34;
+
+	convertLatLong(dataStore->dmsLat, lat);
+	convertLatLong(dataStore->dmsLon, lon);   
+
+	dataStore->allDataSet |= (LATX | LONGX | TIMEX | DATEX);
+    }  
     return 0;
 }
