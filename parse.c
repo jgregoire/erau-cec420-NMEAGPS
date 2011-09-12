@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include "parse.h"
 
@@ -41,22 +42,27 @@ int parse(struct NMEAData* dataStore, struct NMEAMessage * sentence) {
 
 
 void convertLatLong(char* dest, float loc) {
-    char temp[12];
+    char temp[13];
 
     // pull out integer digits, these translate directly
-    sprintf(temp, "%3.0f", loc);
+    sprintf(temp, "%03.0f", loc);
     dest[0] = temp[0]; // d
     dest[1] = temp[1]; // d
     dest[2] = temp[2]; // d
     
     dest[3] = 'o';     // o
     
-    loc = loc - (int) loc; // cut out integer portion
+    loc = fabs(loc - (int) loc); // cut out integer portion
     loc *= 60;
-    sprintf(temp, "%f", loc);
+    sprintf(temp, "%02u", (int)loc);
     dest[4] = temp[0]; // m
     dest[5] = temp[1]; // m
-    dest[6] = '.';     // .
-    dest[7] = temp[3]; // s
-    dest[8] = temp[4]; // s
+    dest[6] = '.';
+    
+    loc = (loc - (int)loc) * 100;
+
+    sprintf(temp, "%02u", (int) loc);
+    dest[7] = temp[0];
+    dest[8] = temp[1];
+    dest[9] = '\0';
 }
