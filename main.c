@@ -53,9 +53,11 @@ int main(int argc, char **argv)
 	    //if (persistentData.isDelta == 1)
 	    if (persistentData.allDataSet >= 127)
 	    {
-		makeNMEADataString(outMessage, &persistentData);
-	   	fputs(outMessage, fout);
-		persistentData.isDelta = 0;
+		    makeNMEADataString(outMessage, &persistentData);
+	       	fputs(outMessage, fout);
+		    persistentData.isDelta = 0;
+		    
+		    persistentData.allDataSet = 0;
 	    }
 	}
 	else
