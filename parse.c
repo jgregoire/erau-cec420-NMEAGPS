@@ -45,7 +45,7 @@ void convertLatLong(char* dest, float loc) {
     char temp[13];
 
     // pull out integer digits, these translate directly
-    sprintf(temp, "%03.0f", loc);
+    sprintf(temp, "%03u", (int)loc);
     dest[0] = temp[0]; // d
     dest[1] = temp[1]; // d
     dest[2] = temp[2]; // d
