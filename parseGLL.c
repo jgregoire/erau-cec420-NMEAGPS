@@ -3,8 +3,6 @@
 
 int parseGLL(struct NMEAData *dataStore, char* sentence) {
     char token[256], temp[256], *cursor = 0;
-    char la[12];
-    char lo[12];
     float lat, lon;
     ////////////////////////
     //					  //
