@@ -14,27 +14,27 @@ void tokenize(char * dest, char* string, char* delims, char **pos)
     char *t = 0;
     // if the first instance of a comma is the beginning of the string...
     if (*pos != 0 && *pos[0] == ',') {
-	t = malloc(1);
-	t[0] = '\0';
+    t = malloc(1);
+    t[0] = '\0';
 
-	*pos += 1;
-	
-	// return an empty string
-	strncpy(dest, t, 1);
-	free(t);
-	t = NULL;	
+    *pos += 1;
+    
+    // return an empty string
+    strncpy(dest, t, 1);
+    free(t);
+    t = NULL;    
     } 
     else
     {
-	if (*pos == 0)
-	{
-	    t = strtok_r(string, delims, pos);
-	    // otherwise, return the expected string
-	}
-	else
-	{
-	    t = strtok_r(NULL, delims, pos);
-	} 
-	strcpy(dest, t);
+    if (*pos == 0)
+    {
+        t = strtok_r(string, delims, pos);
+        // otherwise, return the expected string
+    }
+    else
+    {
+        t = strtok_r(NULL, delims, pos);
+    } 
+    strcpy(dest, t);
     }
 }

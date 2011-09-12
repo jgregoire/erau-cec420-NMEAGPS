@@ -6,9 +6,9 @@
 #include "parse.h"
 
 /////////////
-//		   //
+//           //
 //  TO DO  //
-//		   //
+//           //
 /////////////
 
 // minutes offset
@@ -20,89 +20,87 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     int month = 0;
     int year = 0;
     int timezone = 0;
-	
+    
     ////////////////////
     //                //
     //  EXTRACT TIME  //
     //                //
     ////////////////////
-		
+        
     tokenize(token, sentence, ",", &cursor); // "hhmmss.ss"
-	
+    
     // turn time into a useful value
     // get "hh" from "hhmmss.ss"
     strncpy(temp, token, 2);
     dataStore->date.tm_hour = (int) strtol(temp, NULL, 10);
-	
+    
     // get mm
     memcpy(temp, &token[2], 2);
     dataStore->date.tm_min = (int) strtol(temp, NULL, 10);
-	
+    
     // get ss (ignoring .ss)
     memcpy(temp, &token[4], 2);
     dataStore->date.tm_sec = (int) strtol(temp, NULL, 10);
-	
-	// set UTC and TAI
-	dataStore->epochTime = mktime(&dataStore->date);	
-	
-	dataStore->date.tm_sec += 34;
-	dataStore->taiTime = mktime(&dataStore->date);
-	
-	dataStore->allDataSet |= TIMEX;
-		
+    
+    dataStore->allDataSet |= TIMEX;
+        
     ////////////////////
     //                //
     //  EXTRACT DATE  //
     //                //
     ////////////////////
-	
+    
     // extract day
     tokenize(token, sentence, ",", &cursor);
-	
+    
     if (strcmp(token, "") != 0) {
-	
-	    day = (short) strtol(token, NULL, 10);
-	    dataStore->date.tm_mday = day;
-			
+    
+        day = (short) strtol(token, NULL, 10);
+        dataStore->date.tm_mday = day;
+            
     }
-	
+    
     // extract month
     tokenize(token, sentence, ",", &cursor);
-	
+    
     if (strcmp(token, "") != 0) {
-	
-	    month = (short) strtol(token, NULL, 10);
-	    dataStore->date.tm_mon = month;
-	
+    
+        month = (short) strtol(token, NULL, 10) - 1; // tm_mon is 0 indexed
+        dataStore->date.tm_mon = month;
+    
     }
-	
+    
     // extract year
     tokenize(token, sentence, ",", &cursor);
-	
+    
     if (strcmp(token, "") != 0) {
-	
-	    year = (short) strtol(token, NULL, 10);
-	    dataStore->date.tm_year = year - 1900;
-	
-	    dataStore->allDataSet |= DATEX;
+    
+        year = (short) strtol(token, NULL, 10);
+        dataStore->date.tm_year = year - 1900;
+    
+        dataStore->allDataSet |= DATEX;
     }
-	
+    
     ////////////////////////
-    //					  //
+    //                      //
     //  EXTRACT TIMEZONE  //
-    //					  //
+    //                      //
     ////////////////////////
-	
+    
     // extract timezone
     tokenize(token, sentence, ",", &cursor);
-	
+    
     if (strcmp(token, "") != 0) {
-	
-	timezone = (short) strtol(token, NULL, 10);
-		
-	// uncomment next line to convert UTC to local time:
-	dataStore->date.tm_hour += timezone;
-	
+    
+    timezone = (short) strtol(token, NULL, 10);
+        
+    // uncomment next line to convert UTC to local time:
+    dataStore->date.tm_hour += timezone;
+    dataStore->date.tm_hour -= dataStore->localOffset;
+    
+    // set UTC and TAI
+    dataStore->epochTime = mktime(&dataStore->date);
+    dataStore->taiTime = dataStore->epochTime + 34;
     }
     return 0;
 }

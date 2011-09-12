@@ -12,31 +12,31 @@ int parse(struct NMEAData* dataStore, struct NMEAMessage * sentence) {
     dataStore->isDelta = 1;
     
     if (strcmp(sentence->type, "GPGGA") == 0) {
-	
-	return parseGGA(dataStore, sentence->data);
-		
+    
+    return parseGGA(dataStore, sentence->data);
+        
     } else if (strcmp(sentence->type, "GPGLL") == 0) {
-	
-	return parseGLL(dataStore, sentence->data);
-		
+    
+    return parseGLL(dataStore, sentence->data);
+        
     } else if (strcmp(sentence->type, "GPGSV") == 0) {
-	
-	return parseGSV(dataStore, sentence->data); 
-		
+    
+    return parseGSV(dataStore, sentence->data); 
+        
     } else if (strcmp(sentence->type, "GPRMC") == 0) {
-	
-	return parseRMC(dataStore, sentence->data);
-		
+    
+    return parseRMC(dataStore, sentence->data);
+        
     } else if (strcmp(sentence->type, "GPZDA") == 0) {
-	
-	return parseZDA(dataStore, sentence->data);
-		
+    
+    return parseZDA(dataStore, sentence->data);
+        
     } else {
-	
-	// this isn't necessarily reliably set
-	dataStore->isDelta = 0;
-	// We didn't get a message we care about.
-	return 0;
+    
+    // this isn't necessarily reliably set
+    dataStore->isDelta = 0;
+    // We didn't get a message we care about.
+    return 0;
     }
 } // end parse()
 

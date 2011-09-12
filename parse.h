@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
 #include "main.h"
 
 // make a macro for tokenizing, since we always do it the same way
@@ -22,5 +23,7 @@ int parseRMC(struct NMEAData*, char*);
 int parseZDA(struct NMEAData*, char*);
 
 void convertLatLong(char* dest, float loc);
+
+int parse(struct NMEAData* dataStore, struct NMEAMessage * sentence);
 
 #endif

@@ -9,16 +9,16 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
+#include "time.h"
 
 #include "main.h"
+#include "parse.h"
 
 /* Author: Elliot Robinson
  * Contains the main event loop for the application
  */
 
 #define MAX_MESSAGE_LENGTH 82 // 80 char max + "\r\n"
-
-int parse (struct NMEAData*, struct NMEAMessage*);
 
 int main(int argc, char **argv)
 {
@@ -30,6 +30,9 @@ int main(int argc, char **argv)
     FILE *fout = fopen(outFile, "w"); // Open output file for writing, truncating current file
 
     struct NMEAData persistentData = EMPTY_NMEADATA;
+    persistentData.date.tm_isdst = -1; // Necessary to keep hour records from being mangled by automatic DST.
+    time_t rawtime = time(NULL);
+    persistentData.localOffset = gmtime(&rawtime)->tm_hour - localtime(&rawtime)->tm_hour;
     struct NMEAMessage *message = 0;
 
     char *lineIn = 0; // Will be automatically alloc'ed by getline
@@ -48,14 +51,16 @@ int main(int argc, char **argv)
 	    // If we're in here, the lines were good
 	    message = messagify(lineIn);
 
-	    parse(&persistentData, message);
-
-	    if ((persistentData.isDelta == 1) && (persistentData.allDataSet >= 127))
+	    if ((parse(&persistentData, message) == 0) && (persistentData.isDelta == 1)) // && (persistentData.allDataSet >= 127))
 	    {
 		makeNMEADataString(outMessage, &persistentData);
 		fputs(outMessage, fout);
 		persistentData.isDelta = 0;
 		persistentData.allDataSet = 0;
+	    }
+	    else
+	    {
+		printf("Validated message not parsed: %s", lineIn);
 	    }
 	}
 	else
@@ -126,7 +131,7 @@ int makeNMEADataString(char *toFill, struct NMEAData *data)
     int offset = 0;
 
     // This monstrosity ought to be cleaned up - James.
-    offset += sprintf(t, "%u,%u,%u,%02u%02u%02u,%u,%u,%.4f,%.4f,%s,%s,%.4f,%u", data->date.tm_mon, data->date.tm_mday, data->date.tm_year + 1900, data->date.tm_hour, data->date.tm_min, data->date.tm_sec, (unsigned int)data->epochTime, (unsigned int)data->taiTime, data->lat, data->lon, data->dmsLat, data->dmsLon, data->altitude, data->numSatellites);
+    offset += sprintf(t, "%u,%u,%u,%02u%02u%02u,%u,%u,%.4f,%.4f,%s,%s,%.4f,%u", data->date.tm_mon + 1, data->date.tm_mday, data->date.tm_year + 1900, data->date.tm_hour + data->localOffset, data->date.tm_min, data->date.tm_sec, (unsigned int)data->epochTime, (unsigned int)data->taiTime, data->lat, data->lon, data->dmsLat, data->dmsLon, data->altitude, data->numSatellites);
 
 
     // We can pull off this next part because the satellites all have PRNs between 01 and 32
