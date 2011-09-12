@@ -135,7 +135,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
         // convert to int
 	prn = (short)strtol(token, NULL, 10);
-        dataStore->satellites[0].prn = prn; // store value in prearranged spot
+        dataStore->satellites[mult + 0].prn = prn; // store value in prearranged spot
     }
 	
     /////////////////////////
@@ -151,7 +151,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
 	// convert to int
 	elevation = (short)strtol(token, NULL, 10);
-	dataStore->satellites[0].elevation = elevation;
+	dataStore->satellites[mult + 0].elevation = elevation;
     }
 	
     ////////////////////////
@@ -167,7 +167,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
         //convert to int
         azimuth = (short)strtol(token, NULL, 10);
-        dataStore->satellites[0].azimuth = azimuth;
+        dataStore->satellites[mult + 0].azimuth = azimuth;
     }
 	
     ////////////////////////
@@ -183,7 +183,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
 	// convert to int
 	snr = (short)strtol(token, NULL, 10);
-	dataStore->satellites[0].snr = snr;
+	dataStore->satellites[mult + 0].snr = snr;
     }
 	
     //////////////////////////
@@ -202,7 +202,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
         // convert to int
         prn = (short)strtol(token, NULL, 10);
-        dataStore->satellites[1].prn = prn; // store value in prearranged spot
+        dataStore->satellites[mult + 1].prn = prn; // store value in prearranged spot
     }
 	
     /////////////////////////
@@ -218,7 +218,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
 	// convert to int
 	elevation = (short)strtol(token, NULL, 10);
-	dataStore->satellites[1].elevation = elevation;
+	dataStore->satellites[mult + 1].elevation = elevation;
     }
 	
     ////////////////////////
@@ -234,7 +234,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
         //convert to int
         azimuth = (short)strtol(token, NULL, 10);
-        dataStore->satellites[1].azimuth = azimuth;
+        dataStore->satellites[mult + 1].azimuth = azimuth;
     }
 	
     ////////////////////////
@@ -250,7 +250,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
 	// convert to int
 	snr = (short)strtol(token, NULL, 10);
-	dataStore->satellites[1].snr = snr;
+	dataStore->satellites[mult + 1].snr = snr;
     }
 	
     //////////////////////////
@@ -268,7 +268,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
         // convert to int
         prn = (short)strtol(token, NULL, 10);
-        dataStore->satellites[2].prn = prn; // store value in prearranged spot
+        dataStore->satellites[mult + 2].prn = prn; // store value in prearranged spot
     }
 	
     /////////////////////////
@@ -284,7 +284,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
 	// convert to int
 	elevation = (short)strtol(token, NULL, 10);
-	dataStore->satellites[2].elevation = elevation;
+	dataStore->satellites[mult + 2].elevation = elevation;
     }
 	
     ////////////////////////
@@ -300,7 +300,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
         //convert to int
         azimuth = (short)strtol(token, NULL, 10);
-        dataStore->satellites[2].azimuth = azimuth;
+        dataStore->satellites[mult + 2].azimuth = azimuth;
     }
 	
     ////////////////////////
@@ -316,7 +316,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
 	// convert to int
 	snr = (short)strtol(token, NULL, 10);
-	dataStore->satellites[2].snr = snr;
+	dataStore->satellites[mult + 2].snr = snr;
     }
 	
     //////////////////////////
@@ -334,7 +334,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
         // convert to int
         prn = (short)strtol(token, NULL, 10);
-        dataStore->satellites[3].prn = prn; // store value in prearranged spot
+        dataStore->satellites[mult + 3].prn = prn; // store value in prearranged spot
     }
 	
     /////////////////////////
@@ -350,7 +350,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
 	// convert to int
 	elevation = (short)strtol(token, NULL, 10);
-	dataStore->satellites[3].elevation = elevation;
+	dataStore->satellites[mult + 3].elevation = elevation;
     }
 	
     ////////////////////////
@@ -366,7 +366,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
         //convert to int
         azimuth = (short)strtol(token, NULL, 10);
-        dataStore->satellites[3].azimuth = azimuth;
+        dataStore->satellites[mult + 3].azimuth = azimuth;
     }
 	
     ////////////////////////
@@ -382,7 +382,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     {
 	// convert to int
 	snr = (short)strtol(token, NULL, 10);
-	dataStore->satellites[3].snr = snr;
+	dataStore->satellites[mult + 3].snr = snr;
     }
 	
 	dataStore->allDataSet |= CONSTELLATIONX;
