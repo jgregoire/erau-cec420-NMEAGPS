@@ -87,8 +87,8 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	        dataStore->dmsLat[0] = la[0];
 	        dataStore->dmsLat[1] = la[1];
 	        dataStore->dmsLat[2] = 'o';
-	        dataStore->dmsLat[3] = la[2];
-	        dataStore->dmsLat[4] = la[3];
+	        dataStore->dmsLat[3] = la[3];
+	        dataStore->dmsLat[4] = la[4];
 	        dataStore->dmsLat[5] = '.';
 	        dataStore->dmsLat[6] = la[5];
 	        dataStore->dmsLat[7] = la[6];
@@ -96,7 +96,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	    } else {
 	        dataStore->dmsLat[0] = la[0];
 	        dataStore->dmsLat[1] = la[1];
-	        dataStore->dmsLat[2] = la[3];
+	        dataStore->dmsLat[2] = la[2];
 	        dataStore->dmsLat[3] = 'o';
 	        dataStore->dmsLat[4] = la[4];
 	        dataStore->dmsLat[5] = la[5];
@@ -142,8 +142,8 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	        dataStore->dmsLon[0] = lo[0];
 	        dataStore->dmsLon[1] = lo[1];
 	        dataStore->dmsLon[2] = 'o';
-	        dataStore->dmsLon[3] = lo[2];
-	        dataStore->dmsLon[4] = lo[3];
+	        dataStore->dmsLon[3] = lo[3];
+	        dataStore->dmsLon[4] = lo[4];
 	        dataStore->dmsLon[5] = '.';
 	        dataStore->dmsLon[6] = lo[5];
 	        dataStore->dmsLon[7] = lo[6];
@@ -151,7 +151,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	    } else {
 	        dataStore->dmsLon[0] = lo[0];
 	        dataStore->dmsLon[1] = lo[1];
-	        dataStore->dmsLon[2] = lo[3];
+	        dataStore->dmsLon[2] = lo[2];
 	        dataStore->dmsLon[3] = 'o';
 	        dataStore->dmsLon[4] = lo[4];
 	        dataStore->dmsLon[5] = lo[5];
