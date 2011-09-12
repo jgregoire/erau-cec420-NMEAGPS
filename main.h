@@ -49,6 +49,7 @@ struct NMEAData { // Keeps track of pertinent data gathered from NMEA sentences
     // I think isDelta should be changed to a check to make sure ALL data is present before posting results. - James
 };
 
+// used for allDataSet
 #define TIMEX 1
 #define DATEX 2
 #define LATX  4
