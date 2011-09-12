@@ -3,10 +3,8 @@
 
 int parseGLL(struct NMEAData *dataStore, char* sentence) {
     char token[256], temp[256], *cursor = 0;
-    char la[8];
-    char lo[8];
-    char dmsLa[12];
-    char dmsLo[12];
+    char la[12];
+    char lo[12];
     float lat, lon;
     ////////////////////////
     //					  //
@@ -37,26 +35,26 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
 	    // split latitide float into 3 strings.
 	    sprintf(la, "%f", lat);
 	    if (strlen(la) == 7) {
-	        dmsLa[0] = la[0];
-	        dmsLa[1] = la[1];
-	        dmsLa[2] = 'o';
-	        dmsLa[3] = la[2];
-	        dmsLa[4] = la[3];
-	        dmsLa[5] = '.';
-	        dmsLa[6] = la[5];
-	        dmsLa[7] = la[6];
-	        dmsLa[8] = '\0';
+	        dataStore->dmsLat[0] = la[0];
+	        dataStore->dmsLat[1] = la[1];
+	        dataStore->dmsLat[2] = 'o';
+	        dataStore->dmsLat[3] = la[2];
+	        dataStore->dmsLat[4] = la[3];
+	        dataStore->dmsLat[5] = '.';
+	        dataStore->dmsLat[6] = la[5];
+	        dataStore->dmsLat[7] = la[6];
+	        dataStore->dmsLat[8] = '\0';
 	    } else {
-	        dmsLa[0] = la[0];
-	        dmsLa[1] = la[1];
-	        dmsLa[2] = la[3];
-	        dmsLa[3] = 'o';
-	        dmsLa[4] = la[4];
-	        dmsLa[5] = la[5];
-	        dmsLa[6] = '.';
-	        dmsLa[7] = la[6];
-	        dmsLa[8] = la[7];
-	        dmsLa[9] = '\0';	
+	        dataStore->dmsLat[0] = la[0];
+	        dataStore->dmsLat[1] = la[1];
+	        dataStore->dmsLat[2] = la[3];
+	        dataStore->dmsLat[3] = 'o';
+	        dataStore->dmsLat[4] = la[4];
+	        dataStore->dmsLat[5] = la[5];
+	        dataStore->dmsLat[6] = '.';
+	        dataStore->dmsLat[7] = la[6];
+	        dataStore->dmsLat[8] = la[7];
+	        dataStore->dmsLat[9] = '\0';	
 	    }
 	
 	    dataStore->allDataSet |= ALTX;
@@ -88,29 +86,29 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
 		
 	    dataStore->lon = lon;
 	
-	    // split latitide float into 3 strings.
+	    // split longitide float into 3 strings.
 	    sprintf(lo, "%f", lon);
 	    if (strlen(lo) == 7) {
-	        dmsLo[0] = lo[0];
-	        dmsLo[1] = lo[1];
-	        dmsLo[2] = 'o';
-	        dmsLo[3] = lo[2];
-	        dmsLo[4] = lo[3];
-	        dmsLo[5] = '.';
-	        dmsLo[6] = lo[5];
-	        dmsLo[7] = lo[6];
-	        dmsLo[8] = '\0';
+	        dataStore->dmsLon[0] = lo[0];
+	        dataStore->dmsLon[1] = lo[1];
+	        dataStore->dmsLon[2] = 'o';
+	        dataStore->dmsLon[3] = lo[2];
+	        dataStore->dmsLon[4] = lo[3];
+	        dataStore->dmsLon[5] = '.';
+	        dataStore->dmsLon[6] = lo[5];
+	        dataStore->dmsLon[7] = lo[6];
+	        dataStore->dmsLon[8] = '\0';
 	    } else {
-	        dmsLo[0] = lo[0];
-	        dmsLo[1] = lo[1];
-	        dmsLo[2] = lo[3];
-	        dmsLo[3] = 'o';
-	        dmsLo[4] = lo[4];
-	        dmsLo[5] = lo[5];
-	        dmsLo[6] = '.';
-	        dmsLo[7] = lo[6];
-	        dmsLo[8] = lo[7];
-	        dmsLo[9] = '\0';	
+	        dataStore->dmsLon[0] = lo[0];
+	        dataStore->dmsLon[1] = lo[1];
+	        dataStore->dmsLon[2] = lo[3];
+	        dataStore->dmsLon[3] = 'o';
+	        dataStore->dmsLon[4] = lo[4];
+	        dataStore->dmsLon[5] = lo[5];
+	        dataStore->dmsLon[6] = '.';
+	        dataStore->dmsLon[7] = lo[6];
+	        dataStore->dmsLon[8] = lo[7];
+	        dataStore->dmsLon[9] = '\0';	
 	    }	
 	
     	dataStore->allDataSet |= LONGX;
