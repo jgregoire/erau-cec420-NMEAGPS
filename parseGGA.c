@@ -20,6 +20,8 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	char temp[3];
 	float lat = 0.0f;
 	float lon = 0.0f;
+    char la[12];
+    char lo[12];
 	short numSatellites = 0;
 	float alt = 0.0f;
 	
@@ -82,7 +84,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	    // split latitide float into 3 strings.
 	    sprintf(la, "%f", lat);
 	    if (strlen(la) == 7) {
-	        dataStore->dataStore->dmsLatt[0] = la[0];
+	        dataStore->dmsLat[0] = la[0];
 	        dataStore->dmsLat[1] = la[1];
 	        dataStore->dmsLat[2] = 'o';
 	        dataStore->dmsLat[3] = la[2];
