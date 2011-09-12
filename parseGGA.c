@@ -81,30 +81,8 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		}
 		
 		dataStore->lat = lat;
-	    // split latitide float into 3 strings.
-	    sprintf(la, "%f", lat);
-	    if (strlen(la) == 7) {
-	        dataStore->dmsLat[0] = la[0];
-	        dataStore->dmsLat[1] = la[1];
-	        dataStore->dmsLat[2] = 'o';
-	        dataStore->dmsLat[3] = la[3];
-	        dataStore->dmsLat[4] = la[4];
-	        dataStore->dmsLat[5] = '.';
-	        dataStore->dmsLat[6] = la[5];
-	        dataStore->dmsLat[7] = la[6];
-	        dataStore->dmsLat[8] = '\0';
-	    } else {
-	        dataStore->dmsLat[0] = la[0];
-	        dataStore->dmsLat[1] = la[1];
-	        dataStore->dmsLat[2] = la[2];
-	        dataStore->dmsLat[3] = 'o';
-	        dataStore->dmsLat[4] = la[4];
-	        dataStore->dmsLat[5] = la[5];
-	        dataStore->dmsLat[6] = '.';
-	        dataStore->dmsLat[7] = la[6];
-	        dataStore->dmsLat[8] = la[7];
-	        dataStore->dmsLat[9] = '\0';	
-	    }
+	    
+	    convertLatLong(dataStore->dmsLat, lat);
 	    		
 		// record that lat is set
 		dataStore->allDataSet |= LATX;
@@ -136,30 +114,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		
 		dataStore->lon = lon;
 
-	    // split longitide float into 3 strings.
-	    sprintf(lo, "%f", lon);
-	    if (strlen(lo) == 7) {
-	        dataStore->dmsLon[0] = lo[0];
-	        dataStore->dmsLon[1] = lo[1];
-	        dataStore->dmsLon[2] = 'o';
-	        dataStore->dmsLon[3] = lo[3];
-	        dataStore->dmsLon[4] = lo[4];
-	        dataStore->dmsLon[5] = '.';
-	        dataStore->dmsLon[6] = lo[5];
-	        dataStore->dmsLon[7] = lo[6];
-	        dataStore->dmsLon[8] = '\0';
-	    } else {
-	        dataStore->dmsLon[0] = lo[0];
-	        dataStore->dmsLon[1] = lo[1];
-	        dataStore->dmsLon[2] = lo[2];
-	        dataStore->dmsLon[3] = 'o';
-	        dataStore->dmsLon[4] = lo[4];
-	        dataStore->dmsLon[5] = lo[5];
-	        dataStore->dmsLon[6] = '.';
-	        dataStore->dmsLon[7] = lo[6];
-	        dataStore->dmsLon[8] = lo[7];
-	        dataStore->dmsLon[9] = '\0';	
-	    }
+	    convertLatLong(dataStore->dmsLon, lon);
 		
 		// record that lon is set
 		dataStore->allDataSet |= LONGX;
