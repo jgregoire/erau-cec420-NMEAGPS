@@ -29,6 +29,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
 	}
 		
 	dataStore->lat = lat;
+	dataStore->allDataSet |= ALTX;
     }
 	
     /////////////////////////
@@ -56,6 +57,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
 	}
 		
 	dataStore->lon = lon;
+	dataStore->allDataSet |= LONGX;
 		
     }
 	
@@ -79,6 +81,8 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     // get ss (ignoring .ss)
     memcpy(temp, &token[4], 2);
     dataStore->date.tm_sec = (int) strtol(temp, NULL, 10);
+    
+    dataStore->allDataSet |= TIMEX;
 	
     //////////////////////
     //				    //

@@ -51,9 +51,11 @@ struct NMEAData { // Keeps track of pertinent data gathered from NMEA sentences
 
 #define TIMEX 1
 #define DATEX 2
-#define LATLONGX 4
-#define ALTX 8
-#define SATSX 16
+#define LATX  4
+#define LONGX 8
+#define ALTX  16
+#define SATSX 32
+#define CONSTELLATIONX 64
 
 int main(int argc, char **argv);
 void parseCommandLine(int argc, char **argv, char **inFile, char **outFile);

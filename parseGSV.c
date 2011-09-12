@@ -53,6 +53,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     tokenize(token, sentence, ",", &cursor);
 	
     dataStore->numSatellites = (short)strtol(token, NULL, 10);
+    dataStore->allDataSet |= SATSX;
 
 // We already have this info so moving on...
 	
@@ -322,6 +323,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
 	dataStore->satellites[3].snr = snr;
     }
 	
+	dataStore->allDataSet |= CONSTELLATIONX;
 	
     return 0;
 }

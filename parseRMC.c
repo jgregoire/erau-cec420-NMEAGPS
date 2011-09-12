@@ -41,6 +41,8 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	dataStore->date.tm_sec += 34;
 	dataStore->taiTime = mktime(&dataStore->date);
 	
+	dataStore->allDataSet |= TIMEX;
+	
 	
     //////////////////////
     //			        //
@@ -76,6 +78,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
        	}
 		
 	dataStore->lat = lat;
+	dataStore->allDataSet |= LATX;
     }
 	
     ////////////////////////
@@ -101,6 +104,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	}
 		
 	dataStore->lon = lon;
+	dataStore->allDataSet |= LONGX;
     }
 	
     ////////////////////////////////
@@ -160,6 +164,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 		year = (int) strtol(temp, NULL, 10);
 		dataStore->date.tm_year = year + 100;
 		
+		dataStore->allDataSet |= DATEX;
     }
 	
     ///////////////////////////////////

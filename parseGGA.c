@@ -50,6 +50,8 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	dataStore->date.tm_sec += 34;
 	dataStore->taiTime = mktime(&dataStore->date);
 	
+	// record that time is set
+	dataStore->allDataSet |= TIMEX;
 	
 	////////////////////////
 	//					  //
@@ -77,6 +79,9 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		}
 		
 		dataStore->lat = lat;
+		
+		// record that lat is set
+		dataStore->allDataSet |= LATX;
 	}
 	/////////////////////////
 	//					   //
@@ -104,6 +109,9 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		}
 		
 		dataStore->lon = lon;
+		
+		// record that lon is set
+		dataStore->allDataSet |= LONGX;
 	}
 	///////////////////////
 	//					 //
@@ -130,6 +138,9 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 		// convert to int
 		numSatellites = (short) strtol(token, NULL, 10);
 		dataStore->numSatellites = numSatellites;
+		
+		// record that the numsats is set
+		dataStore->allDataSet |= SATSX;
 		
 	}
 	
@@ -164,14 +175,17 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
         if(token[0] == 'F')
         {
             dataStore->altitude = alt;
+            dataStore->allDataSet |= ALTX;
         }
         else if (token[0] == 'M')
         {
             alt *= 0.3048;
     		dataStore->altitude = alt;
+            dataStore->allDataSet |= ALTX;
         }
-        else
+        else {
             return 1;
+        }
 	}
 	
 	return 0;

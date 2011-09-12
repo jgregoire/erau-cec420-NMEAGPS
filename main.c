@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     // Elliot: strlen() might be of use. ^^^^
     
     // Add a check in here to only output the string when
-    // allDataSet == 37 (1+2+4+8+16)
+    // allDataSet == 133 (1+2+4+8+16+32+64)
     while (getline(&lineIn, &messageLen, fin) != EOF)
     {
 	if((verifySentence(lineIn) == 0) && (validateChecksum(lineIn) == 0))

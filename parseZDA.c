@@ -47,6 +47,8 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	
 	dataStore->date.tm_sec += 34;
 	dataStore->taiTime = mktime(&dataStore->date);
+	
+	dataStore->allDataSet |= TIMEX;
 		
     ////////////////////
     //                //
@@ -61,7 +63,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	
 	day = (short) strtol(token, NULL, 10);
 	dataStore->date.tm_mday = day - 1;
-		
+			
     }
 	
     // extract month
@@ -82,6 +84,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	year = (short) strtol(token, NULL, 10);
 	dataStore->date.tm_year = year - 1900;
 	
+	dataStore->allDataSet |= DATEX;
     }
 	
     ////////////////////////
