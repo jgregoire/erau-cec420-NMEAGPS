@@ -9,60 +9,64 @@ int parse(struct NMEAData* dataStore, struct NMEAMessage * sentence) {
     // chop off the first section of the comma-delimited sentence
     // and store it in a new string
     
-    dataStore->isDelta = 1;
-    
     if (strcmp(sentence->type, "GPGGA") == 0) {
     
-    return parseGGA(dataStore, sentence->data);
+	return parseGGA(dataStore, sentence->data);
         
     } else if (strcmp(sentence->type, "GPGLL") == 0) {
     
-    return parseGLL(dataStore, sentence->data);
+	return parseGLL(dataStore, sentence->data);
         
     } else if (strcmp(sentence->type, "GPGSV") == 0) {
-    
-    return parseGSV(dataStore, sentence->data); 
+        dataStore->isDelta = 1;
+	return parseGSV(dataStore, sentence->data); 
         
     } else if (strcmp(sentence->type, "GPRMC") == 0) {
     
-    return parseRMC(dataStore, sentence->data);
+	return parseRMC(dataStore, sentence->data);
         
     } else if (strcmp(sentence->type, "GPZDA") == 0) {
     
-    return parseZDA(dataStore, sentence->data);
+	return parseZDA(dataStore, sentence->data);
         
     } else {
     
-    // this isn't necessarily reliably set
-    dataStore->isDelta = 0;
-    // We didn't get a message we care about.
-    return 0;
+	// We didn't get a message we care about.
+	return 1;
     }
 } // end parse()
 
 
-void convertLatLong(char* dest, float loc) {
-    char temp[13];
-
-    // pull out integer digits, these translate directly
-    sprintf(temp, "%03u", (int)loc);
+void convertLon(char* dest, char* temp) {
     dest[0] = temp[0]; // d
     dest[1] = temp[1]; // d
     dest[2] = temp[2]; // d
     
     dest[3] = 'o';     // o
-    
-    loc = fabs(loc - (int) loc); // cut out integer portion
-    loc *= 60;
-    sprintf(temp, "%02u", (int)loc);
-    dest[4] = temp[0]; // m
-    dest[5] = temp[1]; // m
-    dest[6] = '.';
-    
-    loc = (loc - (int)loc) * 100;
 
-    sprintf(temp, "%02u", (int) loc);
-    dest[7] = temp[0];
-    dest[8] = temp[1];
-    dest[9] = '\0';
+    dest[4] = temp[3]; // m
+    dest[5] = temp[4]; // m
+    dest[6] = '.';
+
+    dest[7] = temp[6];
+    dest[8] = temp[7];
+    dest[9] = temp[8];
+    dest[10] = '\0';
+}
+
+void convertLat(char* dest, char* temp) {
+    dest[0] = '0';     // d
+    dest[1] = temp[0]; // d
+    dest[2] = temp[1]; // d
+    
+    dest[3] = 'o';     // o
+
+    dest[4] = temp[2]; // m
+    dest[5] = temp[3]; // m
+    dest[6] = '.';     // .
+    
+    dest[7] = temp[5]; // s
+    dest[8] = temp[6]; // s
+    dest[9] = temp[7]; // s
+    dest[10] = '\0';
 }

@@ -18,6 +18,8 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     char token[256];
     char* cursor = 0;
     char temp[3] = "\0\0\0";
+    char dmsLat[16]; // (dddommm’sss.ss”\0)
+    char dmsLon[16]; // Same as above.
     float lat = 0.0f;
     float lon = 0.0f;
     short numSatellites = 0;
@@ -63,7 +65,8 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     {
 	// convert latitude to float
         lat = strtof(token, NULL);
-        
+        convertLat(dmsLat, token);
+
         // extract N/S val
         tokenize(token, sentence, ",", &cursor);
         
@@ -90,7 +93,8 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     {
 	// convert lon to float
         lon = strtof(token, NULL);
-        
+        convertLon(dmsLon, token);
+
         // extract E/W val
         tokenize(token, sentence, ",", &cursor);
         
@@ -192,8 +196,8 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	dataStore->epochTime = mktime(&dataStore->date);
 	dataStore->taiTime = dataStore->epochTime + 34;
        
-	convertLatLong(dataStore->dmsLat, lat);
-	convertLatLong(dataStore->dmsLon, lon);                
+	strcpy(dataStore->dmsLat, dmsLat);
+	strcpy(dataStore->dmsLon, dmsLon);                
 
 	dataStore->allDataSet |= (LATX | LONGX | SATSX | ALTX | TIMEX);
     }

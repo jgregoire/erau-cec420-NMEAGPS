@@ -3,6 +3,8 @@
 
 int parseGLL(struct NMEAData *dataStore, char* sentence) {
     char token[256], temp[256], *cursor = 0;
+    char dmsLat[16]; // (dddommm’sss.ss”\0)
+    char dmsLon[16]; // Same as above.
     float lat, lon;
     struct tm tt;
     tt.tm_isdst = -1;
@@ -20,6 +22,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     {
         // convert latitude to float
         lat = strtof(token, NULL);
+        convertLat(dmsLat, token);
         
         // extract N/S val
         tokenize(token, sentence, ",", &cursor);
@@ -35,9 +38,9 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
 	return 1;
     
     /////////////////////////
-    //                       //
+    //                     //
     //  EXTRACT LONGITUDE  //
-    //                       //
+    //                     //
     /////////////////////////
     
     // extract lon val
@@ -47,6 +50,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     {
         // convert lon to float
         lon = strtof(token, NULL);
+        convertLon(dmsLon, token);
         
         // extract E/W val
         tokenize(token, sentence, ",", &cursor);
@@ -118,8 +122,8 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
 	dataStore->epochTime = mktime(&dataStore->date);
 	dataStore->taiTime = dataStore->epochTime + 34;
 
-	convertLatLong(dataStore->dmsLat, lat);
-	convertLatLong(dataStore->dmsLon, lon);   
+	strcpy(dataStore->dmsLat, dmsLat);
+	strcpy(dataStore->dmsLon, dmsLon);   
 
 	dataStore->allDataSet |= (LATX | LONGX | TIMEX);
     }

@@ -22,7 +22,9 @@ int parseRMC(struct NMEAData*, char*);
 
 int parseZDA(struct NMEAData*, char*);
 
-void convertLatLong(char* dest, float loc);
+void convertLon(char*, char*);
+
+void convertLat(char*, char*);
 
 int parse(struct NMEAData* dataStore, struct NMEAMessage * sentence);
 
