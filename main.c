@@ -125,7 +125,9 @@ struct NMEAMessage * messagify(char *message)
     while(intMsg[n] != '*')
 	++n;
 
-    strncpy(str->data, intMsg, n-1); // Everything up to but not including the * is the data
+    strncpy(str->data, intMsg, n); // Everything up to but not including the * is the data
+
+    str->data[n] = '\0';
 
     return str;
 }
