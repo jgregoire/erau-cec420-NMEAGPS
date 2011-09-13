@@ -67,7 +67,7 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     //                  //
     ////////////////////
     
-    tokenize(token, sentence, ",", &cursor); // "hhmmss.ss"
+//    tokenize(token, sentence, ",", &cursor); // "hhmmss.ss"
     
     // turn time into a useful value
     // get "hh" from "hhmmss.ss"

@@ -161,11 +161,11 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
         toupper(token[0]);
 
         if(token[0] == 'F')
-        {;}
-        else if (token[0] == 'M')
         {
             alt *= 0.3048;
-        }
+	}
+        else if (token[0] == 'M')
+        {;}
         else 
             return 1;
     }
