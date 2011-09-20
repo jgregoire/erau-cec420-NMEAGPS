@@ -18,7 +18,6 @@ int parse(struct NMEAData* dataStore, struct NMEAMessage * sentence) {
 	return parseGLL(dataStore, sentence->data);
         
     } else if (strcmp(sentence->type, "GPGSV") == 0) {
-        dataStore->isDelta = 1;
 	return parseGSV(dataStore, sentence->data); 
         
     } else if (strcmp(sentence->type, "GPRMC") == 0) {

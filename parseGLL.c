@@ -107,6 +107,9 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     }
     else
     {
+	if (mktime(&tt) > dataStore->epochTime)
+	    dataStore->isDelta = 1;
+
         dataStore->lon = lon;
         dataStore->lat = lat;
 

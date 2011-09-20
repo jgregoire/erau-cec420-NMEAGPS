@@ -101,6 +101,9 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
     }
     else
     {
+	if (mktime(&tt) > dataStore->epochTime)
+	    dataStore->isDelta = 1;
+
 	dataStore->date.tm_hour = tt.tm_hour;
 	dataStore->date.tm_min = tt.tm_min;
 	dataStore->date.tm_sec = tt.tm_sec;

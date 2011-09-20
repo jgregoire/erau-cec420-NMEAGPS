@@ -183,6 +183,9 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     }
     else
     {
+	if (mktime(&tt) > dataStore->epochTime)
+	    dataStore->isDelta = 1;
+
 	dataStore->lat = lat;
 	dataStore->lon = lon;
 	dataStore->altitude = alt;
