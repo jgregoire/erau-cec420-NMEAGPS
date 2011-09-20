@@ -117,6 +117,10 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     tokenize(token, sentence, ",", &cursor);
     
     dataStore->numSatellites = (short)strtol(token, NULL, 10);
+    
+    if (dataStore->numSatellites == 0)
+	return 0;
+
     dataStore->allDataSet |= SATSX;
 
 // We already have this info so moving on...
