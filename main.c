@@ -56,7 +56,8 @@ int main(int argc, char **argv)
 
     // Put header
     fputs("Month, Day, Year, UTC Time (HHMMSS), Epoch Time, TAI Time, Decimal Longitude, Decimal Latitude, DMS Longitude, DMS Latitude, Altitude (m), Satellite 1 PRN, Satellite 1 Elevation, Satellite 1 SNR, Satellite 1 Azimuth, Satellite 2 PRN, Satellite 2 Elevation, Satellite 2 SNR, Satellite 2 Azimuth, Satellite 3 PRN, Satellite 3 Elevation, Satellite 3 SNR, Satellite 3 Azimuth, Satellite 4 PRN, Satellite 4 Elevation, Satellite 4 SNR, Satellite 4 Azimuth, Satellite 5 PRN, Satellite 5 Elevation, Satellite 5 SNR, Satellite 5 Azimuth, Satellite 6 PRN, Satellite 6 Elevation, Satellite 6 SNR, Satellite 6 Azimuth, Satellite 7 PRN, Satellite 7 Elevation, Satellite 7 SNR, Satellite 7 Azimuth, Satellite 8 PRN, Satellite 8 Elevation, Satellite 8 SNR, Satellite 8 Azimuth, Satellite 9 PRN, Satellite 9 Elevation, Satellite 9 SNR, Satellite 9 Azimuth, Satellite 10 PRN, Satellite 10 Elevation, Satellite 10 SNR, Satellite 10 Azimuth, Satellite 11 PRN, Satellite 11 Elevation, Satellite 11 SNR, Satellite 11 Azimuth, Satellite 12 PRN, Satellite 12 Elevation, Satellite 12 SNR, Satellite 12 Azimuth\r\n", fout); 
-
+    fflush(fout);
+    
     while (getline(&lineIn, &messageLen, fin) != EOF)
     {
 	if((verifySentence(lineIn) == 0) && (validateChecksum(lineIn) == 0))
@@ -68,6 +69,7 @@ int main(int argc, char **argv)
 	    {
 		makeNMEADataString(outMessage, &persistentData);
 		fputs(outMessage, fout);
+		fflush(fout);
 		persistentData.isDelta = 0;
 	    }
 	    else
