@@ -30,6 +30,12 @@ int main(int argc, char **argv)
     FILE *fin = fopen(inFile, "r"); // Open input file for reading
     FILE *fout = fopen(outFile, "w"); // Open output file for writing, truncating current file
 
+    if (fout == 0)
+    {
+	puts("Invalid filename");
+	return 1;
+    }
+
     struct NMEAData persistentData = EMPTY_NMEADATA;
     persistentData.date.tm_isdst = -1; // Necessary to keep hour records from being mangled by automatic DST.
     time_t rawtime = time(NULL);
@@ -58,7 +64,7 @@ int main(int argc, char **argv)
 	    // If we're in here, the lines were good
 	    message = messagify(lineIn);
 	    parseStatus = parse(&persistentData, message);
-	    if ((parseStatus == 0) && (persistentData.isDelta == 1) && (persistentData.allDataSet == 127))
+	    if ((parseStatus == 0) && (persistentData.isDelta == 1) && (persistentData.allDataSet == 0x7F))
 	    {
 		makeNMEADataString(outMessage, &persistentData);
 		fputs(outMessage, fout);
@@ -67,7 +73,7 @@ int main(int argc, char **argv)
 	    else
 	    {
 //		printf("Validated sentence not parsed: %s", lineIn);
-//		printf("%u - %u - %u\n", parseStatus, persistentData.isDelta, persistentData.allDataSet);
+//		printf("%u - %u - %x\n", parseStatus, persistentData.isDelta, persistentData.allDataSet);
 		persistentData.isDelta = 0;
 	    }
 	}
@@ -82,6 +88,8 @@ int main(int argc, char **argv)
 
     free(outMessage); // Yep, more freeing.
     outMessage = 0; // Now I'm just being pedantic.
+
+    puts("");
 
     return 0;
 }
@@ -126,6 +134,12 @@ struct NMEAMessage * messagify(char *message)
 	++n;
 
     strncpy(str->data, intMsg, n); // Everything up to but not including the * is the data
+
+    if (str->data[n-1] == ',')
+    {
+	str->data[n] = ',';
+	++n;
+    }
 
     str->data[n] = '\0';
 
@@ -295,20 +309,23 @@ int verifySentence(char *sentence)
     //check to see if string is longer than 82 characters
     if(strlen(sentence) > MAX_MESSAGE_LENGTH)
 	return 1;
+
     //check to see if the length is less than 12
     if(strlen(sentence) < 12)
 	return 1;
+
     //check to see if there is a dollar sign at the beginning of the string 
     if(sentence[0] != '$')
 	return 1;
+
     //check to see if there is a G
     if(sentence[1] != 'G')
 	return 1;
-    
+
     //check to see if there is a P
     if(sentence[2] != 'P')
 	return 1;
-    
+
     //check to see if the checksum is a valid checksum
     if(sentence[strlen(sentence) - 5] != '*')
 	return 1;
@@ -319,14 +336,14 @@ int verifySentence(char *sentence)
 
     if(! (((sentence[strlen(sentence) - 3] <= 57) && (sentence[strlen(sentence) - 3] >= 48)) || ((sentence[strlen(sentence) - 3] <= 70) && (sentence[strlen(sentence) - 3] >= 65))))
 	return 1;
-    
+
     //checks to see if formate at the end of the NMEA sequence is correct
     if(sentence[strlen(sentence) - 2] != '\r')
 	return 1;
-    
+
     if(sentence[strlen(sentence) - 1] != '\n')
 	return 1;
-    
+
     //checks to see if the NMEA strings are between the proper ASCII values 
     int dotCount = 0;
     int comCount = 0;
@@ -334,13 +351,14 @@ int verifySentence(char *sentence)
     for( i = 1; i < strlen(sentence) - 5; i++)
     {
 	char w = sentence[i];
-	if (!(((w <= 57) && (w >= 48)) || ((w <= 90) && (w >= 65)) || (w == '.') || (w == ',')))  
+	if (!(((w <= 57) && (w >= 48)) || ((w <= 90) && (w >= 65)) || (w == '.') || (w == ',') || (w == '-')))  
             return 1;            
          
-         
+
 	//if a dot is found increment the dotcounter 
 	if(w == '.')
 	    dotCount++;
+
 	//if a , is found reset the dotcount
 	if(w == ',') {
 	    dotCount = 0;
@@ -348,15 +366,9 @@ int verifySentence(char *sentence)
 	}
          
     }
-    
+
     if(comCount == 0)
 	return 1;
     
-    
     return 0;
 }
-
-
-
-
-
