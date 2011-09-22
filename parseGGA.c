@@ -131,7 +131,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
     if (strcmp(token, "") != 0) 
     {
 	// convert to int
-        numSatellites = (short) strtol(token, NULL, 10);        
+	//       numSatellites = (short) strtol(token, NULL, 10);        
     }
     else 
 	return 1;
@@ -189,7 +189,7 @@ int parseGGA(struct NMEAData *dataStore, char* sentence) {
 	dataStore->lat = lat;
 	dataStore->lon = lon;
 	dataStore->altitude = alt;
-	dataStore->numSatellites = numSatellites;
+//	dataStore->numSatellites = numSatellites;
 
 	dataStore->date.tm_hour = tt.tm_hour;
 	dataStore->date.tm_min = tt.tm_min;

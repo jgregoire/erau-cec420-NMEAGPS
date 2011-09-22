@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 		fflush(fout);
 		persistentData.isDelta = 0;
 
-		printf("Time: %02u%02u%02u\nCurrent Satellites: %u\nCurrent Lat: %f\nCurrentLon: %f\nCurrentAltitude: %f\n\n", persistentData.date.tm_hour + persistentData.localOffset, persistentData.date.tm_min, persistentData.date.tm_sec, persistentData.numSatellites, persistentData.lat/100, persistentData.lon/100, persistentData.altitude);
+		printf("Time (UTC): %02u:%02u.%02u\nCurrent Satellites: %u\nCurrent Lat: %f\nCurrentLon: %f\nCurrentAltitude (m): %f\n\n", persistentData.date.tm_hour + persistentData.localOffset, persistentData.date.tm_min, persistentData.date.tm_sec, persistentData.numSatellites, persistentData.lat/100, persistentData.lon/100, persistentData.altitude);
 	    }
 	    else
 	    {
