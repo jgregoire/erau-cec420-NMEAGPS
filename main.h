@@ -59,7 +59,7 @@ struct NMEAData { // Keeps track of pertinent data gathered from NMEA sentences
 #define CONSTELLATIONX 64
 
 int main(int argc, char **argv);
-void parseCommandLine(int argc, char **argv, char **inFile, char **outFile);
+void parseCommandLine(int argc, char **argv, char **inFile, char **outFile, char **outFile2);
 struct NMEAMessage * messagify(char *message);
 int makeNMEADataString(char* toFill, struct NMEAData *data);
 int verifySentence(char *sentence);

@@ -176,7 +176,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     }
     else
     {
-	if (mktime(&tt) > dataStore->epochTime)
+	if (mktime(&t_time) > dataStore->epochTime)
 	    dataStore->isDelta = 1;
 
 	dataStore->lat = lat;

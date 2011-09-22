@@ -23,14 +23,15 @@
 int main(int argc, char **argv)
 {
     int parseStatus;
-    char *inFile = 0, *outFile = 0;
-    parseCommandLine(argc, argv, &inFile, &outFile);
+    char *inFile = 0, *outFile = 0, *outFile2 = 0;
+    parseCommandLine(argc, argv, &inFile, &outFile, &outFile2);
 
     // Open files
     FILE *fin = fopen(inFile, "r"); // Open input file for reading
     FILE *fout = fopen(outFile, "w"); // Open output file for writing, truncating current file
+    FILE *fout2 = fopen(outFile2, "w"); // Open output file for writing, truncating current file
 
-    if (fout == 0)
+    if ((fout == 0) || (fout2 == 0) || (fin == 0))
     {
 	puts("Invalid filename");
 	return 1;
@@ -60,6 +61,9 @@ int main(int argc, char **argv)
     
     while (getline(&lineIn, &messageLen, fin) != EOF)
     {
+	fputs(lineIn, fout2);
+	fflush(fout);
+
 	if((verifySentence(lineIn) == 0) && (validateChecksum(lineIn) == 0))
 	{
 	    // If we're in here, the lines were good
@@ -71,6 +75,8 @@ int main(int argc, char **argv)
 		fputs(outMessage, fout);
 		fflush(fout);
 		persistentData.isDelta = 0;
+
+		printf("Time: %02u%02u%02u\nCurrent Satellites: %u\nCurrent Lat: %f\nCurrentLon: %f\nCurrentAltitude: %f\n\n", persistentData.date.tm_hour + persistentData.localOffset, persistentData.date.tm_min, persistentData.date.tm_sec, persistentData.numSatellites, persistentData.lat/100, persistentData.lon/100, persistentData.altitude);
 	    }
 	    else
 	    {
@@ -81,7 +87,7 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-	    printf("Invalid sentence: %s", lineIn);
+//	    printf("Invalid sentence: %s", lineIn);
 	}
 
 	free(message); // Have to free this, since it gets malloc'ed in a function
@@ -99,17 +105,18 @@ int main(int argc, char **argv)
 /* Author: Elliot Robinson
  * Parses command line into char arrays inFile and outFile. Prints usage message and exits if argc != 3
  */
-void parseCommandLine(int argc, char **argv, char **inFile, char **outFile)
+    void parseCommandLine(int argc, char **argv, char **inFile, char **outFile, char **outFile2)
 {
-    if (argc == 3)
+    if (argc == 4)
     {
 	*inFile = argv[1];
         *outFile = argv[2];
+	*outFile2 = argv[3];
 	return;
     }
     else
     {
-	printf("Usage: %s infile outfile\n", argv[0]);
+	printf("Usage: %s infile parsed_outfile raw_outfile\n", argv[0]);
 	exit(1);
     }
 }
@@ -156,7 +163,6 @@ int makeNMEADataString(char *toFill, struct NMEAData *data)
     char t[1024];
     int offset = 0;
 
-    // This monstrosity ought to be cleaned up - James.
     offset += sprintf(t, "%u,%u,%u,%02u%02u%02u,%u,%u,%.4f,%.4f,%s,%s,%.4f,%u", data->date.tm_mon + 1, data->date.tm_mday, data->date.tm_year + 1900, data->date.tm_hour + data->localOffset, data->date.tm_min, data->date.tm_sec, (unsigned int)data->epochTime, (unsigned int)data->taiTime, data->lat, data->lon, data->dmsLat, data->dmsLon, data->altitude, data->numSatellites);
 
 

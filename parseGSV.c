@@ -40,7 +40,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     // extract what sentence (1 or 2)
     tokenize(token, sentence, ",", &cursor);
 
-    long mult = strtol(token, NULL, 10);
+    unsigned short mult = strtol(token, NULL, 10);
     mult = (mult - 1) * 4;
 
     if (mult == 0) // first GSV message
@@ -117,7 +117,7 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     tokenize(token, sentence, ",", &cursor);
     
     dataStore->numSatellites = (short)strtol(token, NULL, 10);
-    
+
     if (dataStore->numSatellites == 0)
 	return 0;
 
@@ -400,10 +400,11 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     dataStore->satellites[mult + 3].snr = snr;
     }
 
-    if (dataStore->numSatellites == (3 + mult))
+    if (dataStore->numSatellites == (4 + mult))
     {
 	dataStore->allDataSet |= CONSTELLATIONX;
     }    
+
     return 0;
 }
 
