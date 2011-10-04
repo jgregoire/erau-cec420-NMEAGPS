@@ -1,4 +1,4 @@
-#include <SoftwareSerial.h>
+#include <NewSoftSerial.h>
 #include <LiquidCrystal.h>
 
 #include "time.h"
@@ -12,7 +12,7 @@
 #define GPS_RX 14
 
 // Global vars
-SoftwareSerial GPSSerial = new SoftwareSerial(GPS_RX, GPS_TX); 
+NewSoftSerial GPSSerial(GPS_RX, GPS_TX); 
   // Yes, SoftwareSerial sucks, but we're gonna need the hardare
   // line to talk to the PC for Tuesday. After that we can switch
   // to hardware serial if we need to.
@@ -28,12 +28,6 @@ void setup()
   
   
     int parseStatus;
-
-    if ((fout == 0) || (fout2 == 0) || (fin == 0))
-    {
-	puts("Invalid filename");
-	return 1;
-    }
 
     struct NMEAData persistentData = EMPTY_NMEADATA;
     persistentData.date.tm_isdst = -1; // Necessary to keep hour records from being mangled by automatic DST.
@@ -53,10 +47,15 @@ void loop()
   
    while(GPSSerial.available() == true) {
      
-     
+     readNMEASentence();
      
    }
   
 }
 
-
+void readNMEASentence()
+{
+  
+  
+  
+}
