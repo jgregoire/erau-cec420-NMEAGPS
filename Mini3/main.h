@@ -9,13 +9,14 @@
 #define MAIN_H
 //                       Date    UTC epoch        lat long
 #define EMPTY_NMEADATA {{0, 0, 0}, 0, 0,   /*0*/, 0.0, 0.0, "", "", 0.0, 0, {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, 0, 0, 0};
+#define MAX_MESSAGE_LENGTH 82 // 80 char max + "\r\n"
 
-// I think this is obsolete
+/* I think this is obsolete
 struct Date { // Contains a month, day, year date
     short month;
     short day;
     short year;
-};
+};*/
 
 struct Time {
   

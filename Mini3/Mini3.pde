@@ -23,6 +23,8 @@
 
 // rawtime stuff down below is incompatible
 
+// EMPTY_NMEA_DATA is broken. Commented out initializing for now
+
 ///////////////////
 //               //
 //  GLOBAL VARS  //
@@ -34,21 +36,25 @@ NewSoftSerial GPSSerial(GPS_RX, GPS_TX);
   // to hardware serial if we need to.  
 int parseStatus;
 
-struct NMEAData persistentData = EMPTY_NMEADATA;
+struct NMEAData persistentData/* = EMPTY_NMEADATA*/;
 //persistentData.date.tm_isdst = -1; // Necessary to keep hour records from being mangled by automatic DST.
-/*time_t rawtime = time(NULL);
+//time_t rawtime = time(NULL);
 
-// This is horribly wrong in C++, no clue how to fix:
+/* This is horribly wrong in C++, no clue how to fix:
 persistentData.localOffset = gmtime(&rawtime)->tm_hour - localtime(&rawtime)->tm_hour;
 */
 struct NMEAMessage *message = 0;
 
-char *lineIn[80]; // Will be automatically alloc'ed by getline
+char lineIn[80]; // Will be automatically alloc'ed by getline
 size_t messageLen = 0;
 
-char *outMessage = malloc(1024); // Way more memory than I'll ever need because I'm too lazy to figure out the maximum length of our output strings. No sizeof because the standard says sizeof(char) always == 1.
+char *outMessage = (char*)malloc(1024); // Way more memory than I'll ever need because I'm too lazy to figure out the maximum length of our output strings. No sizeof because the standard says sizeof(char) always == 1.
 
-
+//////////////////////
+//                  //
+//  INITIALIZATION  //
+//                  //
+//////////////////////
 void setup()
 {
   
@@ -61,6 +67,12 @@ void setup()
 
 } // end setup()
 
+
+/////////////////////////
+//                     //
+//  MAIN PROGRAM LOOP  //
+//                     //
+/////////////////////////
 void loop()
 {
   
@@ -80,7 +92,9 @@ void loop()
 		makeNMEADataString(outMessage, &persistentData);
 		persistentData.isDelta = 0;
 
-                Serial.print("Time (UTC): %02u:%02u.%02u\nCurrent Satellites: %u\nCurrent Lat: %f\nCurrentLon: %f\nCurrentAltitude (m): %f\n\n", persistentData.date.tm_hour + persistentData.localOffset, persistentData.date.tm_min, persistentData.date.tm_sec, persistentData.numSatellites, persistentData.lat/100, persistentData.lon/100, persistentData.altitude);
+                char out_string[1024];
+                sprintf(out_string ,"Time (UTC): %02u:%02u.%02u\nCurrent Satellites: %u\nCurrent Lat: %f\nCurrentLon: %f\nCurrentAltitude (m): %f\n\n", persistentData.time.hour + persistentData.localOffset, persistentData.time.mins, persistentData.time.sec, persistentData.numSatellites, persistentData.lat/100, persistentData.lon/100, persistentData.altitude);
+                Serial.println(out_string);
 
 	    }
 	    else
@@ -125,7 +139,7 @@ void readNMEASentence(char* sentence)
  */
 struct NMEAMessage * messagify(char *message)
 {
-    struct NMEAMessage *str = malloc(sizeof(struct NMEAMessage));
+    struct NMEAMessage *str = (NMEAMessage*)malloc(sizeof(struct NMEAMessage));
 
     char *intMsg = message + 1; // Skip the initial '$'
 
@@ -158,6 +172,7 @@ struct NMEAMessage * messagify(char *message)
 /* Author: Elliot Robinson
  * Takes a NMEAData struct and turns it into an output string for file storage.
  */
+ /* I think we no longer need this
 int makeNMEADataString(char *toFill, struct NMEAData *data)
 {
     char t[1024];
@@ -277,7 +292,7 @@ int makeNMEADataString(char *toFill, struct NMEAData *data)
 
     strcpy(toFill, t);
     return 0;
-}
+} */
 
 /* Author: Bryce Dodds
  * Checks to see if the NMEA string provided is a valid NMEA string. If string the string is valid return 0 and 2 on on invalid string

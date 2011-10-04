@@ -26,6 +26,6 @@ void convertLon(char*, char*);
 
 void convertLat(char*, char*);
 
-int parse(struct NMEAData* dataStore, struct NMEAMessage * sentence);
+int parse(struct NMEAData*, struct NMEAMessage*);
 
 #endif
