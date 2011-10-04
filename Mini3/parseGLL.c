@@ -113,9 +113,9 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
         dataStore->lon = lon;
         dataStore->lat = lat;
 
-	dataStore->time.hour = tt.tm_hour;
-	dataStore->time.mins = tt.tm_min;
-	dataStore->time.sec = tt.tm_sec;
+	dataStore->time.hour = tt.hour;
+	dataStore->time.mins = tt.mins;
+	dataStore->time.sec = tt.sec;
 
 	/*dataStore->date.tm_mday = tt.tm_mday;
 	dataStore->date.tm_mon = tt.tm_mon;

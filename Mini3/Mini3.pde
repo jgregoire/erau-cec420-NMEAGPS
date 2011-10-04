@@ -3,8 +3,6 @@
 
 // Community libraries stored locally
 #include "LiquidCrystal.h"
-#include "DateTime.h"
-#include "DateTImeStrings.h"
 
 // C libraries
 #include "string.h"

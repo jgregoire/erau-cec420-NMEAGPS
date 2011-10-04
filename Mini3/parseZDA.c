@@ -7,7 +7,7 @@
 
 int parseZDA(struct NMEAData *dataStore, char* sentence) {
     char token[256], temp[256], *cursor = 0;
-    struct time tt;
+    struct Time tt;
     //tt.tm_isdst = -1;
     int timezone = 0;
     
@@ -95,9 +95,9 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 */      //if (mktime(&tt) > dataStore->epochTime)
 	    dataStore->isDelta = 1;
 
-	dataStore->time.hour = tt.tm_hour;
-	dataStore->time.mins = tt.tm_min;
-	dataStore->time.sec = tt.tm_sec;
+	dataStore->time.hour = tt.hour;
+	dataStore->time.mins = tt.mins;
+	dataStore->time.sec = tt.sec;
 /*
 	dataStore->date.tm_mday = tt.tm_mday;
 	dataStore->date.tm_mon = tt.tm_mon;
@@ -108,7 +108,7 @@ int parseZDA(struct NMEAData *dataStore, char* sentence) {
 	dataStore->taiTime = dataStore->epochTime + 34;
 */
 	dataStore->allDataSet |= (DATEX | TIMEX);
-    }
+    //}
     return 0;
 }
 

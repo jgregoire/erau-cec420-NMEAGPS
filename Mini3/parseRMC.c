@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include "parse.h"
 
 // Carole Fountain //
@@ -182,9 +181,9 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	dataStore->lat = lat;
 	dataStore->lon = lon;
 
-	dataStore->time.hour = t_time.tm_hour;
-	dataStore->time.mins = t_time.tm_min;
-	dataStore->time.sec = t_time.tm_sec;
+	dataStore->time.hour = t_time.hour;
+	dataStore->time.mins = t_time.mins;
+	dataStore->time.sec = t_time.sec;
         /*
 	dataStore->date.tm_mday = t_time.tm_mday;
 	dataStore->date.tm_mon = t_time.tm_mon;
@@ -198,6 +197,6 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	strcpy(dataStore->dmsLon, dmsLon);
 
 	dataStore->allDataSet |= (LATX | LONGX | TIMEX | DATEX);
-    }  
+    //}  
     return 0;
 }
