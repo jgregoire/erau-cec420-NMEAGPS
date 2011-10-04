@@ -27,7 +27,7 @@
 
 // commented out if (mktime(&tt) > dataStore->epochTime), left isdelta=1 assignment
 
-
+// commented out stale data checks, as they used unsupported mktime()
 
 // Global vars
 NewSoftSerial GPSSerial(GPS_RX, GPS_TX); 

@@ -21,9 +21,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     dataStore->allDataSet &= ~CONSTELLATIONX; // If we're here, we need to clear CONSTELLATIONX. It'll be fixed when we're done.
 
     //////////////////////////////////////////////////
-    //                                                //
+    //                                              //
     //  Extract Number of sentences for full data   //
-    //                                                //
+    //                                              //
     //////////////////////////////////////////////////
     
     tokenize(token, sentence, ",", &cursor);
@@ -32,9 +32,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     
     
     //////////////////////////////////////
-    //                                    //
+    //                                  //
     //  Extract what sentence (1 or 2)  //
-    //                                    //
+    //                                  //
     //////////////////////////////////////
     
     // extract what sentence (1 or 2)
@@ -108,9 +108,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
 
     ////////////////////////////////////////////
-    //                                          //
+    //                                        //
     //  Extract number of satellites in view  //
-    //                                          //
+    //                                        //
     ////////////////////////////////////////////
     
     // extract # of satellites
@@ -129,9 +129,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
       UP TO 4 SATELLITES PER SENTENCE  ***/
     
     //////////////////////////
-    //                        //
+    //                      //
     //  Extract PRN number  //
-    //                        //
+    //                      //
     //////////////////////////
     
     // turn PRN (for 1st satellite) into a useful value
@@ -145,9 +145,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     /////////////////////////
-    //                       //
+    //                     //
     //  Extract Elevation  //
-    //                          //
+    //                     //
     /////////////////////////
     
     // extract elevation
@@ -161,9 +161,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     ////////////////////////
-    //                      //
+    //                    //
     //  Extract Azimuth   //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract azimuth
@@ -177,9 +177,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     ////////////////////////
-    //                      //
+    //                    //
     //  Extract SNR       //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract SNR
@@ -193,9 +193,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     //////////////////////////
-    //                        //
+    //                      //
     //  Extract PRN number  //
-    //                        //
+    //                      //
     //////////////////////////
 
     if (dataStore->numSatellites == (1 + mult))
@@ -215,9 +215,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     /////////////////////////
-    //                       //
+    //                     //
     //  Extract Elevation  //
-    //                          //
+    //                     //
     /////////////////////////
     
     // extract elevation
@@ -231,9 +231,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     ////////////////////////
-    //                      //
+    //                    //
     //  Extract Azimuth   //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract azimuth
@@ -247,9 +247,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     ////////////////////////
-    //                      //
+    //                    //
     //  Extract SNR       //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract SNR
@@ -263,9 +263,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     //////////////////////////
-    //                        //
+    //                      //
     //  Extract PRN number  //
-    //                        //
+    //                      //
     //////////////////////////    
     if (dataStore->numSatellites == (2 + mult))
     {
@@ -284,9 +284,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     /////////////////////////
-    //                       //
+    //                     //
     //  Extract Elevation  //
-    //                          //
+    //                     //
     /////////////////////////
     
     // extract elevation
@@ -300,9 +300,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     ////////////////////////
-    //                      //
+    //                    //
     //  Extract Azimuth   //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract azimuth
@@ -316,9 +316,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     ////////////////////////
-    //                      //
+    //                    //
     //  Extract SNR       //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract SNR
@@ -332,9 +332,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     //////////////////////////
-    //                        //
+    //                      //
     //  Extract PRN number  //
-    //                        //
+    //                      //
     //////////////////////////
     if (dataStore->numSatellites == (3 + mult))
     {
@@ -353,9 +353,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     /////////////////////////
-    //                       //
+    //                     //
     //  Extract Elevation  //
-    //                          //
+    //                     //
     /////////////////////////
     
     // extract elevation
@@ -369,9 +369,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     ////////////////////////
-    //                      //
+    //                    //
     //  Extract Azimuth   //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract azimuth
@@ -385,9 +385,9 @@ int parseGSV(struct NMEAData *dataStore, char* sentence) {
     }
     
     ////////////////////////
-    //                      //
+    //                    //
     //  Extract SNR       //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract SNR
