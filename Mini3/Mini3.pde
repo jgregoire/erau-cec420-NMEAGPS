@@ -1,10 +1,14 @@
+// Official libraries
 #include <NewSoftSerial.h>
-#include <LiquidCrystal.h>
-#include <DateTime.h>
 
-#include "time.h"
+// Community libraries stored locally
+#include "LiquidCrystal.h"
+#include "DateTime.h"
+
+// C libraries
 #include "string.h"
 
+// Our libraries
 #include "main.h"
 #include "parse.h"
 
