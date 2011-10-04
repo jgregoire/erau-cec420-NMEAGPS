@@ -13,7 +13,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     float lat = 0;
     float lon = 0;
     struct Time t_time;
-    t_time.tm_isdst = -1;
+    //t_time.tm_isdst = -1;
  
     //////////////////////////////
     //                          //
