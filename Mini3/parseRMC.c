@@ -12,7 +12,7 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     char temp[3] = "\0\0\0";
     float lat = 0;
     float lon = 0;
-    struct tm t_time;
+    struct Time t_time;
     t_time.tm_isdst = -1;
  
     //////////////////////////////
@@ -26,15 +26,15 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     // turn time into a useful value
     // get "hh" from "hhmmss.ss"
     strncpy(temp, token, 2);
-    t_time.tm_hour = (int) strtol(temp, NULL, 10) - dataStore->localOffset;
+    t_time.hour = (int) strtol(temp, NULL, 10) - dataStore->localOffset;
 
     // get mm
     memcpy(temp, &token[2], 2);
-    t_time.tm_min = (int) strtol(temp, NULL, 10);
+    t_time.mins = (int) strtol(temp, NULL, 10);
 
     // get ss (ignoring .ss)
     memcpy(temp, &token[4], 2);
-    t_time.tm_sec = (int) strtol(temp, NULL, 10);
+    t_time.sec = (int) strtol(temp, NULL, 10);
 
     //////////////////////
     //                  //
@@ -74,9 +74,9 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	return 1;
     
     ////////////////////////
-    //                      //
+    //                    //
     //  Extract Longitude //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract lon val
@@ -100,9 +100,9 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
 	return 1;
     
     ////////////////////////////////
-    //                              //
+    //                            //
     //  Extract Speed over ground //
-    //                                 //
+    //                            //
     ////////////////////////////////    
     
     // extract speed
@@ -111,9 +111,9 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     //  don't care move on...
 
     ///////////////////////////////////
-    //                                 //
+    //                               //
     //  Extract angle in degrees     //
-    //                                 //
+    //                               //
     ///////////////////////////////////
     
     // extract angle
@@ -122,11 +122,11 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     // don't care move on...
     
     ///////////////////////////////////
-    //                                 //
+    //                               //
     //  Extract date                 //
-    //                                 //
+    //                               //
     ///////////////////////////////////
-
+    /*
     // extract day
     tokenize(token, sentence, ",", &cursor); //ddmmyy
 
@@ -156,11 +156,11 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     }
     else
 	return 1;
-
+    */
     ///////////////////////////////////
-    //                                 //
+    //                               //
     //  Extract magnetic variation   //
-    //                                 //
+    //                               //
     ///////////////////////////////////
     
     // extract magnetic variation
@@ -168,32 +168,32 @@ int parseRMC(struct NMEAData *dataStore, char* sentence) {
     
     // don't care ending...    
     
-
+    /*
     if (mktime(&t_time) < dataStore->epochTime)
     {
 	puts("Aborting parse: Stale data");
 	return 2;
     }
     else
-    {
-	if (mktime(&t_time) > dataStore->epochTime)
+    {*/
+	//if (mktime(&t_time) > dataStore->epochTime)
 	    dataStore->isDelta = 1;
 
 	dataStore->lat = lat;
 	dataStore->lon = lon;
 
-	dataStore->date.tm_hour = t_time.tm_hour;
-	dataStore->date.tm_min = t_time.tm_min;
-	dataStore->date.tm_sec = t_time.tm_sec;
-
+	dataStore->time.hour = t_time.tm_hour;
+	dataStore->time.mins = t_time.tm_min;
+	dataStore->time.sec = t_time.tm_sec;
+        /*
 	dataStore->date.tm_mday = t_time.tm_mday;
 	dataStore->date.tm_mon = t_time.tm_mon;
 	dataStore->date.tm_year = t_time.tm_year;
-
+        
 	// set UTC and TAI
 	dataStore->epochTime = mktime(&dataStore->date);
 	dataStore->taiTime = dataStore->epochTime + 34;
-
+        */
 	strcpy(dataStore->dmsLat, dmsLat);
 	strcpy(dataStore->dmsLon, dmsLon);
 
