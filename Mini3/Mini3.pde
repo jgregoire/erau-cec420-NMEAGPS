@@ -53,8 +53,26 @@ void loop()
      readNMEASentence(lineIn);
      
      // parsey crap here
-     
-   }
+     	if((verifySentence(lineIn) == 0) && (validateChecksum(lineIn) == 0))
+	{
+	    // If we're in here, the lines were good
+	    message = messagify(lineIn);
+	    parseStatus = parse(&persistentData, message);
+	    if ((parseStatus == 0) && (persistentData.isDelta == 1) && (persistentData.allDataSet == 0x7F))
+	    {
+		makeNMEADataString(outMessage, &persistentData);
+		persistentData.isDelta = 0;
+
+                Serial.print("Time (UTC): %02u:%02u.%02u\nCurrent Satellites: %u\nCurrent Lat: %f\nCurrentLon: %f\nCurrentAltitude (m): %f\n\n", persistentData.date.tm_hour + persistentData.localOffset, persistentData.date.tm_min, persistentData.date.tm_sec, persistentData.numSatellites, persistentData.lat/100, persistentData.lon/100, persistentData.altitude);
+
+	    }
+	    else
+	    {
+		persistentData.isDelta = 0;
+	    }
+	}
+
+   } // end serial available check
   
   // LCD crap here
   
