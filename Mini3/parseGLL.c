@@ -6,8 +6,8 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     char dmsLat[16]; // (dddommm’sss.ss”\0)
     char dmsLon[16]; // Same as above.
     float lat, lon;
-    struct tm tt;
-    tt.tm_isdst = -1;
+    struct Time tt;
+    //tt.tm_isdst = -1;
 
     ////////////////////////
     //                    //
@@ -66,9 +66,9 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
 	return 1;
     
     ////////////////////
-    //                  //
+    //                //
     //  EXTRACT TIME  //
-    //                  //
+    //                //
     ////////////////////
     
     tokenize(token, sentence, ",", &cursor); // "hhmmss.ss"
@@ -76,19 +76,19 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     // turn time into a useful value
     // get "hh" from "hhmmss.ss"
     strncpy(temp, token, 2);
-    tt.tm_hour = (int) strtol(temp, NULL, 10) - dataStore->localOffset;
+    tt.hour = (int) strtol(temp, NULL, 10) - dataStore->localOffset;
     
     // get mm
     memcpy(temp, &token[2], 2);
-    tt.tm_min = (int) strtol(temp, NULL, 10);
+    tt.mins = (int) strtol(temp, NULL, 10);
     
     // get ss (ignoring .ss)
     memcpy(temp, &token[4], 2);
-    tt.tm_sec = (int) strtol(temp, NULL, 10);
+    tt.sec = (int) strtol(temp, NULL, 10);
     
-    tt.tm_mday = dataStore->date.tm_mday;
+    /*tt.tm_mday = dataStore->date.tm_mday;
     tt.tm_mon = dataStore->date.tm_mon;
-    tt.tm_year = dataStore->date.tm_year;
+    tt.tm_year = dataStore->date.tm_year;*/
 
     //////////////////////
     //                  //
@@ -100,36 +100,36 @@ int parseGLL(struct NMEAData *dataStore, char* sentence) {
     
     // I don't think we care about status?
 
-    if (mktime(&tt) < dataStore->epochTime)
+    /*if (mktime(&tt) < dataStore->epochTime)
     {
 	puts("Aborting parse: Stale data");
 	return 2;
     }
     else
-    {
-	if (mktime(&tt) > dataStore->epochTime)
+    {*/
+	//if (mktime(&tt) > dataStore->epochTime)
 	    dataStore->isDelta = 1;
 
         dataStore->lon = lon;
         dataStore->lat = lat;
 
-	dataStore->date.tm_hour = tt.tm_hour;
-	dataStore->date.tm_min = tt.tm_min;
-	dataStore->date.tm_sec = tt.tm_sec;
+	dataStore->time.hour = tt.tm_hour;
+	dataStore->time.mins = tt.tm_min;
+	dataStore->time.sec = tt.tm_sec;
 
-	dataStore->date.tm_mday = tt.tm_mday;
+	/*dataStore->date.tm_mday = tt.tm_mday;
 	dataStore->date.tm_mon = tt.tm_mon;
 	dataStore->date.tm_year = tt.tm_year;
 
 	// set UTC and TAI
 	dataStore->epochTime = mktime(&dataStore->date);
-	dataStore->taiTime = dataStore->epochTime + 34;
+	dataStore->taiTime = dataStore->epochTime + 34;*/
 
 	strcpy(dataStore->dmsLat, dmsLat);
 	strcpy(dataStore->dmsLon, dmsLon);   
 
 	dataStore->allDataSet |= (LATX | LONGX | TIMEX);
-    }
+    //}
 
     return 0;
 }

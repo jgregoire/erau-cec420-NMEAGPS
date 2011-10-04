@@ -19,6 +19,16 @@
 
 #define TERMINATOR '\n'
 
+//////////////////////////
+//                      //
+//  POTENTIAL PROBLEMS  //
+//                      //
+//////////////////////////
+
+// commented out if (mktime(&tt) > dataStore->epochTime), left isdelta=1 assignment
+
+
+
 // Global vars
 NewSoftSerial GPSSerial(GPS_RX, GPS_TX); 
   // Yes, SoftwareSerial sucks, but we're gonna need the hardare
