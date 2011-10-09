@@ -1,9 +1,11 @@
 #include "NewSoftSerial.h"
 
+#include "main.h"
+
 #define GPS_TX 13
 #define GPS_RX 3
 
-#define NORMAL_SIGNALLING   false
+#define NORMAL_SIGNALLING  false
 #define INVERTED_SIGNALLING true
 
 NewSoftSerial GPSSerial(GPS_RX, GPS_TX); // third arg enables inverted signalling. Don't think we want that.
@@ -11,6 +13,7 @@ NewSoftSerial GPSSerial(GPS_RX, GPS_TX); // third arg enables inverted signallin
 boolean partial_sentence = true;
 char NMEA_sentence[81];
 
+OutData out_data();
   
 void setup()
 {
@@ -54,7 +57,7 @@ void loop()
     } // end for
     
     // we now have a full NMEA sentence. Let's parse it!
-    parse(NMEA_sentence);
+    parse(out_data, NMEA_sentence);
     
     // generate strings to output to LCD
     
