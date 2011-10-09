@@ -11,10 +11,6 @@ NewSoftSerial GPSSerial(GPS_RX, GPS_TX); // third arg enables inverted signallin
 boolean partial_sentence = true;
 char NMEA_sentence[81];
 
-char lat_line[17];
-char lon_line[17];
-char alt_line[17];
-char time_line[17];
   
 void setup()
 {
