@@ -81,7 +81,11 @@ void loop()
      
      readNMEASentence(lineIn);
      
-     // parsey crap here
+     ////////////////////
+     //                //
+     //  PARSING CRAP  //
+     //                //
+     ////////////////////
      	if((verifySentence(lineIn) == 0) && (validateChecksum(lineIn) == 0))
 	{
 	    // If we're in here, the lines were good
@@ -89,7 +93,7 @@ void loop()
 	    parseStatus = parse(&persistentData, message);
 	    if ((parseStatus == 0) && (persistentData.isDelta == 1) && (persistentData.allDataSet == 0x7F))
 	    {
-		makeNMEADataString(outMessage, &persistentData);
+		//makeNMEADataString(outMessage, &persistentData);
 		persistentData.isDelta = 0;
 
                 char out_string[1024];
@@ -105,7 +109,11 @@ void loop()
 
    } // end serial available check
   
-  // LCD crap here
+  ////////////////
+  //            //
+  //  LCD CRAP  //
+  //            //
+  ////////////////
   
   
 } // end loop()
