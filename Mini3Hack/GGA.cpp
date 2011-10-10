@@ -3,6 +3,7 @@
 #include <string.h>
 #include "parse.h"
 
+
 bool parseGGA(OutData &message, char *sentence)
 {
     char token[32];

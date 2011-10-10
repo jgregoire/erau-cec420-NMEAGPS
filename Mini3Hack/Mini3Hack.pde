@@ -3,6 +3,9 @@
 #include "parse.h"
 #include "lcd.h"
 
+// uncomment this line to enable debug output to PC
+#define _DEBUG
+
 #define GPS_TX 13
 #define GPS_RX 3
 
@@ -23,11 +26,11 @@ char last_sec;
 /////////////////////
 void setup()
 {
-  /*
+  #ifdef _DEBUG
   // init serial to PC
-  Serial.begin(4800);
+  Serial.begin(9600);
   Serial.write("Reading GPS...\n");
-  */
+  #endif
   
   // init serial from GPS
   GPSSerial.begin(4800);
@@ -50,6 +53,10 @@ void loop()
   
   // get a line from the GPS
   readNMEASentence(NMEA_sentence, GPSSerial);
+  
+  #ifdef _DEBUG
+  Serial.println(NMEA_sentence);
+  #endif
     
   // we now have a full NMEA sentence. Let's parse it!
   parser.parse(out_data, NMEA_sentence);
@@ -121,6 +128,9 @@ void readNMEASentence(char* sentence, NewSoftSerial port)
   while(GPSSerial.available() == false);
   
   if (GPSSerial.available() ) {
+    #ifdef _DEBUG
+    Serial.println("Reading sentence from GPS...");
+    #endif
     
     // begin reading new NMEA sentence
     partial_sentence = true;
