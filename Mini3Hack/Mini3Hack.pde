@@ -71,14 +71,18 @@ void loop()
       // alternate which data to display
       if (display_time == true) {
         
-        //lcd.display(out_data.time_line, out_data.alt_line);
+        // display time and alt
+        lcd.displayInfo(out_data.time_line, out_data.alt_line);
+        
+        // toggle which message to display
         display_time != display_time;
         
       } else {
         
         // display lat and long
-        //lcd.display(out_data.lat_line, out_data.lon_line);
+        lcd.displayInfo(out_data.lat_line, out_data.lon_line);
         
+        // toggle which message to display
         display_time != display_time;
         
       }
@@ -90,7 +94,8 @@ void loop()
     // every second...
     if (last_sec != out_data.UTC_time[6]) {
       
-      //lcd.display("No GPS fix...   ", "                ");
+      // output "No fix" to LCD
+      lcd.display("No GPS fix...   ", "                ");
       
     }
     
