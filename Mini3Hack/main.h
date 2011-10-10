@@ -54,6 +54,6 @@ class OutData
     
   }
   
-} // end class OutData
+}; // end class OutData
 
-#
+#endif
