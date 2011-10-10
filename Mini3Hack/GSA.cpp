@@ -12,6 +12,10 @@ bool parseGSA(OutData &message, char * sentence)
     {
 	message.has_lock = true;
     }
+    else
+    {
+      message.has_lock = false;
+    }
 
     return true;
 }
