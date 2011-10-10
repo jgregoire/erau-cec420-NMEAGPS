@@ -1,21 +1,16 @@
 #include "NewSoftSerial.h"
-
 #include "main.h"
 
 #define GPS_TX 13
 #define GPS_RX 3
 
-#define NORMAL_SIGNALLING  false
-#define INVERTED_SIGNALLING true
-
-// define GPS serial input
 NewSoftSerial GPSSerial(GPS_RX, GPS_TX); // third arg enables inverted signalling. Don't think we want that.
+OutData out_data();
 
 boolean partial_sentence = true;
+boolean display_time = true;
 char NMEA_sentence[83];
-int tenmil; // incremented every ~10ms
-
-OutData out_data();
+char last_sec;
 
 /////////////////////
 //                 //
@@ -84,36 +79,35 @@ void loop()
   //             //
   /////////////////
   
-  // hack-tastic timing code
-  delay(10);
-  // increment tenmil and make sure it's in range
-  tenmil = (tenmil > 100) ? 0 : tenmil++;
+
   
   // periodically refresh the LCD.
   if (out_data.has_lock == true) {
     
-    // every half second...
-    if (tenmil == 50) {
+    // every second (aka every time the seconds value changes)
+    if (last_sec != out_data.UTC_time[6]) {
       
-      // display time and alt
-      //lcd.display(out_data.time_line, out_data.alt_line);
+      // alternate which data to display
+      if (display_time == true) {
+        
+        //lcd.display(out_data.time_line, out_data.alt_line);
+        display_time != display_time;
+        
+      } else {
+        
+        // display lat and long
+        //lcd.display(out_data.lat_line, out_data.lon_line);
+        
+        display_time != display_time;
+        
+      }
       
-    } else if (tenmil == 100) {
-      
-      // reset timer
-      tenmil = 0;
-      
-      // display lat and long
-      //lcd.display(out_data.lat_line, out_data.lon_line);
-      
-    }
+    } // end if new second
     
   } else {
     
-    // every half second...
-    if (tenmil == 50) {
-      
-      tenmil == 0;
+    // every second...
+    if (last_sec != out_data.UTC_time[6]) {
       
       //lcd.display("No GPS fix...   ", "                ");
       
@@ -121,6 +115,7 @@ void loop()
     
   } // end GPS lock check
   
+  last_sec = out_data.UTC_time[6];
 } // end loop()
 
-// EOF
+// EOF //
