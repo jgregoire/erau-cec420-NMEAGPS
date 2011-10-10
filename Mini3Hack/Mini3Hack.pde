@@ -12,6 +12,7 @@ NewSoftSerial GPSSerial(GPS_RX, GPS_TX); // third arg enables inverted signallin
 
 boolean partial_sentence = true;
 char NMEA_sentence[81];
+int tenmil; // incremented every ~10ms
 
 OutData out_data();
 
@@ -80,11 +81,28 @@ void loop()
   //             //
   /////////////////
   
+  // hack-tastic timing code
+  delay(10);
+  // increment tenmil and make sure it's in range
+  tenmil = (tenmil > 100) ? 0 : tenmil++;
+  
   // periodically refresh the LCD.
   if (out_data.has_lock == true) {
     
+    if (tenmil == 50) {
+      
+      // display time and alt
+      
+    } else if (tenmil == 100) {
+      
+      tenmil = 0;
+      
+      // display lat and long
+      
+    }
     
-    
-  }
+  } // end GPS lock check
   
-}
+} // end loop()
+
+// EOF
