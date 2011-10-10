@@ -34,7 +34,7 @@ public:
     sprintf(lat_line, "%2.4f", lat);
     sprintf(lon_line, "%3.4f", lon);
     
-  }
+  } // end generate
   
   // constructors
   OutData()
@@ -45,7 +45,7 @@ public:
     lat = 0.0;
     lon = 0.0;
     
-  }
+  } // end OutData()
   
   OutData(char* new_time, int new_alt, double new_lat, double new_lon)
   {
@@ -55,7 +55,7 @@ public:
     lat = new_lat;
     lon = new_lon;
     
-  }
+  } // end OutData(args)
   
 }; // end class OutData
 

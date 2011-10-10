@@ -7,9 +7,6 @@ Created by Bryce Dodds
 #ifndef Morse_h
 #define Morse_h
 
-
-
-
 class LCD
 {
  public:
@@ -22,6 +19,4 @@ class LCD
     
 };
 
-
 #endif
-

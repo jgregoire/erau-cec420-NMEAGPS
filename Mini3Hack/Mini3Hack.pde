@@ -64,8 +64,6 @@ void loop()
   // generate strings to output to LCD
   out_data.generate();
     
-  } // end if GPS.avail
-    
   /////////////////
   //             //
   //  LCD LOGIC  //
@@ -77,6 +75,9 @@ void loop()
     
     // every second (aka every time the seconds value changes)
     if (last_sec != out_data.UTC_time[6]) {
+      
+      #ifdef _DEBUG
+      Serial.println("New second");
       
       // alternate which data to display
       if (display_time == true) {
@@ -104,6 +105,10 @@ void loop()
     // every second...
     if (last_sec != out_data.UTC_time[6]) {
       
+      #ifdef _DEBUG
+      Serial.println("No GPS fix.");
+      #endif
+      
       // output "No fix" to LCD
       screen.displayInfo("No GPS fix...   ", "                ");
       
@@ -127,7 +132,7 @@ void readNMEASentence(char* sentence, NewSoftSerial port)
   // delay until data available
   while(GPSSerial.available() == false);
   
-  if (GPSSerial.available() ) {
+  if (GPSSerial.available()) {
     #ifdef _DEBUG
     Serial.println("Reading sentence from GPS...");
     #endif
