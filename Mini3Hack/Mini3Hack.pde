@@ -7,6 +7,7 @@
 NewSoftSerial GPSSerial(GPS_RX, GPS_TX); // third arg enables inverted signalling. Don't think we want that.
 OutData out_data();
 Parser parser();
+LCD lcd();
 
 boolean partial_sentence = true;
 boolean display_time = true;
@@ -128,7 +129,7 @@ void readNMEASentence(char* sentence, NewSoftSerial port)
         // let the for loop end
         partial_sentence = false;
         
-      }
+      } // end check for end of sentence
       
     } // end for
     
