@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "parse.h"
 
 bool parseGSV(OutData &message, char * sentence)
@@ -5,9 +8,9 @@ bool parseGSV(OutData &message, char * sentence)
     char token[256], *cursor = 0;
 
     //////////////////////////////////////////////////
-    //                                                //
+    //                                              //
     //  Extract Number of sentences for full data   //
-    //                                                //
+    //                                              //
     //////////////////////////////////////////////////
     
     tokenize(token, sentence, ",", &cursor);
@@ -16,18 +19,18 @@ bool parseGSV(OutData &message, char * sentence)
     
     
     //////////////////////////////////////
-    //                                    //
+    //                                  //
     //  Extract what sentence (1 or 2)  //
-    //                                    //
+    //                                  //
     //////////////////////////////////////
     
     // extract what sentence (1 or 2)
     tokenize(token, sentence, ",", &cursor);
 
     ////////////////////////////////////////////
-    //                                          //
+    //                                        //
     //  Extract number of satellites in view  //
-    //                                          //
+    //                                        //
     ////////////////////////////////////////////
     
     // extract # of satellites

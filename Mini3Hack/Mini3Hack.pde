@@ -10,9 +10,9 @@
 #define GPS_RX 3
 
 NewSoftSerial GPSSerial(GPS_RX, GPS_TX); // third arg enables inverted signalling. Don't think we want that.
-OutData out_data();
-Parser parser();
-LCD screen();
+OutData out_data;
+Parser parser;
+//LCD screen();
 
 boolean partial_sentence = true;
 boolean display_time = true;
@@ -78,12 +78,13 @@ void loop()
       
       #ifdef _DEBUG
       Serial.println("New second");
+      #endif
       
       // alternate which data to display
       if (display_time == true) {
         
         // display time and alt
-        screen.displayInfo(out_data.time_line, out_data.alt_line);
+        //screen.displayInfo(out_data.time_line, out_data.alt_line);
         
         // toggle which message to display
         display_time != display_time;
@@ -91,7 +92,7 @@ void loop()
       } else {
         
         // display lat and long
-        screen.displayInfo(out_data.lat_line, out_data.lon_line);
+        //screen.displayInfo(out_data.lat_line, out_data.lon_line);
         
         // toggle which message to display
         display_time != display_time;
@@ -110,7 +111,7 @@ void loop()
       #endif
       
       // output "No fix" to LCD
-      screen.displayInfo("No GPS fix...   ", "                ");
+      //screen.displayInfo("No GPS fix...   ", "                ");
       
     }
     

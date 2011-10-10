@@ -20,6 +20,8 @@ class Parser
     bool parse(OutData &message, char * sentence);
 };
 
+void tokenize(char*, char*, char*, char**);
+
 bool parseGGA(OutData &message, char * sentence);
 bool parseGSV(OutData &message, char * sentence);
 bool parseGSA(OutData &message, char * sentence);

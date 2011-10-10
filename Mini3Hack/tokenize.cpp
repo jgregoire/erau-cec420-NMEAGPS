@@ -14,7 +14,7 @@ void tokenize(char * dest, char* string, char* delims, char **pos)
     char *t = 0;
     // if the first instance of a comma is the beginning of the string...
     if (*pos != 0 && *pos[0] == ',') {
-	t = malloc(1);
+	t = (char*)malloc(1);
 	t[0] = '\0';
 
 	*pos += 1;

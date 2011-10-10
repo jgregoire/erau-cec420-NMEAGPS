@@ -22,7 +22,7 @@ bool parseGGA(OutData &message, char *sentence)
     
     strncpy(message.UTC_time, token, 4);
     message.UTC_time[4] = '.';
-    strncpy(messate.UTC_time + 5, token + 4, 2);
+    strncpy(message.UTC_time + 5, token + 4, 2);
     message.UTC_time[8] = '\0';
 
     ////////////////////////
@@ -37,13 +37,13 @@ bool parseGGA(OutData &message, char *sentence)
     if (strcmp(token, "") != 0) 
     {
 	// convert latitude to float
-        lat = strtof(token, NULL);
+        lat = (float)strtod(token, NULL);
 
         // extract N/S val
         tokenize(token, sentence, ",", &cursor);
         
         // if South, make latitude negative
-        toupper(token[0]);
+        //toupper(token[0]);
         if (strcmp(token, "S") == 0) 
 	{
 	    lat *= -1;
@@ -53,9 +53,9 @@ bool parseGGA(OutData &message, char *sentence)
 	return false;
 
     /////////////////////////
-    //                       //
+    //                     //
     //  EXTRACT LONGITUDE  //
-    //                       //
+    //                     //
     /////////////////////////
     
     // extract lon val
@@ -64,14 +64,14 @@ bool parseGGA(OutData &message, char *sentence)
     if (strcmp(token, "") != 0) 
     {
 	// convert lon to float
-        lon = strtof(token, NULL);
-        convertLon(dmsLon, token);
+        lon = (float)strtod(token, NULL);
+        //convertLon(lon, token);
 
         // extract E/W val
         tokenize(token, sentence, ",", &cursor);
         
         // if West, make lon negative
-        toupper(token[0]);
+        //toupper(token[0]);
         if (strcmp(token, "W") == 0) 
 	{
 	    lon *= -1;
@@ -81,9 +81,9 @@ bool parseGGA(OutData &message, char *sentence)
 	return false;
 
     ///////////////////////
-    //                     //
+    //                   //
     //  EXTRACT QUALITY  //
-    //                     //
+    //                   //
     ///////////////////////
     
     // extract quality val
@@ -92,9 +92,9 @@ bool parseGGA(OutData &message, char *sentence)
     // we don't care about fix quality. Carry on...
     
     //////////////////////////////
-    //                            //
+    //                          //
     //  EXTRACT NUM SATELLITES  //
-    //                            //
+    //                          //
     //////////////////////////////
     
     // extract number
@@ -102,9 +102,9 @@ bool parseGGA(OutData &message, char *sentence)
     // we don't care about this. Carry on...
    
     ////////////////////////
-    //                      //
+    //                    //
     //  EXTRACT DILUTION  //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract dilution
@@ -113,9 +113,9 @@ bool parseGGA(OutData &message, char *sentence)
     // we don't care about this. Carry on...
     
     ////////////////////////
-    //                      //
+    //                    //
     //  EXTRACT ALTITUDE  //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract altitude
@@ -124,10 +124,10 @@ bool parseGGA(OutData &message, char *sentence)
     if (strcmp(token, "") != 0) 
     {
 	// convert to float
-        alt = strtof(token, NULL);
+        alt = (float)strtod(token, NULL);
 
         tokenize(token, sentence, ",", &cursor);
-        toupper(token[0]);
+        //toupper(token[0]);
 
         if(token[0] == 'F')
         {
