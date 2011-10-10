@@ -9,15 +9,14 @@ class OutData
   
 private:
   
+
+  
+public:
   // attributes
   char UTC_time[8]; //"hhmm.ss"
   float alt;
   float lat;
   float lon;
-  
-public:
-  
-  // attributes
   char time_line[16];
   char alt_line[16];
   char lat_line[16];

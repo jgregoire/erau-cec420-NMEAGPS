@@ -12,7 +12,7 @@
 
 
 int parseGSV(struct NMEAData *dataStore, char* sentence) {
-    char token[256], *cursor = 0;
+    char token[32], *cursor = 0;
     short prn = 0;
     short snr = 0;
     short azimuth = 0;
