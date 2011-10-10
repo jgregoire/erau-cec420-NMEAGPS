@@ -8,6 +8,7 @@
 #define NORMAL_SIGNALLING  false
 #define INVERTED_SIGNALLING true
 
+// define GPS serial input
 NewSoftSerial GPSSerial(GPS_RX, GPS_TX); // third arg enables inverted signalling. Don't think we want that.
 
 boolean partial_sentence = true;
@@ -24,12 +25,14 @@ OutData out_data();
 void setup()
 {
   
+  // init serial to PC
   Serial.begin(4800);
   Serial.write("Reading GPS...\n");
   
+  // init serial from GPS
   GPSSerial.begin(4800);
   
-}
+} // end setup()
 
 /////////////////
 //             //
@@ -89,6 +92,7 @@ void loop()
   // periodically refresh the LCD.
   if (out_data.has_lock == true) {
     
+    // every half second...
     if (tenmil == 50) {
       
       // display time and alt
@@ -96,6 +100,7 @@ void loop()
       
     } else if (tenmil == 100) {
       
+      // reset timer
       tenmil = 0;
       
       // display lat and long
@@ -105,6 +110,7 @@ void loop()
     
   } else {
     
+    // every half second...
     if (tenmil == 50) {
       
       tenmil == 0;
