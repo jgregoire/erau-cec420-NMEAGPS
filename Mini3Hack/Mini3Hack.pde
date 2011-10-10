@@ -14,17 +14,27 @@ boolean partial_sentence = true;
 char NMEA_sentence[81];
 
 OutData out_data();
-  
+
+/////////////////////
+//                 //
+//  INITILIZATION  //
+//                 //
+/////////////////////
 void setup()
 {
   
   Serial.begin(4800);
-  Serial.write("Reading GPS...\n");  
+  Serial.write("Reading GPS...\n");
   
   GPSSerial.begin(4800);
   
 }
 
+/////////////////
+//             //
+//  MAIN LOOP  //
+//             //
+/////////////////
 void loop()
 {
   
@@ -71,5 +81,10 @@ void loop()
   /////////////////
   
   // periodically refresh the LCD.
+  if (out_data.has_lock == true) {
+    
+    
+    
+  }
   
 }
