@@ -57,6 +57,14 @@ bool Parser::parse(OutData &outdata, char *sentence) {
     {
         return parseGSV(outdata, message.data);
     } 
+    else if (strcmp(message.type, "GPGSA") == 0)
+    {
+	return parseGSA(outdata, message.data);
+    }
+    else if (strcmp(message.type, "GPZDA") == 0)
+    {
+	return parseZDA(outdata, message.data);
+    }
     else
     {
     	// We didn't get a message we care about.

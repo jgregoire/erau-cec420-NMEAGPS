@@ -23,3 +23,5 @@ class Parser
 
 bool parseGGA(OutData &message, char * sentence);
 bool parseGSV(OutData &message, char * sentence);
+bool parseGSA(OutData &message, char * sentence);
+bool parseZDA(OutData &message, char * sentence);
