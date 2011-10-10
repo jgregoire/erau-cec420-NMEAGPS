@@ -11,7 +11,7 @@
 NewSoftSerial GPSSerial(GPS_RX, GPS_TX); // third arg enables inverted signalling. Don't think we want that.
 
 boolean partial_sentence = true;
-char NMEA_sentence[81];
+char NMEA_sentence[83];
 int tenmil; // incremented every ~10ms
 
 OutData out_data();
@@ -58,7 +58,7 @@ void loop()
       NMEA_sentence[i] = GPSSerial.read();
       
       // if we're at the end of the sentence...
-      if (NMEA_sentence[i] == '\n') {
+      if (NMEA_sentence[i] == '\n' || strlen(NMEA_sentence) > 83) {
         
         // let the for loop end
         partial_sentence = false;
@@ -92,12 +92,24 @@ void loop()
     if (tenmil == 50) {
       
       // display time and alt
+      //lcd.display(out_data.time_line, out_data.alt_line);
       
     } else if (tenmil == 100) {
       
       tenmil = 0;
       
       // display lat and long
+      //lcd.display(out_data.lat_line, out_data.lon_line);
+      
+    }
+    
+  } else {
+    
+    if (tenmil == 50) {
+      
+      tenmil == 0;
+      
+      //lcd.display("No GPS fix...   ", "                ");
       
     }
     
