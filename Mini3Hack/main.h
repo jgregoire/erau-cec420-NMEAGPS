@@ -1,6 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <stdio.h>
 #include <string.h>
 
 class OutData
@@ -21,7 +22,7 @@ public:
   char lat_line[16];
   char lon_line[16];
   
-  boolean has_lock;
+  bool has_lock;
   int num_sats;
   
   // functions

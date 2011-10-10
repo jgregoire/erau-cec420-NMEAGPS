@@ -1,8 +1,7 @@
-#define ARDUINO
+#ifndef PARSE_H
+#define PARSE_H
 
-#ifdef ARDUINO
-typedef boolean bool;
-#endif
+#include "main.h"
 
 class Parser 
 {
@@ -25,3 +24,5 @@ bool parseGGA(OutData &message, char * sentence);
 bool parseGSV(OutData &message, char * sentence);
 bool parseGSA(OutData &message, char * sentence);
 bool parseZDA(OutData &message, char * sentence);
+
+#endif
