@@ -11,9 +11,9 @@ Created by Bryce Dodds
 
 class LCD
 {
- public:
- LCD(char* Str, char* Str2);
- void displayInfo(char*, char*);
+  public:
+ 
+  void displayInfo(char*, char*);
   
   private:
     char* _Str1;

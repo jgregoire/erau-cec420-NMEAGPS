@@ -9,10 +9,12 @@
 #define GPS_TX 13
 #define GPS_RX 3
 
+#define BLANK_LINE "                "
+
 NewSoftSerial GPSSerial(GPS_RX, GPS_TX); // third arg enables inverted signalling. Don't think we want that.
 OutData out_data;
 Parser parser;
-//LCD screen();
+LCD screen;
 
 boolean partial_sentence = true;
 boolean display_time = true;
@@ -29,11 +31,21 @@ void setup()
   #ifdef _DEBUG
   // init serial to PC
   Serial.begin(9600);
-  Serial.write("Reading GPS...\n");
+  Serial.write("\n\nReading GPS...\n");
   #endif
   
   // init serial from GPS
   GPSSerial.begin(4800);
+  
+  #ifdef _DEBUG
+  Serial.println("Printing test msg to LCD...");
+  #endif
+  
+  screen.displayInfo("Initilizating...", "Panda Bears!");
+  
+  #ifdef _DEBUG
+  Serial.println("Finished setup.");
+  #endif
   
 } // end setup()
 
@@ -51,15 +63,27 @@ void loop()
   //             //
   /////////////////
   
+  #ifdef _DEBUG
+  Serial.print("Beginning main loop...");
+  #endif
+  
   // get a line from the GPS
   readNMEASentence(NMEA_sentence, GPSSerial);
   
   #ifdef _DEBUG
   Serial.println(NMEA_sentence);
   #endif
-    
+  
+  #ifdef _DEBUG
+  Serial.println("Parsing sentence...");
+  #endif  
+  
   // we now have a full NMEA sentence. Let's parse it!
   parser.parse(out_data, NMEA_sentence);
+  
+  #ifdef _DEBUG
+  Serial.println("Generating LCD output strings...");
+  #endif
     
   // generate strings to output to LCD
   out_data.generate();
@@ -84,7 +108,7 @@ void loop()
       if (display_time == true) {
         
         // display time and alt
-        //screen.displayInfo(out_data.time_line, out_data.alt_line);
+        screen.displayInfo(out_data.time_line, out_data.alt_line);
         
         // toggle which message to display
         display_time != display_time;
@@ -92,7 +116,7 @@ void loop()
       } else {
         
         // display lat and long
-        //screen.displayInfo(out_data.lat_line, out_data.lon_line);
+        screen.displayInfo(out_data.lat_line, out_data.lon_line);
         
         // toggle which message to display
         display_time != display_time;
@@ -111,7 +135,7 @@ void loop()
       #endif
       
       // output "No fix" to LCD
-      //screen.displayInfo("No GPS fix...   ", "                ");
+      screen.displayInfo("No GPS fix...   ", BLANK_LINE);
       
     }
     
@@ -130,8 +154,12 @@ void loop()
 void readNMEASentence(char* sentence, NewSoftSerial port)
 {
   
+  #ifdef _DEBUG
+  Serial.println("Waiting for NMEA sentence...");
+  #endif
+  
   // delay until data available
-  while(GPSSerial.available() == false);
+  while(GPSSerial.available() < 1);
   
   if (GPSSerial.available()) {
     #ifdef _DEBUG
@@ -144,18 +172,30 @@ void readNMEASentence(char* sentence, NewSoftSerial port)
     // get every character in the sentence
     for (int i = 0; partial_sentence == true; i++) {
       
+      #ifdef _DEBUG
+      Serial.println(NMEA_sentence[i]);
+      #endif
+      
       // read a character from GPS
       NMEA_sentence[i] = GPSSerial.read();
       
       // if we're at the end of the sentence...
-      if (NMEA_sentence[i] == '\n' || strlen(NMEA_sentence) > 82) {
+      if (NMEA_sentence[i] == '\r' || NMEA_sentence[i] == '\n' || strlen(NMEA_sentence) >= 82) {
         
         // let the for loop end
         partial_sentence = false;
         
+        #ifdef _DEBUG
+        Serial.println("Reached end of sentence.");
+        #endif
+        
       } // end check for end of sentence
       
     } // end for
+    
+    #ifdef _DEBUG
+    Serial.println("Received NMEA sentence.");
+    #endif
     
   } // end if available
   
