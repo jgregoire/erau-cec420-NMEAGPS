@@ -14,6 +14,7 @@ class LCD
   public:
  
   void displayInfo(char*, char*);
+  void init();
   
   private:
     char* _Str1;

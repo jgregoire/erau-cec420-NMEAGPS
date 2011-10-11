@@ -37,6 +37,9 @@ void setup()
   // init serial from GPS
   GPSSerial.begin(4800);
   
+  // initialize LCD
+  screen.init();
+  
   #ifdef _DEBUG
   Serial.println("Printing test msg to LCD...");
   #endif
@@ -72,10 +75,7 @@ void loop()
   
   #ifdef _DEBUG
   Serial.println(NMEA_sentence);
-  #endif
-  
-  #ifdef _DEBUG
-  Serial.println("Parsing sentence...");
+  Serial.println("\nParsing sentence...");
   #endif  
   
   // we now have a full NMEA sentence. Let's parse it!
@@ -173,14 +173,14 @@ void readNMEASentence(char* sentence, NewSoftSerial port)
     for (int i = 0; partial_sentence == true; i++) {
       
       #ifdef _DEBUG
-      Serial.println(NMEA_sentence[i]);
+      //Serial.println(NMEA_sentence[i]);
       #endif
       
       // read a character from GPS
       NMEA_sentence[i] = GPSSerial.read();
       
       // if we're at the end of the sentence...
-      if (NMEA_sentence[i] == '\r' || NMEA_sentence[i] == '\n' || strlen(NMEA_sentence) >= 82) {
+      if (NMEA_sentence[i] == '\r' || NMEA_sentence[i] == '\n' || i >= 82) {
         
         // let the for loop end
         partial_sentence = false;
