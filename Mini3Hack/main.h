@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 class OutData
 {
@@ -29,7 +30,7 @@ public:
   // functions
   void generate() // generate 4 string to be outputted to the LCD
   {
-    int temp, temp1;
+    float temp, temp1;
     time_line[0] = 'T';
     time_line[1] = 'i';
     time_line[2] = 'm';
@@ -39,16 +40,16 @@ public:
     strncpy(time_line + 6, UTC_time, 16);
     
     temp = alt;
-    temp1 = (temp - (int) temp) * 100;
-    sprintf(alt_line, "Alt:   %02d.%02d", (int)temp, temp1);
+    temp1 = (temp - floor(temp)) * 100;
+    sprintf(alt_line, "Alt:  %4d.%02d", (int)temp, (int)temp1%100); 
     
-    temp = ((int)(lat/100)) + ((lat - (((int)(lat/100)) * 100))/60.0);
-    temp1 = (temp - (int) temp) * 10000;
-    sprintf(lat_line, "Lat:  %02d.%04d", (int)temp, temp1);
+    temp = ((int)(lat/100)) + ((lat - (float)(((int)(lat/100)) * 100.0))/60.0);
+    temp1 = (temp - floor(temp)) * 10000;
+    sprintf(lat_line, "Lat:  %02d.%04d", (int)temp, (int)temp1%1000);
     
-    temp = ((int)(lon/100)) + ((lon - (((int)(lon/100)) * 100))/60.0);
-    temp1 = (temp - (int) temp) * 10000;
-    sprintf(lon_line, "Lon: %03d.%04d", (int)temp, temp1);
+    temp = ((int)(lon/100)) + ((lon - (float)(((int)(lon/100)) * 100.0))/60.0);
+    temp1 = fabs((temp - floor(temp))) * 10000;
+    sprintf(lon_line, "Lon: %03d.%04u", (int)temp, (int)temp1%1000);
     
     sprintf(sat_line, "%02u Satellites", num_sats);
   } // end generate
