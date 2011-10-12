@@ -3,7 +3,6 @@
 #include <string.h>
 #include "parse.h"
 
-
 bool parseGGA(OutData &message, char *sentence)
 {
     char token[32];
@@ -48,6 +47,8 @@ bool parseGGA(OutData &message, char *sentence)
 	{
 	    lat *= -1;
 	}
+
+        message.lat = lat;
     }
     else 
 	return false;
@@ -72,10 +73,11 @@ bool parseGGA(OutData &message, char *sentence)
         
         // if West, make lon negative
         //toupper(token[0]);
-        if (strcmp(token, "W") == 0) 
+        if (token[0] == 'W')
 	{
 	    lon *= -1;
 	}
+        message.lon = lon;
     }
     else 
 	return false;
@@ -88,8 +90,14 @@ bool parseGGA(OutData &message, char *sentence)
     
     // extract quality val
     tokenize(token, sentence, ",", &cursor);
-    
-    // we don't care about fix quality. Carry on...
+    if (strtol(token, NULL, 10) >= 1)
+    {
+      message.has_lock = true;
+    }
+    else
+    {
+      message.has_lock = false;
+    }
     
     //////////////////////////////
     //                          //
@@ -99,6 +107,7 @@ bool parseGGA(OutData &message, char *sentence)
     
     // extract number
     tokenize(token, sentence, ",", &cursor);
+    
     // we don't care about this. Carry on...
    
     ////////////////////////
@@ -137,6 +146,8 @@ bool parseGGA(OutData &message, char *sentence)
         {;}
         else 
             return false;
+            
+        message.alt = alt;
     }
     else 
 	return false;

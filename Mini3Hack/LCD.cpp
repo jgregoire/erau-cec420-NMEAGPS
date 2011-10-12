@@ -34,6 +34,7 @@ void init(int pin1, int pin2, int pin3, int pin4, int pin5, int pin6){
 void LCD::displayInfo(char* str1, char* str2){
   
   //displays the lcd information while GPS has a fix
+  lcd.clear();
   lcd.print(str1);
   lcd.setCursor(0,1);
   lcd.print(str2);

@@ -44,32 +44,31 @@ bool Parser::parse(OutData &outdata, char *sentence) {
     // chop off the first section of the comma-delimited sentence
     // and store it in a new string
 
-    if (!verify(sentence) || !validate(sentence))
-	return false;
+ //   if (!verify(sentence))
+//	return false;
 
     NMEAMessage message = messagify(sentence);
 
-    if (strcmp(message.type, "GPGGA") == 0)
+
+    if (message.type[3] == 'G')
     {
         return parseGGA(outdata, message.data);
     }
-    else if (strcmp(message.type, "GPGSV") == 0)
+  /*  else if (message.type[4] == 'V')
     {
         return parseGSV(outdata, message.data);
     } 
-    else if (strcmp(message.type, "GPGSA") == 0)
-    {
-	return parseGSA(outdata, message.data);
-    }
-    else if (strcmp(message.type, "GPZDA") == 0)
+    else if (message.type[3] == 'D')
     {
 	return parseZDA(outdata, message.data);
     }
     else
     {
+        return parseGSA(outdata, message.data);
     	// We didn't get a message we care about.
 	return false;
-    }
+    }*/
+//    return false;
 } // end parse()
 
 /* Author: Bryce Dodds
@@ -109,8 +108,8 @@ bool Parser::validate(char *sentence)
 bool Parser::verify(char *sentence)
 {
     //check to see if string is longer than 82 characters
-    if(strlen(sentence) > 82)
-	return false;
+    /*if(strlen(sentence) > 82)
+	return false;*/
 
     //check to see if the length is less than 12
     if(strlen(sentence) < 12)
@@ -128,7 +127,7 @@ bool Parser::verify(char *sentence)
     if(sentence[2] != 'P')
 	return false;
 
-    //check to see if the checksum is a valid checksum
+ /*   //check to see if the checksum is a valid checksum
     if(sentence[strlen(sentence) - 5] != '*')
 	return false;
 
@@ -145,7 +144,7 @@ bool Parser::verify(char *sentence)
 
     if(sentence[strlen(sentence) - 1] != '\n')
 	return false;
-
+*/
     //checks to see if the NMEA strings are between the proper ASCII values 
     int dotCount = 0;
     int comCount = 0;

@@ -21,6 +21,7 @@ public:
   char alt_line[16];
   char lat_line[16];
   char lon_line[16];
+  char sat_line[16];
   
   bool has_lock;
   int num_sats;
@@ -33,7 +34,7 @@ public:
     sprintf(alt_line, "%5.2f", alt);
     sprintf(lat_line, "%2.4f", lat);
     sprintf(lon_line, "%3.4f", lon);
-    
+    sprintf(sat_line, "%i sats", num_sats);
   } // end generate
   
   // constructors
