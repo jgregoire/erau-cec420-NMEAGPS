@@ -7,9 +7,9 @@ bool parseGGA(OutData &message, char *sentence)
 {
     char token[32];
     char* cursor = 0;
-    float lat = 0.0f;
-    float lon = 0.0f;
-    float alt = 0.0f;
+    double lat = 0.0f;
+    double lon = 0.0f;
+    double alt = 0.0f;
 
     ////////////////////
     //                //
@@ -25,34 +25,38 @@ bool parseGGA(OutData &message, char *sentence)
     message.UTC_time[8] = '\0';
 
     ////////////////////////
-    //                      //
+    //                    //
     //  EXTRACT LATITUDE  //
-    //                      //
+    //                    //
     ////////////////////////
     
     // extract lat val
     tokenize(token, sentence, ",", &cursor);
     
-    if (strcmp(token, "") != 0) 
+    if (token[0] != 0) 
     {
 	// convert latitude to float
-        lat = (float)strtod(token, NULL);
+        lat = strtod(token, NULL);
 
         // extract N/S val
-        tokenize(token, sentence, ",", &cursor);
+
         
         // if South, make latitude negative
         //toupper(token[0]);
-        if (strcmp(token, "S") == 0) 
+ /*       if (token[0] == 'S') 
 	{
-	    lat *= -1;
+	   // lat *= -1;
 	}
-
+*/
         message.lat = lat;
     }
     else 
-	return false;
+    {
+	message.lat = 0.0;
+    }
 
+        tokenize(token, sentence, ",", &cursor);
+        
     /////////////////////////
     //                     //
     //  EXTRACT LONGITUDE  //
@@ -62,25 +66,29 @@ bool parseGGA(OutData &message, char *sentence)
     // extract lon val
     tokenize(token, sentence, ",", &cursor);
     
-    if (strcmp(token, "") != 0) 
-    {
+   // if (token[0] ==  0) 
+    //{
 	// convert lon to float
-        lon = (float)strtod(token, NULL);
+        lon = strtod(token, NULL);
         //convertLon(lon, token);
 
         // extract E/W val
-        tokenize(token, sentence, ",", &cursor);
+
         
         // if West, make lon negative
         //toupper(token[0]);
         if (token[0] == 'W')
 	{
-	    lon *= -1;
+	 //   lon *= -1;
 	}
         message.lon = lon;
-    }
-    else 
-	return false;
+ //   }
+ //   else 
+ //   {
+//	message.lon = 1.0;
+ //   }
+    
+            tokenize(token, sentence, ",", &cursor);
 
     ///////////////////////
     //                   //
@@ -96,7 +104,7 @@ bool parseGGA(OutData &message, char *sentence)
     }
     else
     {
-      message.has_lock = false;
+  //    message.has_lock = false;
     }
     
     //////////////////////////////
@@ -107,7 +115,7 @@ bool parseGGA(OutData &message, char *sentence)
     
     // extract number
     tokenize(token, sentence, ",", &cursor);
-    
+    //message.num_sats = strtol(token, NULL, 10);
     // we don't care about this. Carry on...
    
     ////////////////////////
@@ -130,10 +138,10 @@ bool parseGGA(OutData &message, char *sentence)
     // extract altitude
     tokenize(token, sentence, ",", &cursor);
     
-    if (strcmp(token, "") != 0) 
-    {
+//    if (token[0] == 0) 
+//    {
 	// convert to float
-        alt = (float)strtod(token, NULL);
+        alt = strtod(token, NULL);
 
         tokenize(token, sentence, ",", &cursor);
         //toupper(token[0]);
@@ -142,15 +150,11 @@ bool parseGGA(OutData &message, char *sentence)
         {
             alt *= 0.3048;
 	}
-        else if (token[0] == 'M')
-        {;}
-        else 
-            return false;
             
         message.alt = alt;
-    }
-    else 
-	return false;
+ //   }
+ //   else 
+//	message.alt = 1.0;
 
 
     return true;

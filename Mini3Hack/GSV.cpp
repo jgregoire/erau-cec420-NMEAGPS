@@ -36,7 +36,7 @@ bool parseGSV(OutData &message, char * sentence)
     // extract # of satellites
     tokenize(token, sentence, ",", &cursor);
     
-    message.num_sats = 7;(short)strtol(token, NULL, 10);
+    message.num_sats = (short)strtol(token, NULL, 10);
 
     return true;
 }

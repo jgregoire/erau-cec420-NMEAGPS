@@ -53,11 +53,11 @@ bool Parser::parse(OutData &outdata, char *sentence) {
     {
         return parseGGA(outdata, sentence + 7);
     }
-  /*  else if (message.type[4] == 'V')
+    else if (sentence[5] == 'V')
     {
-        return parseGSV(outdata, message.data);
+        return parseGSV(outdata, sentence + 7);
     } 
-    else if (message.type[3] == 'D')
+ /*   else if (message.type[3] == 'D')
     {
 	return parseZDA(outdata, message.data);
     }

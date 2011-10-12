@@ -41,7 +41,7 @@ void setup()
   // initialize LCD
   screen.init();
   
-  screen.displayInfo("Initilizating...", "Panda Bears!");
+  screen.displayInfo("Initilizating...", "");
   
 } // end setup()
 
@@ -83,17 +83,17 @@ void loop()
   out_data.generate();
   
   #ifdef _DEBUG
+  Serial.print(out_data.lat);
+  Serial.print(", ");
+  Serial.print(out_data.lon);
+  Serial.print(", ");
+  Serial.print(out_data.alt);
+  Serial.print(", ");
   Serial.print(out_data.lat_line);
   Serial.print(", ");
   Serial.print(out_data.lon_line);
   Serial.print(", ");
-  Serial.print(out_data.alt_line);
-  Serial.print(", ");
-  Serial.print(out_data.num_sats);
-  Serial.print(", ");
-  Serial.print(out_data.time_line);
-  Serial.print(", ");
-  Serial.println(out_data.UTC_time);
+  Serial.println(out_data.alt_line);
   #endif
   
 
@@ -120,7 +120,7 @@ void loop()
         screen.displayInfo(out_data.time_line, out_data.alt_line);
         
         // toggle which message to display
-        display_time != display_time;
+        display_time = !display_time;
         
       } else {
         
@@ -128,7 +128,7 @@ void loop()
         screen.displayInfo(out_data.lat_line, out_data.lon_line);
         
         // toggle which message to display
-        display_time != display_time;
+        display_time = !display_time;
       }
       
     } // end if new second
@@ -143,7 +143,7 @@ void loop()
       #endif
       
       // output "No fix" to LCD
-      screen.displayInfo("No GPS fix", out_data.time_line);//out_data.sat_line);
+      screen.displayInfo("No GPS fix", out_data.sat_line);
       
     }
     
