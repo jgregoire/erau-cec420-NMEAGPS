@@ -16,7 +16,7 @@ struct Parser::NMEAMessage Parser::messagify(char *message)
     char *intMsg = message + 1; // Skip the initial '$'
 
     int n = 0;
-    while(message[n] != ',')
+    while(intMsg[n] != ',')
 	++n;
 
     strncpy(str.type, intMsg, n-1); // Everything up to but not including the comma is the type
@@ -47,12 +47,11 @@ bool Parser::parse(OutData &outdata, char *sentence) {
  //   if (!verify(sentence))
 //	return false;
 
-    NMEAMessage message = messagify(sentence);
-
-
-    if (message.type[3] == 'G')
+    //NMEAMessage message = messagify(sentence);
+    
+    if (sentence[4] == 71)
     {
-        return parseGGA(outdata, message.data);
+        return parseGGA(outdata, sentence + 7);
     }
   /*  else if (message.type[4] == 'V')
     {
@@ -70,6 +69,7 @@ bool Parser::parse(OutData &outdata, char *sentence) {
     }*/
 //    return false;
 } // end parse()
+
 
 /* Author: Bryce Dodds
  * Checks to see if the NMEA string provided is a valid NMEA string. If string the string is valid return 0 and 2 on on invalid string

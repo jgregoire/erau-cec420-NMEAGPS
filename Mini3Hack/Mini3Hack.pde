@@ -61,7 +61,7 @@ void loop()
   
 
   #ifdef _DEBUG
-  Serial.print("Beginning main loop...");
+  //Serial.print("Beginning main loop...");
   #endif
   
   // get a line from the GPS
@@ -90,6 +90,8 @@ void loop()
   Serial.print(out_data.alt_line);
   Serial.print(", ");
   Serial.print(out_data.num_sats);
+  Serial.print(", ");
+  Serial.print(out_data.time_line);
   Serial.print(", ");
   Serial.println(out_data.UTC_time);
   #endif
@@ -180,6 +182,11 @@ void readNMEASentence()
         }
         else
         {  
+          if (NMEA_sentence[i] == '$')
+          {
+            i = 0;
+            NMEA_sentence[0] = '$';
+          }
           //Serial.print(NMEA_sentence[i]);
           ++i;
         }
