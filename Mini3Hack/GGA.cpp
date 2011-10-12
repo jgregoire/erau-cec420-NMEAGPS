@@ -56,7 +56,7 @@ bool parseGGA(OutData &message, char *sentence)
     }
 
         tokenize(token, sentence, ",", &cursor);
-        
+        message.latletter = token[0] + 32;
     /////////////////////////
     //                     //
     //  EXTRACT LONGITUDE  //
@@ -89,7 +89,8 @@ bool parseGGA(OutData &message, char *sentence)
  //   }
     
             tokenize(token, sentence, ",", &cursor);
-
+            message.lonletter = token[0] + 32;
+            
     ///////////////////////
     //                   //
     //  EXTRACT QUALITY  //

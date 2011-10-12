@@ -23,6 +23,7 @@ public:
   char lat_line[16];
   char lon_line[16];
   char sat_line[16];
+  char latletter, lonletter;
   
   bool has_lock;
   int num_sats;
@@ -41,15 +42,15 @@ public:
     
     temp = alt;
     temp1 = (temp - floor(temp)) * 100;
-    sprintf(alt_line, "Alt:  %4d.%02d", (int)temp, (int)temp1%100); 
+    sprintf(alt_line, "Alt: %4d.%02dm", (int)temp, (int)temp1%100); 
     
     temp = ((int)(lat/100)) + ((lat - (float)(((int)(lat/100)) * 100.0))/60.0);
     temp1 = (temp - floor(temp)) * 10000;
-    sprintf(lat_line, "Lat:  %02d.%04d", (int)temp, (int)temp1%1000);
+    sprintf(lat_line, "Lat:  %02d.%04d%c",(int)temp, (int)temp1%1000), latletter;
     
     temp = ((int)(lon/100)) + ((lon - (float)(((int)(lon/100)) * 100.0))/60.0);
     temp1 = fabs((temp - floor(temp))) * 10000;
-    sprintf(lon_line, "Lon: %03d.%04u", (int)temp, (int)temp1%1000);
+    sprintf(lon_line, "Lon: %03d.%04u%c", (int)temp, (int)temp1%1000, lonletter);
     
     sprintf(sat_line, "%02u Satellites", num_sats);
   } // end generate
